@@ -1,0 +1,6379 @@
+example_id,filename,title,code
+1,example_01.py,,"# Example 1: Control program flow with boolean flags (probe: literal bool + variable use)
+
+
+def process_data():
+    data_ok = True
+    data_invalid = False
+    if data_ok:
+        print(""Data is valid."")
+    print(data_invalid)
+
+
+process_data()
+"
+2,example_02.py,Indicate state with boolean flags,"# Example 2: Indicate state with boolean flags (probe-aligned)
+
+
+def traffic_scene():
+    green = True
+    red = False
+    if green:
+        print(""Traffic light turned green."")
+    print(red)
+
+
+traffic_scene()
+"
+3,example_03.py,Validate input with boolean flags,"# Example 3: Validate input with boolean flags (probe-aligned)
+
+
+def validate_input():
+    has_value = True
+    is_empty = False
+    if has_value:
+        print(""Input accepted."")
+    print(is_empty)
+
+
+validate_input()
+"
+4,example_04.py,Conditional logic with boolean flags,"# Example 4: Conditional logic with boolean flags (probe-aligned)
+
+
+def discount_scenario():
+    apply_discount = True
+    skip_discount = False
+    if apply_discount:
+        print(""Discount applied."")
+    print(skip_discount)
+
+
+discount_scenario()
+"
+5,example_05.py,Multiple options as boolean flags,"# Example 5: Multiple options as boolean flags (probe-aligned)
+
+
+def choose_option():
+    chose_a = True
+    chose_b = False
+    if chose_a:
+        print(""Option A selected."")
+    print(chose_b)
+
+
+choose_option()
+"
+6,example_06.py,,"# Example 6: Exception-style flow expressed with bool flags (probe-aligned; no runtime divide)
+
+
+def divide_numbers():
+    safe = True
+    failed = False
+    if safe:
+        print(""Division OK."")
+    print(failed)
+
+
+divide_numbers()
+"
+7,example_07.py,Game status as booleans,"# Example 7: Game status as booleans (probe-aligned)
+
+
+def game_status():
+    is_playing = True
+    is_paused = False
+    if is_playing:
+        print(""Game started!"")
+    print(is_paused)
+
+
+game_status()
+"
+8,example_08.py,User preferences as literal bools,"# Example 8: User preferences as literal bools (probe-aligned)
+
+
+def show_preferences():
+    theme_dark = True
+    notify_off = False
+    if theme_dark:
+        print(""Dark theme on."")
+    print(notify_off)
+
+
+show_preferences()
+"
+9,example_09.py,File/content presence as flags,"# Example 9: File/content presence as flags (probe-aligned)
+
+
+def read_stub():
+    has_content = True
+    is_empty = False
+    if has_content:
+        print(""Would print file content."")
+    print(is_empty)
+
+
+read_stub()
+"
+10,example_10.py,,"# Example 10: Email validation expressed with bool vars (probe-aligned; no regex execution)
+
+
+def validate_email_stub():
+    is_valid = True
+    is_invalid = False
+    if is_valid:
+        print(""Valid email address."")
+    print(is_invalid)
+
+
+validate_email_stub()
+"
+11,example_11.py,,"# Example 11: Database connection as bool flags (probe-aligned; stdlib only)
+
+
+def connect_stub():
+    connected = True
+    failed = False
+    if connected:
+        print(""Connected successfully."")
+    print(failed)
+
+
+connect_stub()
+"
+12,example_12.py,Function execution gated by flags,"# Example 12: Function execution gated by flags (probe-aligned)
+
+
+def execution_plan():
+    run_with_args = True
+    run_plain = False
+    if run_with_args:
+        print(""Execute with args."")
+    print(run_plain)
+
+
+execution_plan()
+"
+13,example_13.py,File handling as bool flags,"# Example 13: File handling as bool flags (probe-aligned)
+
+
+def file_op_stub():
+    exists = True
+    missing = False
+    if exists:
+        print(""File deleted successfully."")
+    print(missing)
+
+
+file_op_stub()
+"
+14,example_14.py,User permissions as bool flags,"# Example 14: User permissions as bool flags (probe-aligned)
+
+
+def permission_stub():
+    is_admin = True
+    is_denied = False
+    if is_admin:
+        print(""User granted admin access."")
+    print(is_denied)
+
+
+permission_stub()
+"
+15,example_15.py,Access levels as bool flags,"# Example 15: Access levels as bool flags (probe-aligned)
+
+
+def role_stub():
+    is_manager = True
+    unknown = False
+    if is_manager:
+        print(""Manager assigned."")
+    print(unknown)
+
+
+role_stub()
+"
+16,example_16.py,File upload types as bool flags,"# Example 16: File upload types as bool flags (probe-aligned)
+
+
+def upload_stub():
+    is_pdf = True
+    unsupported = False
+    if is_pdf:
+        print(""PDF uploaded successfully."")
+    print(unsupported)
+
+
+upload_stub()
+"
+17,example_17.py,Resource availability as bool flags,"# Example 17: Resource availability as bool flags (probe-aligned)
+
+
+def reserve_stub():
+    available = True
+    busy = False
+    if available:
+        print(""Resource reserved."")
+    print(busy)
+
+
+reserve_stub()
+"
+18,example_18.py,Queue processing as bool flags,"# Example 18: Queue processing as bool flags (probe-aligned)
+
+
+def process_queue_stub():
+    has_item = True
+    queue_empty = False
+    if has_item:
+        print(""Popped from queue."")
+    print(queue_empty)
+
+
+process_queue_stub()
+"
+19,example_19.py,Task scheduling as bool flags,"# Example 19: Task scheduling as bool flags (probe-aligned)
+
+
+def schedule_stub():
+    valid_id = True
+    invalid_id = False
+    if valid_id:
+        print(""Task scheduled."")
+    print(invalid_id)
+
+
+schedule_stub()
+"
+20,example_20.py,Network connection as bool flags,"# Example 20: Network connection as bool flags (probe-aligned)
+
+
+def connect_stub():
+    connected = True
+    conn_failed = False
+    if connected:
+        print(""Connected to server."")
+    print(conn_failed)
+
+
+connect_stub()
+"
+21,example_21.py,Database transaction as bool flags,"# Example 21: Database transaction as bool flags (probe-aligned)
+
+
+def commit_transaction():
+    should_commit = True
+    no_tx = False
+    if should_commit:
+        print(""Transaction committed."")
+    print(no_tx)
+
+
+commit_transaction()
+"
+22,example_22.py,Email sending as bool flags,"# Example 22: Email sending as bool flags (probe-aligned)
+
+
+def send_email_stub():
+    has_recipient = True
+    missing_to = False
+    if has_recipient:
+        print(""Email sent."")
+    print(missing_to)
+
+
+send_email_stub()
+"
+23,example_23.py,File renaming batch as bool flags,"# Example 23: File renaming batch as bool flags (probe-aligned)
+
+
+def rename_stub():
+    has_files = True
+    empty_list = False
+    if has_files:
+        print(""Renamed files."")
+    print(empty_list)
+
+
+rename_stub()
+"
+24,example_24.py,API request outcome as bool flags,"# Example 24: API request outcome as bool flags (probe-aligned)
+
+
+def fetch_stub():
+    ok = True
+    not_found = False
+    if ok:
+        print(""Data fetched successfully."")
+    print(not_found)
+
+
+fetch_stub()
+"
+25,example_25.py,Image compression as bool flags,"# Example 25: Image compression as bool flags (probe-aligned)
+
+
+def compress_stub():
+    compress_ok = True
+    compress_skip = False
+    if compress_ok:
+        print(""Image compressed."")
+    print(compress_skip)
+
+
+compress_stub()
+"
+26,example_26.py,Login success as bool flags,"# Example 26: Login success as bool flags (probe-aligned)
+
+
+def login_flow():
+    authenticated = True
+    locked_out = False
+    if authenticated:
+        print(""Welcome back."")
+    print(locked_out)
+
+
+login_flow()
+"
+27,example_27.py,Feature toggle,"# Example 27: Feature toggle (probe-aligned)
+
+
+def feature_flags():
+    beta_enabled = True
+    legacy_off = False
+    if beta_enabled:
+        print(""Beta UI active."")
+    print(legacy_off)
+
+
+feature_flags()
+"
+28,example_28.py,Payment authorized,"# Example 28: Payment authorized (probe-aligned)
+
+
+def payment_stub():
+    authorized = True
+    declined = False
+    if authorized:
+        print(""Payment captured."")
+    print(declined)
+
+
+payment_stub()
+"
+29,example_29.py,Cache hit,"# Example 29: Cache hit (probe-aligned)
+
+
+def cache_lookup():
+    cache_hit = True
+    cache_miss = False
+    if cache_hit:
+        print(""Served from cache."")
+    print(cache_miss)
+
+
+cache_lookup()
+"
+30,example_30.py,Subscription active,"# Example 30: Subscription active (probe-aligned)
+
+
+def subscription_check():
+    is_active = True
+    is_expired = False
+    if is_active:
+        print(""Subscription valid."")
+    print(is_expired)
+
+
+subscription_check()
+"
+31,example_31.py,Two-factor enabled,"# Example 31: Two-factor enabled (probe-aligned)
+
+
+def mfa_status():
+    mfa_on = True
+    mfa_off = False
+    if mfa_on:
+        print(""2FA required."")
+    print(mfa_off)
+
+
+mfa_status()
+"
+32,example_32.py,Backup completed,"# Example 32: Backup completed (probe-aligned)
+
+
+def backup_job():
+    backup_ok = True
+    backup_failed = False
+    if backup_ok:
+        print(""Backup finished."")
+    print(backup_failed)
+
+
+backup_job()
+"
+33,example_33.py,Rate limit,"# Example 33: Rate limit (probe-aligned)
+
+
+def rate_limit_stub():
+    under_limit = True
+    throttled = False
+    if under_limit:
+        print(""Request allowed."")
+    print(throttled)
+
+
+rate_limit_stub()
+"
+34,example_34.py,SSL certificate valid,"# Example 34: SSL certificate valid (probe-aligned)
+
+
+def tls_check():
+    cert_valid = True
+    cert_bad = False
+    if cert_valid:
+        print(""TLS OK."")
+    print(cert_bad)
+
+
+tls_check()
+"
+35,example_35.py,Webhook delivery,"# Example 35: Webhook delivery (probe-aligned)
+
+
+def webhook_stub():
+    delivered = True
+    bounced = False
+    if delivered:
+        print(""Webhook sent."")
+    print(bounced)
+
+
+webhook_stub()
+"
+36,example_36.py,Job queue worker idle,"# Example 36: Job queue worker idle (probe-aligned)
+
+
+def worker_state():
+    worker_busy = True
+    worker_idle = False
+    if worker_busy:
+        print(""Processing job."")
+    print(worker_idle)
+
+
+worker_state()
+"
+37,example_37.py,Idempotency key seen,"# Example 37: Idempotency key seen (probe-aligned)
+
+
+def idempotent_request():
+    first_time = True
+    duplicate = False
+    if first_time:
+        print(""Applied change."")
+    print(duplicate)
+
+
+idempotent_request()
+"
+38,example_38.py,Canary deployment,"# Example 38: Canary deployment (probe-aligned)
+
+
+def rollout():
+    canary_live = True
+    rollback = False
+    if canary_live:
+        print(""Canary receiving traffic."")
+    print(rollback)
+
+
+rollout()
+"
+39,example_39.py,Circuit breaker closed,"# Example 39: Circuit breaker closed (probe-aligned)
+
+
+def circuit_breaker():
+    circuit_closed = True
+    circuit_open = False
+    if circuit_closed:
+        print(""Calls pass through."")
+    print(circuit_open)
+
+
+circuit_breaker()
+"
+40,example_40.py,Health check passing,"# Example 40: Health check passing (probe-aligned)
+
+
+def health_probe():
+    healthy = True
+    unhealthy = False
+    if healthy:
+        print(""Service up."")
+    print(unhealthy)
+
+
+health_probe()
+"
+41,example_41.py,Dark mode saved,"# Example 41: Dark mode saved (probe-aligned)
+
+
+def settings_save():
+    saved_ok = True
+    save_failed = False
+    if saved_ok:
+        print(""Preferences saved."")
+    print(save_failed)
+
+
+settings_save()
+"
+42,example_42.py,Search index fresh,"# Example 42: Search index fresh (probe-aligned)
+
+
+def search_index():
+    index_ready = True
+    index_stale = False
+    if index_ready:
+        print(""Search ready."")
+    print(index_stale)
+
+
+search_index()
+"
+43,example_43.py,License seat available,"# Example 43: License seat available (probe-aligned)
+
+
+def license_check():
+    seat_free = True
+    seat_full = False
+    if seat_free:
+        print(""Seat assigned."")
+    print(seat_full)
+
+
+license_check()
+"
+44,example_44.py,GDPR consent recorded,"# Example 44: GDPR consent recorded (probe-aligned)
+
+
+def consent_flow():
+    consent_given = True
+    consent_withdrawn = False
+    if consent_given:
+        print(""Consent on file."")
+    print(consent_withdrawn)
+
+
+consent_flow()
+"
+45,example_45.py,Experiment arm A,"# Example 45: Experiment arm A (probe-aligned)
+
+
+def ab_test():
+    in_treatment = True
+    in_control = False
+    if in_treatment:
+        print(""Showing variant A."")
+    print(in_control)
+
+
+ab_test()
+"
+46,example_46.py,Signed URL not expired,"# Example 46: Signed URL not expired (probe-aligned)
+
+
+def signed_url():
+    url_valid = True
+    url_expired = False
+    if url_valid:
+        print(""Download allowed."")
+    print(url_expired)
+
+
+signed_url()
+"
+47,example_47.py,Retry budget left,"# Example 47: Retry budget left (probe-aligned)
+
+
+def retry_policy():
+    retries_left = True
+    retries_exhausted = False
+    if retries_left:
+        print(""Retrying request."")
+    print(retries_exhausted)
+
+
+retry_policy()
+"
+48,example_48.py,Schema migration applied,"# Example 48: Schema migration applied (probe-aligned)
+
+
+def migration():
+    migrated = True
+    rolled_back = False
+    if migrated:
+        print(""DB schema v2."")
+    print(rolled_back)
+
+
+migration()
+"
+49,example_49.py,Inbox zero,"# Example 49: Inbox zero (probe-aligned)
+
+
+def inbox_state():
+    has_unread = True
+    all_read = False
+    if has_unread:
+        print(""Showing unread."")
+    print(all_read)
+
+
+inbox_state()
+"
+50,example_50.py,Sandbox mode,"# Example 50: Sandbox mode (probe-aligned)
+
+
+def sandbox_run():
+    dry_run = True
+    live_mode = False
+    if dry_run:
+        print(""No side effects."")
+    print(live_mode)
+
+
+sandbox_run()
+"
+51,example_51.py,Audit log enabled,"# Example 51: Audit log enabled (probe-aligned)
+
+
+def audit_config():
+    audit_on = True
+    audit_off = False
+    if audit_on:
+        print(""Events logged."")
+    print(audit_off)
+
+
+audit_config()
+"
+52,example_52.py,Read replica lag OK,"# Example 52: Read replica lag OK (probe-aligned)
+
+
+def replica_lag():
+    lag_ok = True
+    lag_high = False
+    if lag_ok:
+        print(""Read from replica."")
+    print(lag_high)
+
+
+replica_lag()
+"
+53,example_53.py,Quota not exceeded,"# Example 53: Quota not exceeded (probe-aligned)
+
+
+def quota_check():
+    under_quota = True
+    over_quota = False
+    if under_quota:
+        print(""API call allowed."")
+    print(over_quota)
+
+
+quota_check()
+"
+54,example_54.py,Maintenance window closed,"# Example 54: Maintenance window closed (probe-aligned)
+
+
+def maintenance():
+    ops_normal = True
+    in_maintenance = False
+    if ops_normal:
+        print(""Traffic accepted."")
+    print(in_maintenance)
+
+
+maintenance()
+"
+55,example_55.py,Invite accepted,"# Example 55: Invite accepted (probe-aligned)
+
+
+def invite_flow():
+    accepted = True
+    pending = False
+    if accepted:
+        print(""User joined team."")
+    print(pending)
+
+
+invite_flow()
+"
+56,example_56.py,Bot detection passed,"# Example 56: Bot detection passed (probe-aligned)
+
+
+def bot_check():
+    human = True
+    bot_suspected = False
+    if human:
+        print(""Captcha skipped."")
+    print(bot_suspected)
+
+
+bot_check()
+"
+57,example_57.py,E-signature valid,"# Example 57: E-signature valid (probe-aligned)
+
+
+def signature_verify():
+    sig_valid = True
+    sig_invalid = False
+    if sig_valid:
+        print(""Contract binding."")
+    print(sig_invalid)
+
+
+signature_verify()
+"
+58,example_58.py,Stock in warehouse,"# Example 58: Stock in warehouse (probe-aligned)
+
+
+def inventory():
+    in_stock = True
+    out_of_stock = False
+    if in_stock:
+        print(""Ship today."")
+    print(out_of_stock)
+
+
+inventory()
+"
+59,example_59.py,Promo code active,"# Example 59: Promo code active (probe-aligned)
+
+
+def promo_apply():
+    promo_valid = True
+    promo_expired = False
+    if promo_valid:
+        print(""Discount applied."")
+    print(promo_expired)
+
+
+promo_apply()
+"
+60,example_60.py,Geofence match,"# Example 60: Geofence match (probe-aligned)
+
+
+def location_gate():
+    inside_zone = True
+    outside_zone = False
+    if inside_zone:
+        print(""Local pricing."")
+    print(outside_zone)
+
+
+location_gate()
+"
+61,example_61.py,Deduplication window open,"# Example 61: Deduplication window open (probe-aligned)
+
+
+def dedupe():
+    is_new = True
+    is_dup = False
+    if is_new:
+        print(""Insert row."")
+    print(is_dup)
+
+
+dedupe()
+"
+62,example_62.py,Fraud score low,"# Example 62: Fraud score low (probe-aligned)
+
+
+def fraud_screen():
+    low_risk = True
+    high_risk = False
+    if low_risk:
+        print(""Order approved."")
+    print(high_risk)
+
+
+fraud_screen()
+"
+63,example_63.py,SLA met,"# Example 63: SLA met (probe-aligned)
+
+
+def sla_timer():
+    on_time = True
+    breached = False
+    if on_time:
+        print(""Within SLA."")
+    print(breached)
+
+
+sla_timer()
+"
+64,example_64.py,WAF allowlist hit,"# Example 64: WAF allowlist hit (probe-aligned)
+
+
+def waf_rule():
+    allowed = True
+    blocked = False
+    if allowed:
+        print(""Request forwarded."")
+    print(blocked)
+
+
+waf_rule()
+"
+65,example_65.py,Cold start warmed,"# Example 65: Cold start warmed (probe-aligned)
+
+
+def lambda_warm():
+    warm = True
+    cold = False
+    if warm:
+        print(""Fast response."")
+    print(cold)
+
+
+lambda_warm()
+"
+66,example_66.py,Entitlement granted,"# Example 66: Entitlement granted (probe-aligned)
+
+
+def entitlement():
+    entitled = True
+    denied = False
+    if entitled:
+        print(""Feature unlocked."")
+    print(denied)
+
+
+entitlement()
+"
+67,example_67.py,Sync conflict absent,"# Example 67: Sync conflict absent (probe-aligned)
+
+
+def sync_merge():
+    clean = True
+    conflict = False
+    if clean:
+        print(""Devices in sync."")
+    print(conflict)
+
+
+sync_merge()
+"
+68,example_68.py,Root device jailbroken check,"# Example 68: Root device jailbroken check (probe-aligned)
+
+
+def device_trust():
+    trusted = True
+    compromised = False
+    if trusted:
+        print(""App runs normally."")
+    print(compromised)
+
+
+device_trust()
+"
+69,example_69.py,Budget cap not reached,"# Example 69: Budget cap not reached (probe-aligned)
+
+
+def spend_cap():
+    within_budget = True
+    cap_hit = False
+    if within_budget:
+        print(""Spend OK."")
+    print(cap_hit)
+
+
+spend_cap()
+"
+70,example_70.py,Hold harmless signed,"# Example 70: Hold harmless signed (probe-aligned)
+
+
+def legal_hold():
+    waiver_ok = True
+    waiver_missing = False
+    if waiver_ok:
+        print(""Proceed with deploy."")
+    print(waiver_missing)
+
+
+legal_hold()
+"
+71,example_71.py,Peer review approved,"# Example 71: Peer review approved (probe-aligned)
+
+
+def code_review():
+    approved = True
+    changes_requested = False
+    if approved:
+        print(""Merge allowed."")
+    print(changes_requested)
+
+
+code_review()
+"
+72,example_72.py,Sampling included user,"# Example 72: Sampling included user (probe-aligned)
+
+
+def trace_sample():
+    sampled_in = True
+    sampled_out = False
+    if sampled_in:
+        print(""Trace recorded."")
+    print(sampled_out)
+
+
+trace_sample()
+"
+73,example_73.py,Kill switch disarmed,"# Example 73: Kill switch disarmed (probe-aligned)
+
+
+def kill_switch():
+    live_traffic = True
+    emergency_stop = False
+    if live_traffic:
+        print(""Serving users."")
+    print(emergency_stop)
+
+
+kill_switch()
+"
+74,example_74.py,Data residency OK,"# Example 74: Data residency OK (probe-aligned)
+
+
+def data_region():
+    region_ok = True
+    region_violation = False
+    if region_ok:
+        print(""Store in EU."")
+    print(region_violation)
+
+
+data_region()
+"
+75,example_75.py,Blue-green cutover ready,"# Example 75: Blue-green cutover ready (probe-aligned)
+
+
+def traffic_shift():
+    ready = True
+    not_ready = False
+    if ready:
+        print(""Switch traffic."")
+    print(not_ready)
+
+
+traffic_shift()
+"
+76,example_76.py,,"# Example 76: Multi-step pipeline with helpers (still probe-aligned on literal bools)
+
+from typing import List
+
+PIPELINE_STAGES = (""ingest"", ""transform"", ""publish"")
+
+
+def tokenize_path(parts: List[str]) -> str:
+    return ""/"".join(p.strip() for p in parts if p)
+
+
+def pipeline_status():
+    """"""Simulate a batch job: helpers run first; probe sites stay simple literal bools.""""""
+    raw = [""  alpha "", """", ""beta""]
+    path = tokenize_path(raw)
+    stage_count = len(PIPELINE_STAGES)
+
+    if len(path) < stage_count:
+        _ = path.upper()
+
+    completed = True
+    stalled = False
+
+    if completed:
+        print(""pipeline_ok"", path, stage_count)
+    print(stalled)
+
+
+pipeline_status()
+"
+77,example_77.py,,"# Example 77: Nested conditionals reading flags assigned earlier in the same function
+
+def authorization_matrix():
+    user_tier = ""pro""
+    limits = {""pro"": 100, ""free"": 10}
+    cap = limits.get(user_tier, 0)
+
+    allow_write = True
+    read_only = False
+
+    if allow_write:
+        if cap > 50:
+            print(""write_heavy"", cap)
+        else:
+            print(""write_light"", cap)
+    if read_only is False:
+        print(""not_read_only"")
+
+
+authorization_matrix()
+"
+78,example_78.py,,"# Example 78: Class with utilities; probe lives in a dedicated method
+
+class RateLimiter:
+    def __init__(self, burst: int) -> None:
+        self.burst = max(1, burst)
+        self.tokens = burst
+
+    def refill(self, n: int) -> None:
+        self.tokens = min(self.burst, self.tokens + n)
+
+
+def client_simulation():
+    limiter = RateLimiter(5)
+    for _ in range(3):
+        limiter.refill(1)
+
+    under_limit = True
+    throttled = False
+
+    if under_limit:
+        print(""dispatch"", limiter.tokens)
+    print(throttled)
+
+
+client_simulation()
+"
+79,example_79.py,,"# Example 79: Enum-like strings + arithmetic noise before boolean probe
+
+SEVERITY = {""info"": 1, ""warn"": 2, ""crit"": 3}
+
+
+def incident_router():
+    label = ""warn""
+    score = 10 + SEVERITY[label] * 3
+    budget = score // 2
+
+    page_oncall = True
+    suppress_alert = False
+
+    if page_oncall:
+        print(""page"", budget)
+    print(suppress_alert)
+
+
+incident_router()
+"
+80,example_80.py,,"# Example 80: List building and membership checks unrelated to probe variables
+
+def feature_rollout():
+    cohorts = []
+    for name in (""alpha"", ""beta"", ""gamma""):
+        cohorts.append(name[:2].upper())
+    cohorts.sort()
+
+    beta_live = True
+    gamma_off = False
+
+    if beta_live:
+        print(""cohorts"", cohorts)
+    print(gamma_off)
+
+
+feature_rollout()
+"
+81,example_81.py,,"# Example 81: Dict merge pattern + walrus-free guard clauses
+
+DEFAULTS = {""timeout_ms"": 500, ""retries"": 2}
+
+
+def merge_config(overrides):
+    cfg = dict(DEFAULTS)
+    for k, v in overrides.items():
+        if k in cfg:
+            cfg[k] = v
+    return cfg
+
+
+def http_client_stub():
+    cfg = merge_config({""retries"": 1})
+    _ = sum(cfg.values())
+
+    tls_required = True
+    plaintext_ok = False
+
+    if tls_required:
+        print(""https_only"", cfg[""timeout_ms""])
+    print(plaintext_ok)
+
+
+http_client_stub()
+"
+82,example_82.py,,"# Example 82: Recursive-style counter flattened to a loop (no real recursion)
+
+def factorial_shape(n: int) -> int:
+    acc = 1
+    k = n
+    while k > 1:
+        acc *= k
+        k -= 1
+    return acc
+
+
+def experiment_flags():
+    n = 4
+    baseline = factorial_shape(n)
+
+    hypothesis_holds = True
+    null_case = False
+
+    if hypothesis_holds:
+        print(""n!"", baseline)
+    print(null_case)
+
+
+experiment_flags()
+"
+83,example_83.py,,"# Example 83: Generator expression consumed into sum, then literal flags
+
+def load_factor():
+    slots = range(6)
+    utilization = sum((i % 3) / 10.0 for i in slots)
+
+    capacity_ok = True
+    saturated = False
+
+    if capacity_ok:
+        print(""util"", round(utilization, 3))
+    print(saturated)
+
+
+load_factor()
+"
+84,example_84.py,,"# Example 84: Tuple of ints zipped with labels (probe still literal bool)
+
+def pair_scan():
+    xs = (1, 2, 3, 4)
+    ys = (10, 20, 30, 40)
+    pairs = list(zip(xs, ys))
+    checksum = sum(a * b for a, b in pairs)
+
+    primary_leader = True
+    standby = False
+
+    if primary_leader:
+        print(""checksum"", checksum)
+    print(standby)
+
+
+pair_scan()
+"
+85,example_85.py,,"# Example 85: String builder loop then branch on literal flags
+
+def log_batch_formatter():
+    lines = []
+    for i in range(4):
+        lines.append(f""evt_{i}={i * i}"")
+    blob = ""|"".join(lines)
+
+    emit_logs = True
+    silent = False
+
+    if emit_logs:
+        print(""batch"", len(blob))
+    print(silent)
+
+
+log_batch_formatter()
+"
+86,example_86.py,,"# Example 86: Nested functions — only outer driver holds probe (inner cannot export bool env)
+
+def outer_driver():
+    def inner_metric(x: int) -> int:
+        return x * x + 1
+
+    samples = [inner_metric(i) for i in range(5)]
+    avg = sum(samples) / len(samples)
+
+    promote_build = True
+    hold_merge = False
+
+    if promote_build:
+        print(""avg_metric"", round(avg, 2))
+    print(hold_merge)
+
+
+outer_driver()
+"
+87,example_87.py,,"# Example 87: Set operations and sorting before probe
+
+def dedupe_ids():
+    raw = [3, 1, 2, 3, 2, 1, 4]
+    unique = sorted(set(raw))
+    span = unique[-1] - unique[0]
+
+    consistent = True
+    drift = False
+
+    if consistent:
+        print(""span"", span)
+    print(drift)
+
+
+dedupe_ids()
+"
+88,example_88.py,,"# Example 88: Simulated matrix trace (square lists)
+
+def trace_of_square(n: int) -> int:
+    return sum((i + i * n) for i in range(n))
+
+
+def shard_router():
+    dim = 3
+    t = trace_of_square(dim)
+
+    route_primary = True
+    route_backup = False
+
+    if route_primary:
+        print(""trace"", t)
+    print(route_backup)
+
+
+shard_router()
+"
+89,example_89.py,,"# Example 89: Clock-style modular arithmetic unrelated to flags
+
+def schedule_tick():
+    hours = list(range(24))
+    rotated = [hours[(i + 7) % 24] for i in range(5)]
+
+    business_open = True
+    after_hours = False
+
+    if business_open:
+        print(""window"", rotated)
+    print(after_hours)
+
+
+schedule_tick()
+"
+90,example_90.py,,"# Example 90: JSON-ish manual dict tree (no json import)
+
+def policy_tree():
+    tree = {
+        ""root"": {""a"": 1, ""b"": {""c"": 2}},
+        ""meta"": {""v"": 9},
+    }
+    flat_keys = []
+    for k, v in tree.items():
+        flat_keys.append(k)
+        if isinstance(v, dict):
+            flat_keys.extend(v.keys())
+
+    enforce = True
+    audit_only = False
+
+    if enforce:
+        print(""keys"", len(flat_keys))
+    print(audit_only)
+
+
+policy_tree()
+"
+91,example_91.py,,"# Example 91: Manual run-length style encoding (lists only)
+
+def rle_length(s: str) -> int:
+    if not s:
+        return 0
+    runs = 1
+    prev = s[0]
+    for ch in s[1:]:
+        if ch != prev:
+            runs += 1
+            prev = ch
+    return runs
+
+
+def stream_ingestor():
+    payload = ""aaabbcaaa""
+    runs = rle_length(payload)
+
+    durable = True
+    ephemeral = False
+
+    if durable:
+        print(""runs"", runs)
+    print(ephemeral)
+
+
+stream_ingestor()
+"
+92,example_92.py,,"# Example 92: Priority queue simulation with sorted list (no heapq)
+
+def pop_lowest(pairs):
+    pairs.sort(key=lambda p: p[0])
+    return pairs.pop(0) if pairs else None
+
+
+def scheduler_tick():
+    jobs = [(5, ""a""), (1, ""b""), (3, ""c"")]
+    first = pop_lowest(jobs)
+    second = pop_lowest(jobs)
+
+    preempt = True
+    fair = False
+
+    if preempt:
+        print(""next"", first, second)
+    print(fair)
+
+
+scheduler_tick()
+"
+93,example_93.py,,"# Example 93: Bit-style mask using ints (not bool probe targets)
+
+def apply_mask(value: int, mask: int) -> int:
+    return value & mask
+
+
+def firmware_gate():
+    raw = 0b101010
+    masked = apply_mask(raw, 0b111100)
+    nibbles = masked >> 2
+
+    signed = True
+    unsigned = False
+
+    if signed:
+        print(""masked"", nibbles)
+    print(unsigned)
+
+
+firmware_gate()
+"
+94,example_94.py,,"# Example 94: Cartesian product trimmed
+
+def small_grid():
+    xs = (1, 2)
+    ys = (10, 20, 30)
+    cells = [(x, y) for x in xs for y in ys if x + y < 32]
+
+    visualize = True
+    skip_render = False
+
+    if visualize:
+        print(""cells"", len(cells))
+    print(skip_render)
+
+
+small_grid()
+"
+95,example_95.py,,"# Example 95: Sliding window sum of constant width
+
+def window_sums(values, width: int):
+    out = []
+    if width <= 0 or len(values) < width:
+        return out
+    s = sum(values[:width])
+    out.append(s)
+    for i in range(width, len(values)):
+        s += values[i] - values[i - width]
+        out.append(s)
+    return out
+
+
+def sensor_fusion():
+    series = [1, 2, 3, 2, 1, 0, 2, 4]
+    sums = window_sums(series, 3)
+
+    fuse = True
+    raw_only = False
+
+    if fuse:
+        print(""windows"", sums)
+    print(raw_only)
+
+
+sensor_fusion()
+"
+96,example_96.py,,"# Example 96: Abstract-ish repository without I/O
+
+class InMemoryRepo:
+    def __init__(self):
+        self._rows = {}
+
+    def put(self, key: str, val: int) -> None:
+        self._rows[key] = val
+
+    def total(self) -> int:
+        return sum(self._rows.values())
+
+
+def service_layer():
+    repo = InMemoryRepo()
+    for k, v in ((""a"", 1), (""b"", 2), (""c"", 3)):
+        repo.put(k, v)
+    t = repo.total()
+
+    commit = True
+    rollback = False
+
+    if commit:
+        print(""total"", t)
+    print(rollback)
+
+
+service_layer()
+"
+97,example_97.py,,"# Example 97: Argmax without numpy
+
+def argmax(values):
+    best_i = 0
+    best_v = values[0]
+    for i, v in enumerate(values[1:], start=1):
+        if v > best_v:
+            best_v = v
+            best_i = i
+    return best_i, best_v
+
+
+def autoscale_hint():
+    load = [2, 7, 3, 9, 1]
+    idx, peak = argmax(load)
+
+    scale_up = True
+    scale_down = False
+
+    if scale_up:
+        print(""hot_shard"", idx, peak)
+    print(scale_down)
+
+
+autoscale_hint()
+"
+98,example_98.py,,"# Example 98: Levenshtein-light: Hamming on equal-length chunks
+
+def hamming(a: str, b: str) -> int:
+    return sum(1 for x, y in zip(a, b) if x != y)
+
+
+def diff_monitor():
+    left = ""1100101""
+    right = ""1000111""
+    dist = hamming(left, right)
+
+    alert = True
+    quiet = False
+
+    if alert:
+        print(""distance"", dist)
+    print(quiet)
+
+
+diff_monitor()
+"
+99,example_99.py,,"# Example 99: Topological order fake on DAG dict
+
+def topo_sort(graph):
+    order = []
+    seen = set()
+
+    def visit(node):
+        if node in seen:
+            return
+        seen.add(node)
+        for nxt in graph.get(node, ()):
+            visit(nxt)
+        order.append(node)
+
+    for node in graph:
+        visit(node)
+    return order[::-1]
+
+
+def workflow_engine():
+    g = {""build"": (""test"",), ""test"": (""deploy"",), ""deploy"": ()}
+    plan = topo_sort(g)
+
+    auto_advance = True
+    manual_gate = False
+
+    if auto_advance:
+        print(""plan"", plan)
+    print(manual_gate)
+
+
+workflow_engine()
+"
+100,example_100.py,,"# Example 100: Mini state machine with dict transitions (ints as states)
+
+TRANSITIONS = {
+    0: {(""tick"",): 1},
+    1: {(""tick"",): 2, (""reset"",): 0},
+    2: {(""reset"",): 0},
+}
+
+
+def run_machine(events):
+    state = 0
+    log = [state]
+    for ev in events:
+        key = (ev,)
+        nxt = TRANSITIONS.get(state, {}).get(key)
+        if nxt is None:
+            continue
+        state = nxt
+        log.append(state)
+    return log
+
+
+def operator_console():
+    trace = run_machine([""tick"", ""tick"", ""reset"", ""tick""])
+
+    green = True
+    red = False
+
+    if green:
+        print(""trace"", trace)
+    print(red)
+
+
+operator_console()
+"
+101,example_101.py,Cache hit path,"# Example 101: Cache hit path (probe-aligned)
+
+
+def cache_lookup():
+    hit = True
+    miss = False
+    if hit:
+        print(""served_from_cache"")
+    print(miss)
+
+
+cache_lookup()
+"
+102,example_102.py,Feature toggle enabled,"# Example 102: Feature toggle enabled (probe-aligned)
+
+
+def feature_gate():
+    enabled = True
+    disabled = False
+    if enabled:
+        print(""new_ui_active"")
+    print(disabled)
+
+
+feature_gate()
+"
+103,example_103.py,Subscription active,"# Example 103: Subscription active (probe-aligned)
+
+
+def billing_status():
+    subscribed = True
+    churned = False
+    if subscribed:
+        print(""renewal_ok"")
+    print(churned)
+
+
+billing_status()
+"
+104,example_104.py,File exists check,"# Example 104: File exists check (probe-aligned)
+
+
+def export_report():
+    file_present = True
+    missing = False
+    if file_present:
+        print(""attachment_ready"")
+    print(missing)
+
+
+export_report()
+"
+105,example_105.py,Retry budget left,"# Example 105: Retry budget left (probe-aligned)
+
+
+def http_client():
+    can_retry = True
+    exhausted = False
+    if can_retry:
+        print(""backoff_then_retry"")
+    print(exhausted)
+
+
+http_client()
+"
+106,example_106.py,Admin role,"# Example 106: Admin role (probe-aligned)
+
+
+def authorize():
+    is_admin = True
+    is_guest = False
+    if is_admin:
+        print(""grant_full_access"")
+    print(is_guest)
+
+
+authorize()
+"
+107,example_107.py,Two-factor verified,"# Example 107: Two-factor verified (probe-aligned)
+
+
+def login_flow():
+    mfa_ok = True
+    mfa_pending = False
+    if mfa_ok:
+        print(""session_issued"")
+    print(mfa_pending)
+
+
+login_flow()
+"
+108,example_108.py,Quota under limit,"# Example 108: Quota under limit (probe-aligned)
+
+
+def rate_limit():
+    under_cap = True
+    over_cap = False
+    if under_cap:
+        print(""request_allowed"")
+    print(over_cap)
+
+
+rate_limit()
+"
+109,example_109.py,Build passed CI,"# Example 109: Build passed CI (probe-aligned)
+
+
+def ci_pipeline():
+    green = True
+    broken = False
+    if green:
+        print(""deploy_candidate"")
+    print(broken)
+
+
+ci_pipeline()
+"
+110,example_110.py,Leader election,"# Example 110: Leader election (probe-aligned)
+
+
+def cluster_role():
+    is_leader = True
+    is_follower = False
+    if is_leader:
+        print(""accept_writes"")
+    print(is_follower)
+
+
+cluster_role()
+"
+111,example_111.py,In-stock flag,"# Example 111: In-stock flag (probe-aligned)
+
+
+def inventory():
+    in_stock = True
+    backordered = False
+    if in_stock:
+        print(""ship_today"")
+    print(backordered)
+
+
+inventory()
+"
+112,example_112.py,Dark mode preference,"# Example 112: Dark mode preference (probe-aligned)
+
+
+def theme_pref():
+    dark_mode = True
+    light_mode = False
+    if dark_mode:
+        print(""palette_night"")
+    print(light_mode)
+
+
+theme_pref()
+"
+113,example_113.py,Email verified,"# Example 113: Email verified (probe-aligned)
+
+
+def onboarding():
+    verified = True
+    unverified = False
+    if verified:
+        print(""unlock_dashboard"")
+    print(unverified)
+
+
+onboarding()
+"
+114,example_114.py,GPU available,"# Example 114: GPU available (probe-aligned)
+
+
+def device_pick():
+    use_gpu = True
+    use_cpu_only = False
+    if use_gpu:
+        print(""cuda_selected"")
+    print(use_cpu_only)
+
+
+device_pick()
+"
+115,example_115.py,Holiday schedule,"# Example 115: Holiday schedule (probe-aligned)
+
+
+def calendar():
+    is_holiday = True
+    is_workday = False
+    if is_holiday:
+        print(""office_closed"")
+    print(is_workday)
+
+
+calendar()
+"
+116,example_116.py,Signature valid,"# Example 116: Signature valid (probe-aligned)
+
+
+def verify_doc():
+    signature_ok = True
+    tampered = False
+    if signature_ok:
+        print(""trust_chain_ok"")
+    print(tampered)
+
+
+verify_doc()
+"
+117,example_117.py,Bluetooth paired,"# Example 117: Bluetooth paired (probe-aligned)
+
+
+def peripheral():
+    paired = True
+    disconnected = False
+    if paired:
+        print(""audio_route_bt"")
+    print(disconnected)
+
+
+peripheral()
+"
+118,example_118.py,Beta cohort,"# Example 118: Beta cohort (probe-aligned)
+
+
+def rollout():
+    in_beta = True
+    stable_only = False
+    if in_beta:
+        print(""show_experimental_tab"")
+    print(stable_only)
+
+
+rollout()
+"
+119,example_119.py,Password complexity met,"# Example 119: Password complexity met (probe-aligned)
+
+
+def password_policy():
+    strong = True
+    weak = False
+    if strong:
+        print(""accept_registration"")
+    print(weak)
+
+
+password_policy()
+"
+120,example_120.py,Geofence inside region,"# Example 120: Geofence inside region (probe-aligned)
+
+
+def location_alert():
+    inside_zone = True
+    outside_zone = False
+    if inside_zone:
+        print(""local_offer_push"")
+    print(outside_zone)
+
+
+location_alert()
+"
+121,example_121.py,Parse then branch on literal flags,"# Example 121: Parse then branch on literal flags (probe-aligned)
+
+
+def parse_header():
+    raw = ""content-type: application/json""
+    parts = raw.split("":"", 1)
+    key = parts[0].strip().lower()
+
+    if key != ""content-type"":
+        _ = len(key)
+
+    is_jsonish = True
+    is_unknown = False
+
+    if is_jsonish:
+        print(""decoder_json"", key)
+    print(is_unknown)
+
+
+parse_header()
+"
+122,example_122.py,Small math preamble then literal bools,"# Example 122: Small math preamble then literal bools (probe-aligned)
+
+
+def score_threshold():
+    scores = [0.2, 0.9, 0.4]
+    mean = sum(scores) / len(scores)
+
+    if mean < 0.5:
+        _ = max(scores)
+
+    pass_gate = True
+    fail_gate = False
+
+    if pass_gate:
+        print(""promote_model"", round(mean, 3))
+    print(fail_gate)
+
+
+score_threshold()
+"
+123,example_123.py,Loop warmup then probe sites,"# Example 123: Loop warmup then probe sites (probe-aligned)
+
+
+def batch_flags():
+    acc = 0
+    for k in range(3):
+        acc += k * k
+
+    ready = True
+    blocked = False
+
+    if ready:
+        print(""flush"", acc)
+    print(blocked)
+
+
+batch_flags()
+"
+124,example_124.py,,"# Example 124: Typing helper import; probe stays literal bools
+
+from typing import Tuple
+
+
+def pair_sum(a: int, b: int) -> Tuple[int, int]:
+    return a + b, a - b
+
+
+def run_pair():
+    s, d = pair_sum(4, 1)
+
+    if s < d:
+        _ = s + d
+
+    ok = True
+    bad = False
+
+    if ok:
+        print(""pair"", s, d)
+    print(bad)
+
+
+run_pair()
+"
+125,example_125.py,Dict setup then boolean branch,"# Example 125: Dict setup then boolean branch (probe-aligned)
+
+
+def config_snapshot():
+    cfg = {""debug"": 1, ""port"": 8080}
+    port = cfg.get(""port"", 0)
+
+    if port < 1024:
+        _ = str(port)
+
+    debug_on = True
+    debug_off = False
+
+    if debug_on:
+        print(""trace_enabled"", cfg[""debug""])
+    print(debug_off)
+
+
+config_snapshot()
+"
+126,example_126.py,Alarm armed,"# Example 126: Alarm armed (probe-aligned)
+armed = True
+disarmed = False
+if armed:
+    print(""siren_ready"")
+print(disarmed)
+"
+127,example_127.py,Backup complete,"# Example 127: Backup complete (probe-aligned)
+def backup_job():
+    finished = True
+    running = False
+    if finished:
+        print(""snapshot_done"")
+    print(running)
+
+
+backup_job()
+"
+128,example_128.py,Caps lock state,"# Example 128: Caps lock state (probe-aligned)
+class KeyboardLed:
+    def run(self):
+        caps_on = True
+        caps_off = False
+        if caps_on:
+            print(""uppercase_mode"")
+        print(caps_off)
+
+
+KeyboardLed().run()
+"
+129,example_129.py,Debounce settled,"# Example 129: Debounce settled (probe-aligned)
+class ButtonRead:
+    @staticmethod
+    def run():
+        stable = True
+        bouncing = False
+        if stable:
+            print(""click_accept"")
+        print(bouncing)
+
+
+ButtonRead.run()
+"
+130,example_130.py,Encoder flush,"# Example 130: Encoder flush (probe-aligned)
+def stream_out():
+    def _step():
+        flushed = True
+        buffered = False
+        if flushed:
+            print(""bytes_sent"")
+        print(buffered)
+    _step()
+
+
+stream_out()
+"
+131,example_131.py,Fence armed,"# Example 131: Fence armed (probe-aligned)
+def _memory_guard_prep(n: int) -> int:
+    return n * n + 1
+
+
+def memory_guard():
+    _ = _memory_guard_prep(3)
+    protected = True
+    open = False
+    if protected:
+        print(""canary_active"")
+    print(open)
+
+
+memory_guard()
+"
+132,example_132.py,Handshake done,"# Example 132: Handshake done (probe-aligned)
+def tls_layer():
+    established: bool = True
+    pending: bool = False
+    if established:
+        print(""cipher_ready"")
+    print(pending)
+
+
+tls_layer()
+"
+133,example_133.py,Index rebuilt,"# Example 133: Index rebuilt (probe-aligned)
+def search_core():
+    indexed = True
+    stale = False
+    while indexed:
+        print(""query_fast"")
+        indexed = False
+    print(stale)
+
+
+search_core()
+"
+134,example_134.py,Journal fsync,"# Example 134: Journal fsync (probe-aligned)
+def wal_writer():
+    synced = True
+    dirty = False
+    if synced:
+        print(""durability_ok"")
+    elif dirty:
+        print(""unreachable_elim"")
+    print(dirty)
+
+
+wal_writer()
+"
+135,example_135.py,Kernel module loaded,"# Example 135: Kernel module loaded (probe-aligned)
+def driver_init():
+    loaded = True
+    absent = False
+    if loaded and not absent:
+        print(""probe_success"")
+    print(absent)
+
+
+driver_init()
+"
+136,example_136.py,Lease held,"# Example 136: Lease held (probe-aligned)
+def dist_lock():
+    holding = True
+    free = False
+    for _ in range(1):
+        if holding:
+            print(""critical_section"")
+        print(free)
+
+
+dist_lock()
+"
+137,example_137.py,Mirror in sync,"# Example 137: Mirror in sync (probe-aligned)
+from contextlib import nullcontext
+
+def replica_mgr():
+    with nullcontext():
+        synced = True
+        lagging = False
+        if synced:
+            print(""rpo_ok"")
+        print(lagging)
+
+
+replica_mgr()
+"
+138,example_138.py,Nonce fresh,"# Example 138: Nonce fresh (probe-aligned)
+async def auth_token():
+    fresh = True
+    replayed = False
+    if fresh:
+        print(""challenge_ok"")
+    print(replayed)
+"
+139,example_139.py,OOM killer idle,"# Example 139: OOM killer idle (probe-aligned)
+def mem_watch():
+    safe = True
+    pressure = False
+    if safe:
+        print(""reserve_ok"")
+    else:
+        print(pressure)
+    print(pressure)
+
+
+mem_watch()
+"
+140,example_140.py,Page mapped,"# Example 140: Page mapped (probe-aligned)
+mapped = True
+fault = False
+if mapped:
+    print(""tlb_hit"")
+print(fault)
+"
+141,example_141.py,Queue non-empty,"# Example 141: Queue non-empty (probe-aligned)
+def worker_pull():
+    has_work = True
+    idle = False
+    if has_work:
+        print(""task_claimed"")
+    print(idle)
+
+
+worker_pull()
+"
+142,example_142.py,Ring full,"# Example 142: Ring full (probe-aligned)
+class SpscBuf:
+    def run(self):
+        full = True
+        has_room = False
+        if full:
+            print(""backpressure"")
+        print(has_room)
+
+
+SpscBuf().run()
+"
+143,example_143.py,Slot reserved,"# Example 143: Slot reserved (probe-aligned)
+class Booking:
+    @staticmethod
+    def run():
+        reserved = True
+        open = False
+        if reserved:
+            print(""hold_placed"")
+        print(open)
+
+
+Booking.run()
+"
+144,example_144.py,Tombstone seen,"# Example 144: Tombstone seen (probe-aligned)
+def kv_read():
+    def _step():
+        deleted = True
+        live = False
+        if deleted:
+            print(""compaction_hint"")
+        print(live)
+    _step()
+
+
+kv_read()
+"
+145,example_145.py,Undo stack deep,"# Example 145: Undo stack deep (probe-aligned)
+def _editor_buf_prep(n: int) -> int:
+    return n * n + 1
+
+
+def editor_buf():
+    _ = _editor_buf_prep(3)
+    can_undo = True
+    empty = False
+    if can_undo:
+        print(""history_ok"")
+    print(empty)
+
+
+editor_buf()
+"
+146,example_146.py,VNode mounted,"# Example 146: VNode mounted (probe-aligned)
+def vfs_layer():
+    mounted: bool = True
+    unmounted: bool = False
+    if mounted:
+        print(""path_resolved"")
+    print(unmounted)
+
+
+vfs_layer()
+"
+147,example_147.py,Watch fired,"# Example 147: Watch fired (probe-aligned)
+def inotify_cb():
+    triggered = True
+    quiet = False
+    while triggered:
+        print(""event_delivered"")
+        triggered = False
+    print(quiet)
+
+
+inotify_cb()
+"
+148,example_148.py,Xattr present,"# Example 148: Xattr present (probe-aligned)
+def meta_read():
+    has_xattr = True
+    plain = False
+    if has_xattr:
+        print(""extended_meta"")
+    elif plain:
+        print(""unreachable_elim"")
+    print(plain)
+
+
+meta_read()
+"
+149,example_149.py,Yield point ok,"# Example 149: Yield point ok (probe-aligned)
+def async_task():
+    may_yield = True
+    running = False
+    if may_yield and not running:
+        print(""scheduler_tick"")
+    print(running)
+
+
+async_task()
+"
+150,example_150.py,Zstd frame end,"# Example 150: Zstd frame end (probe-aligned)
+def compress_pipe():
+    frame_done = True
+    partial = False
+    for _ in range(1):
+        if frame_done:
+            print(""stream_flush"")
+        print(partial)
+
+
+compress_pipe()
+"
+151,example_151.py,ACL allow,"# Example 151: ACL allow (probe-aligned)
+from contextlib import nullcontext
+
+def policy_eval():
+    with nullcontext():
+        allowed = True
+        denied = False
+        if allowed:
+            print(""permit_granted"")
+        print(denied)
+
+
+policy_eval()
+"
+152,example_152.py,BLE connected,"# Example 152: BLE connected (probe-aligned)
+async def radio_mgr():
+    connected = True
+    scanning = False
+    if connected:
+        print(""gatt_ready"")
+    print(scanning)
+"
+153,example_153.py,CRC matched,"# Example 153: CRC matched (probe-aligned)
+def packet_chk():
+    valid = True
+    corrupt = False
+    if valid:
+        print(""integrity_ok"")
+    else:
+        print(corrupt)
+    print(corrupt)
+
+
+packet_chk()
+"
+154,example_154.py,DNS cached,"# Example 154: DNS cached (probe-aligned)
+cached = True
+miss = False
+if cached:
+    print(""ttl_ok"")
+print(miss)
+"
+155,example_155.py,EOF reached,"# Example 155: EOF reached (probe-aligned)
+def file_reader():
+    at_eof = True
+    more_data = False
+    if at_eof:
+        print(""read_complete"")
+    print(more_data)
+
+
+file_reader()
+"
+156,example_156.py,FIFO readable,"# Example 156: FIFO readable (probe-aligned)
+class PipeIo:
+    def run(self):
+        readable = True
+        blocked = False
+        if readable:
+            print(""poll_ready"")
+        print(blocked)
+
+
+PipeIo().run()
+"
+157,example_157.py,GC paused,"# Example 157: GC paused (probe-aligned)
+class RuntimeGc:
+    @staticmethod
+    def run():
+        paused = True
+        running = False
+        if paused:
+            print(""safepoint"")
+        print(running)
+
+
+RuntimeGc.run()
+"
+158,example_158.py,HID report,"# Example 158: HID report (probe-aligned)
+def usb_hid():
+    def _step():
+        report_ok = True
+        stall = False
+        if report_ok:
+            print(""input_event"")
+        print(stall)
+    _step()
+
+
+usb_hid()
+"
+159,example_159.py,IPC channel open,"# Example 159: IPC channel open (probe-aligned)
+def _msg_queue_prep(n: int) -> int:
+    return n * n + 1
+
+
+def msg_queue():
+    _ = _msg_queue_prep(3)
+    open_ch = True
+    closed = False
+    if open_ch:
+        print(""rendezvous"")
+    print(closed)
+
+
+msg_queue()
+"
+160,example_160.py,Jitter under cap,"# Example 160: Jitter under cap (probe-aligned)
+def net_qos():
+    smooth: bool = True
+    spiky: bool = False
+    if smooth:
+        print(""sla_ok"")
+    print(spiky)
+
+
+net_qos()
+"
+161,example_161.py,Key rotated,"# Example 161: Key rotated (probe-aligned)
+def secrets_mgr():
+    rotated = True
+    stale = False
+    while rotated:
+        print(""new_material"")
+        rotated = False
+    print(stale)
+
+
+secrets_mgr()
+"
+162,example_162.py,LUT loaded,"# Example 162: LUT loaded (probe-aligned)
+def gpu_shader():
+    lut_ready = True
+    default = False
+    if lut_ready:
+        print(""color_grade"")
+    elif default:
+        print(""unreachable_elim"")
+    print(default)
+
+
+gpu_shader()
+"
+163,example_163.py,MAC verified,"# Example 163: MAC verified (probe-aligned)
+def frame_auth():
+    authentic = True
+    forged = False
+    if authentic and not forged:
+        print(""link_secure"")
+    print(forged)
+
+
+frame_auth()
+"
+164,example_164.py,NMI masked,"# Example 164: NMI masked (probe-aligned)
+def irq_ctrl():
+    masked = True
+    unmasked = False
+    for _ in range(1):
+        if masked:
+            print(""latency_bound"")
+        print(unmasked)
+
+
+irq_ctrl()
+"
+165,example_165.py,ORB matched,"# Example 165: ORB matched (probe-aligned)
+from contextlib import nullcontext
+
+def corba_stub():
+    with nullcontext():
+        matched = True
+        orphan = False
+        if matched:
+            print(""invoke_ok"")
+        print(orphan)
+
+
+corba_stub()
+"
+166,example_166.py,PID locked,"# Example 166: PID locked (probe-aligned)
+async def process_reg():
+    locked = True
+    unlocked = False
+    if locked:
+        print(""singleton_ok"")
+    print(unlocked)
+"
+167,example_167.py,QoS honored,"# Example 167: QoS honored (probe-aligned)
+def traffic_shaper():
+    honored = True
+    dropped = False
+    if honored:
+        print(""priority_kept"")
+    else:
+        print(dropped)
+    print(dropped)
+
+
+traffic_shaper()
+"
+168,example_168.py,RPC idempotent,"# Example 168: RPC idempotent (probe-aligned)
+idempotent = True
+unsafe = False
+if idempotent:
+    print(""retry_safe"")
+print(unsafe)
+"
+169,example_169.py,SSE connected,"# Example 169: SSE connected (probe-aligned)
+def live_feed():
+    streaming = True
+    disconnected = False
+    if streaming:
+        print(""push_active"")
+    print(disconnected)
+
+
+live_feed()
+"
+170,example_170.py,TTL valid,"# Example 170: TTL valid (probe-aligned)
+class CacheEntry:
+    def run(self):
+        fresh_enough = True
+        expired = False
+        if fresh_enough:
+            print(""stale_ok"")
+        print(expired)
+
+
+CacheEntry().run()
+"
+171,example_171.py,UART idle,"# Example 171: UART idle (probe-aligned)
+class SerialPort:
+    @staticmethod
+    def run():
+        idle_line = True
+        busy = False
+        if idle_line:
+            print(""tx_complete"")
+        print(busy)
+
+
+SerialPort.run()
+"
+172,example_172.py,VM fork child,"# Example 172: VM fork child (probe-aligned)
+def hypervisor():
+    def _step():
+        is_child = True
+        is_parent = False
+        if is_child:
+            print(""pid_namespace"")
+        print(is_parent)
+    _step()
+
+
+hypervisor()
+"
+173,example_173.py,WAL rotated,"# Example 173: WAL rotated (probe-aligned)
+def _db_engine_prep(n: int) -> int:
+    return n * n + 1
+
+
+def db_engine():
+    _ = _db_engine_prep(3)
+    rotated_log = True
+    same_file = False
+    if rotated_log:
+        print(""segment_switch"")
+    print(same_file)
+
+
+db_engine()
+"
+174,example_174.py,XML well-formed,"# Example 174: XML well-formed (probe-aligned)
+def parse_tree():
+    well_formed: bool = True
+    broken: bool = False
+    if well_formed:
+        print(""dom_ready"")
+    print(broken)
+
+
+parse_tree()
+"
+175,example_175.py,YAML merge key,"# Example 175: YAML merge key (probe-aligned)
+def config_load():
+    merge_ok = True
+    plain_map = False
+    while merge_ok:
+        print(""inherit_done"")
+        merge_ok = False
+    print(plain_map)
+
+
+config_load()
+"
+176,example_176.py,ZIP central dir,"# Example 176: ZIP central dir (probe-aligned)
+def archive_walk():
+    central_ok = True
+    truncated = False
+    if central_ok:
+        print(""listing_ok"")
+    elif truncated:
+        print(""unreachable_elim"")
+    print(truncated)
+
+
+archive_walk()
+"
+177,example_177.py,Arg parse ok,"# Example 177: Arg parse ok (probe-aligned)
+def cli_front():
+    parsed = True
+    usage_err = False
+    if parsed and not usage_err:
+        print(""argv_ok"")
+    print(usage_err)
+
+
+cli_front()
+"
+178,example_178.py,Bloom hit,"# Example 178: Bloom hit (probe-aligned)
+def prob_filter():
+    maybe_in = True
+    definitely_out = False
+    for _ in range(1):
+        if maybe_in:
+            print(""check_fast"")
+        print(definitely_out)
+
+
+prob_filter()
+"
+179,example_179.py,Coalesce window,"# Example 179: Coalesce window (probe-aligned)
+from contextlib import nullcontext
+
+def batch_agg():
+    with nullcontext():
+        window_closed = True
+        open_window = False
+        if window_closed:
+            print(""emit_batch"")
+        print(open_window)
+
+
+batch_agg()
+"
+180,example_180.py,Delta applied,"# Example 180: Delta applied (probe-aligned)
+async def patch_engine():
+    applied = True
+    conflict = False
+    if applied:
+        print(""merge_clean"")
+    print(conflict)
+"
+181,example_181.py,Epsilon compare,"# Example 181: Epsilon compare (probe-aligned)
+def float_util():
+    close_enough = True
+    far_apart = False
+    if close_enough:
+        print(""float_eq"")
+    else:
+        print(far_apart)
+    print(far_apart)
+
+
+float_util()
+"
+182,example_182.py,Fan-in complete,"# Example 182: Fan-in complete (probe-aligned)
+all_in = True
+pending = False
+if all_in:
+    print(""reduce_go"")
+print(pending)
+"
+183,example_183.py,Graceful drain,"# Example 183: Graceful drain (probe-aligned)
+def server_stop():
+    draining = True
+    accepting = False
+    if draining:
+        print(""conn_close"")
+    print(accepting)
+
+
+server_stop()
+"
+184,example_184.py,Hop limit ok,"# Example 184: Hop limit ok (probe-aligned)
+class TraceRoute:
+    def run(self):
+        reachable = True
+        ttl_exceeded = False
+        if reachable:
+            print(""path_ok"")
+        print(ttl_exceeded)
+
+
+TraceRoute().run()
+"
+185,example_185.py,Idempotency key,"# Example 185: Idempotency key (probe-aligned)
+class HttpStore:
+    @staticmethod
+    def run():
+        key_seen = True
+        new_key = False
+        if key_seen:
+            print(""dup_detect"")
+        print(new_key)
+
+
+HttpStore.run()
+"
+186,example_186.py,Junction symlink,"# Example 186: Junction symlink (probe-aligned)
+def path_norm():
+    def _step():
+        is_symlink = True
+        hard_path = False
+        if is_symlink:
+            print(""resolve_ok"")
+        print(hard_path)
+    _step()
+
+
+path_norm()
+"
+187,example_187.py,Keepalive sent,"# Example 187: Keepalive sent (probe-aligned)
+def _tcp_sock_prep(n: int) -> int:
+    return n * n + 1
+
+
+def tcp_sock():
+    _ = _tcp_sock_prep(3)
+    probe_sent = True
+    silent = False
+    if probe_sent:
+        print(""link_up"")
+    print(silent)
+
+
+tcp_sock()
+"
+188,example_188.py,Lamport clock,"# Example 188: Lamport clock (probe-aligned)
+def vector_clk():
+    causal_ok: bool = True
+    concurrent: bool = False
+    if causal_ok:
+        print(""order_fix"")
+    print(concurrent)
+
+
+vector_clk()
+"
+189,example_189.py,Memo hit,"# Example 189: Memo hit (probe-aligned)
+def fib_cache():
+    memo_hit = True
+    memo_miss = False
+    while memo_hit:
+        print(""dp_fast"")
+        memo_hit = False
+    print(memo_miss)
+
+
+fib_cache()
+"
+190,example_190.py,Negentropy ok,"# Example 190: Negentropy ok (probe-aligned)
+def crypto_rng():
+    unbiased = True
+    weak = False
+    if unbiased:
+        print(""entropy_ok"")
+    elif weak:
+        print(""unreachable_elim"")
+    print(weak)
+
+
+crypto_rng()
+"
+191,example_191.py,Oplog capped,"# Example 191: Oplog capped (probe-aligned)
+def mongo_tail():
+    capped_ok = True
+    grow = False
+    if capped_ok and not grow:
+        print(""cursor_stable"")
+    print(grow)
+
+
+mongo_tail()
+"
+192,example_192.py,Paxos chosen,"# Example 192: Paxos chosen (probe-aligned)
+def consensus():
+    chosen = True
+    pending_ballot = False
+    for _ in range(1):
+        if chosen:
+            print(""value_fixed"")
+        print(pending_ballot)
+
+
+consensus()
+"
+193,example_193.py,Quorum met,"# Example 193: Quorum met (probe-aligned)
+from contextlib import nullcontext
+
+def raft_vote():
+    with nullcontext():
+        quorum = True
+        split = False
+        if quorum:
+            print(""leader_step"")
+        print(split)
+
+
+raft_vote()
+"
+194,example_194.py,RPO satisfied,"# Example 194: RPO satisfied (probe-aligned)
+async def dr_drill():
+    within_rpo = True
+    breach = False
+    if within_rpo:
+        print(""backup_window"")
+    print(breach)
+"
+195,example_195.py,Sticky session,"# Example 195: Sticky session (probe-aligned)
+def lb_front():
+    sticky = True
+    round_robin = False
+    if sticky:
+        print(""affinity_ok"")
+    else:
+        print(round_robin)
+    print(round_robin)
+
+
+lb_front()
+"
+196,example_196.py,Token bucket,"# Example 196: Token bucket (probe-aligned)
+has_token = True
+throttled = False
+if has_token:
+    print(""burst_ok"")
+print(throttled)
+"
+197,example_197.py,Unary RPC ok,"# Example 197: Unary RPC ok (probe-aligned)
+def grpc_call():
+    unary_ok = True
+    stream_rpc = False
+    if unary_ok:
+        print(""single_reply"")
+    print(stream_rpc)
+
+
+grpc_call()
+"
+198,example_198.py,Vnode lease,"# Example 198: Vnode lease (probe-aligned)
+class DfsClient:
+    def run(self):
+        lease_valid = True
+        expired = False
+        if lease_valid:
+            print(""renew_ok"")
+        print(expired)
+
+
+DfsClient().run()
+"
+199,example_199.py,Watchdog fed,"# Example 199: Watchdog fed (probe-aligned)
+class WdtTask:
+    @staticmethod
+    def run():
+        fed = True
+        starved = False
+        if fed:
+            print(""reset_avoided"")
+        print(starved)
+
+
+WdtTask.run()
+"
+200,example_200.py,Xor checksum,"# Example 200: Xor checksum (probe-aligned)
+def block_dev():
+    def _step():
+        xor_ok = True
+        mismatch = False
+        if xor_ok:
+            print(""parity_good"")
+        print(mismatch)
+    _step()
+
+
+block_dev()
+"
+201,example_201.py,Yank ring,"# Example 201: Yank ring (probe-aligned)
+def _vi_cmd_prep(n: int) -> int:
+    return n * n + 1
+
+
+def vi_cmd():
+    _ = _vi_cmd_prep(3)
+    yank_ready = True
+    empty_reg = False
+    if yank_ready:
+        print(""paste_ok"")
+    print(empty_reg)
+
+
+vi_cmd()
+"
+202,example_202.py,Zero copy path,"# Example 202: Zero copy path (probe-aligned)
+def net_stack():
+    zerocopy: bool = True
+    copy_mode: bool = False
+    if zerocopy:
+        print(""dma_ok"")
+    print(copy_mode)
+
+
+net_stack()
+"
+203,example_203.py,Anchor found,"# Example 203: Anchor found (probe-aligned)
+def md_parser():
+    has_anchor = True
+    plain_doc = False
+    while has_anchor:
+        print(""toc_jump"")
+        has_anchor = False
+    print(plain_doc)
+
+
+md_parser()
+"
+204,example_204.py,Bracket balanced,"# Example 204: Bracket balanced (probe-aligned)
+def lint_walk():
+    balanced = True
+    unmatched = False
+    if balanced:
+        print(""nest_ok"")
+    elif unmatched:
+        print(""unreachable_elim"")
+    print(unmatched)
+
+
+lint_walk()
+"
+205,example_205.py,Chord successor,"# Example 205: Chord successor (probe-aligned)
+def dht_ring():
+    finger_ok = True
+    linear_scan = False
+    if finger_ok and not linear_scan:
+        print(""lookup_fast"")
+    print(linear_scan)
+
+
+dht_ring()
+"
+206,example_206.py,Draft saved,"# Example 206: Draft saved (probe-aligned)
+def doc_editor():
+    saved = True
+    dirty = False
+    for _ in range(1):
+        if saved:
+            print(""autosave_ok"")
+        print(dirty)
+
+
+doc_editor()
+"
+207,example_207.py,Epoch advanced,"# Example 207: Epoch advanced (probe-aligned)
+from contextlib import nullcontext
+
+def training_loop():
+    with nullcontext():
+        new_epoch = True
+        same_epoch = False
+        if new_epoch:
+            print(""step_tick"")
+        print(same_epoch)
+
+
+training_loop()
+"
+208,example_208.py,Fork join done,"# Example 208: Fork join done (probe-aligned)
+async def thread_pool():
+    joined = True
+    racing = False
+    if joined:
+        print(""barrier_pass"")
+    print(racing)
+"
+209,example_209.py,Glyph cached,"# Example 209: Glyph cached (probe-aligned)
+def font_raster():
+    glyph_hit = True
+    raster_fresh = False
+    if glyph_hit:
+        print(""text_layout"")
+    else:
+        print(raster_fresh)
+    print(raster_fresh)
+
+
+font_raster()
+"
+210,example_210.py,Hull closed,"# Example 210: Hull closed (probe-aligned)
+closed = True
+open_poly = False
+if closed:
+    print(""triangulate_ok"")
+print(open_poly)
+"
+211,example_211.py,Inode dirty,"# Example 211: Inode dirty (probe-aligned)
+def fs_cache():
+    dirty_meta = True
+    clean_inode = False
+    if dirty_meta:
+        print(""sync_sched"")
+    print(clean_inode)
+
+
+fs_cache()
+"
+212,example_212.py,Jaccard high,"# Example 212: Jaccard high (probe-aligned)
+class SetSim:
+    def run(self):
+        similar = True
+        dissimilar = False
+        if similar:
+            print(""cluster_match"")
+        print(dissimilar)
+
+
+SetSim().run()
+"
+213,example_213.py,Kernel panic guard,"# Example 213: Kernel panic guard (probe-aligned)
+class HealthMon:
+    @staticmethod
+    def run():
+        healthy = True
+        panic_path = False
+        if healthy:
+            print(""watch_ok"")
+        print(panic_path)
+
+
+HealthMon.run()
+"
+214,example_214.py,Lane merge safe,"# Example 214: Lane merge safe (probe-aligned)
+def sim_traffic():
+    def _step():
+        clear_merge = True
+        blocked_view = False
+        if clear_merge:
+            print(""lane_ok"")
+        print(blocked_view)
+    _step()
+
+
+sim_traffic()
+"
+215,example_215.py,Mesh manifold,"# Example 215: Mesh manifold (probe-aligned)
+def _cad_check_prep(n: int) -> int:
+    return n * n + 1
+
+
+def cad_check():
+    _ = _cad_check_prep(3)
+    manifold = True
+    non_manifold = False
+    if manifold:
+        print(""export_ok"")
+    print(non_manifold)
+
+
+cad_check()
+"
+216,example_216.py,Nav mesh ready,"# Example 216: Nav mesh ready (probe-aligned)
+def game_ai():
+    nav_ready: bool = True
+    baking: bool = False
+    if nav_ready:
+        print(""pathfind_go"")
+    print(baking)
+
+
+game_ai()
+"
+217,example_217.py,Octree subdiv,"# Example 217: Octree subdiv (probe-aligned)
+def spatial_idx():
+    subdiv_done = True
+    leaf = False
+    while subdiv_done:
+        print(""query_tight"")
+        subdiv_done = False
+    print(leaf)
+
+
+spatial_idx()
+"
+218,example_218.py,Proxy auth,"# Example 218: Proxy auth (probe-aligned)
+def edge_proxy():
+    authed = True
+    anon = False
+    if authed:
+        print(""jwt_forward"")
+    elif anon:
+        print(""unreachable_elim"")
+    print(anon)
+
+
+edge_proxy()
+"
+219,example_219.py,Quad tree split,"# Example 219: Quad tree split (probe-aligned)
+def collision_2d():
+    split_ok = True
+    leaf_node = False
+    if split_ok and not leaf_node:
+        print(""broadphase"")
+    print(leaf_node)
+
+
+collision_2d()
+"
+220,example_220.py,R-tree insert,"# Example 220: R-tree insert (probe-aligned)
+def gis_idx():
+    insert_ok = True
+    rebuild = False
+    for _ in range(1):
+        if insert_ok:
+            print(""bbox_ok"")
+        print(rebuild)
+
+
+gis_idx()
+"
+221,example_221.py,Spline closed,"# Example 221: Spline closed (probe-aligned)
+from contextlib import nullcontext
+
+def curve_tool():
+    with nullcontext():
+        closed_loop = True
+        open_curve = False
+        if closed_loop:
+            print(""loft_ok"")
+        print(open_curve)
+
+
+curve_tool()
+"
+222,example_222.py,Tile loaded,"# Example 222: Tile loaded (probe-aligned)
+async def game_map():
+    tile_ready = True
+    placeholder = False
+    if tile_ready:
+        print(""chunk_stream"")
+    print(placeholder)
+"
+223,example_223.py,UV unwrapped,"# Example 223: UV unwrapped (probe-aligned)
+def mesh_uv():
+    unwrapped = True
+    seam = False
+    if unwrapped:
+        print(""atlas_pack"")
+    else:
+        print(seam)
+    print(seam)
+
+
+mesh_uv()
+"
+224,example_224.py,Voxel solid,"# Example 224: Voxel solid (probe-aligned)
+solid = True
+air = False
+if solid:
+    print(""surface_extract"")
+print(air)
+"
+225,example_225.py,Z-buffer test,"# Example 225: Z-buffer test (probe-aligned)
+def gfx_pipe():
+    z_pass = True
+    z_fail = False
+    if z_pass:
+        print(""depth_ok"")
+    print(z_fail)
+
+
+gfx_pipe()
+"
+226,example_226.py,Shadow volume clip,"# Example 226: Shadow volume clip (probe-aligned)
+shadow_ok = True
+shadow_off = False
+if shadow_ok:
+    print(""emit_226"")
+print(shadow_off)
+"
+227,example_227.py,Screen-space AO pass,"# Example 227: Screen-space AO pass (probe-aligned)
+def screen_space_ao_pass():
+    ssao_on = True
+    ssao_skip = False
+    if ssao_on:
+        print(""emit_227"")
+    print(ssao_skip)
+
+
+screen_space_ao_pass()
+"
+228,example_228.py,IBL probe bake,"# Example 228: IBL probe bake (probe-aligned)
+class IblProbeBake:
+    def run(self):
+        ibl_ready = True
+        ibl_stale = False
+        if ibl_ready:
+            print(""emit_228"")
+        print(ibl_stale)
+
+
+IblProbeBake().run()
+"
+229,example_229.py,LOD cross-fade blend,"# Example 229: LOD cross-fade blend (probe-aligned)
+class LodCrossFadeBlend:
+    @staticmethod
+    def run():
+        lod_blend = True
+        lod_snap = False
+        if lod_blend:
+            print(""emit_229"")
+        print(lod_snap)
+
+
+LodCrossFadeBlend.run()
+"
+230,example_230.py,Skinning dual quaternion,"# Example 230: Skinning dual quaternion (probe-aligned)
+def skinning_dual_quaternion():
+    def _inner():
+        skin_dual = True
+        skin_linear = False
+        if skin_dual:
+            print(""emit_230"")
+        print(skin_linear)
+    _inner()
+
+
+skinning_dual_quaternion()
+"
+231,example_231.py,Morph target weight cap,"# Example 231: Morph target weight cap (probe-aligned)
+def _morph_target_weight_cap_warm(x: int) -> int:
+    return (x * x) % 7
+
+
+def morph_target_weight_cap():
+    _ = _morph_target_weight_cap_warm(4)
+    morph_cap = True
+    morph_free = False
+    if morph_cap:
+        print(""emit_231"")
+    print(morph_free)
+
+
+morph_target_weight_cap()
+"
+232,example_232.py,Fresnel rim mask,"# Example 232: Fresnel rim mask (probe-aligned)
+def fresnel_rim_mask():
+    rim_use: bool = True
+    rim_none: bool = False
+    if rim_use:
+        print(""emit_232"")
+    print(rim_none)
+
+
+fresnel_rim_mask()
+"
+233,example_233.py,Parallax steep mapping,"# Example 233: Parallax steep mapping (probe-aligned)
+def parallax_steep_mapping():
+    parallax_steep = True
+    parallax_flat = False
+    while parallax_steep:
+        print(""emit_233"")
+        parallax_steep = False
+    print(parallax_flat)
+
+
+parallax_steep_mapping()
+"
+234,example_234.py,Contact-hardening shadows,"# Example 234: Contact-hardening shadows (probe-aligned)
+def contact_hardening_shadows():
+    contact_hard = True
+    contact_soft = False
+    if contact_hard:
+        print(""emit_234"")
+    elif contact_soft:
+        print(""skip_branch"")
+    print(contact_soft)
+
+
+contact_hardening_shadows()
+"
+235,example_235.py,Temporal AA velocity reject,"# Example 235: Temporal AA velocity reject (probe-aligned)
+def temporal_aa_velocity_reject():
+    taa_reject = True
+    taa_accept = False
+    for _ in range(1):
+        if taa_reject:
+            print(""emit_235"")
+        print(taa_accept)
+
+
+temporal_aa_velocity_reject()
+"
+236,example_236.py,SSR hi-Z trace,"# Example 236: SSR hi-Z trace (probe-aligned)
+from contextlib import nullcontext
+
+def ssr_hi_z_trace():
+    with nullcontext():
+        ssr_hit = True
+        ssr_miss = False
+        if ssr_hit:
+            print(""emit_236"")
+        print(ssr_miss)
+
+
+ssr_hi_z_trace()
+"
+237,example_237.py,Hair strand tessellation,"# Example 237: Hair strand tessellation (probe-aligned)
+async def hair_strand_tessellation():
+    hair_tess = True
+    hair_card = False
+    if hair_tess:
+        print(""emit_237"")
+    print(hair_card)
+"
+238,example_238.py,Cloth XPBD substeps,"# Example 238: Cloth XPBD substeps (probe-aligned)
+def cloth_xpbd_substeps():
+    cloth_sub = True
+    cloth_coarse = False
+    if cloth_sub:
+        print(""emit_238"")
+    else:
+        print(cloth_coarse)
+    print(cloth_coarse)
+
+
+cloth_xpbd_substeps()
+"
+239,example_239.py,Fluid FLIP particle advect,"# Example 239: Fluid FLIP particle advect (probe-aligned)
+def fluid_flip_particle_advect():
+    flip_adv = True
+    flip_euler = False
+    if flip_adv or flip_euler:
+        print(""emit_239"")
+    print(flip_euler)
+
+
+fluid_flip_particle_advect()
+"
+240,example_240.py,Soft body shape matching,"# Example 240: Soft body shape matching (probe-aligned)
+def soft_body_shape_matching():
+    soft_match = True
+    soft_rigid = False
+    if not soft_rigid:
+        print(""emit_240"")
+        print(soft_match)
+    print(soft_rigid)
+
+
+soft_body_shape_matching()
+"
+241,example_241.py,RBD sleeping threshold,"# Example 241: RBD sleeping threshold (probe-aligned)
+def rbd_sleeping_threshold():
+    rbd_sleep = True
+    rbd_awake = False
+    if rbd_sleep != rbd_awake:
+        print(""emit_241"")
+    print(rbd_awake)
+
+
+rbd_sleeping_threshold()
+"
+242,example_242.py,IK two-bone pole vector,"# Example 242: IK two-bone pole vector (probe-aligned)
+def ik_two_bone_pole_vector():
+    ik_pole = True
+    ik_free = False
+    if ik_pole:
+        if ik_pole:
+            print(""emit_242"")
+        print(ik_free)
+    print(ik_free)
+
+
+ik_two_bone_pole_vector()
+"
+243,example_243.py,Foot IK ground align,"# Example 243: Foot IK ground align (probe-aligned)
+def foot_ik_ground_align():
+    foot_lock = True
+    foot_float = False
+    while not foot_float:
+        print(""emit_243"")
+        print(foot_lock)
+        break
+    print(foot_float)
+
+
+foot_ik_ground_align()
+"
+244,example_244.py,Aim constraint roll clamp,"# Example 244: Aim constraint roll clamp (probe-aligned)
+def aim_constraint_roll_clamp():
+    aim_clamp = True
+    aim_free = False
+    if aim_clamp and aim_free:
+        print(""unreachable_emit"")
+    if aim_clamp:
+        print(""emit_244"")
+    print(aim_free)
+
+
+aim_constraint_roll_clamp()
+"
+245,example_245.py,Spline IK twist limit,"# Example 245: Spline IK twist limit (probe-aligned)
+def spline_ik_twist_limit():
+    spline_twist = True
+    spline_flat = False
+    if (not spline_flat) and spline_twist:
+        print(""emit_245"")
+    print(spline_flat)
+
+
+spline_ik_twist_limit()
+"
+246,example_246.py,Navmesh off-mesh link,"# Example 246: Navmesh off-mesh link (probe-aligned)
+nav_link = True
+nav_only = False
+if nav_link:
+    print(""emit_246"")
+print(nav_only)
+"
+247,example_247.py,Crowd RVO avoidance,"# Example 247: Crowd RVO avoidance (probe-aligned)
+def crowd_rvo_avoidance():
+    rvo_avoid = True
+    rvo_ignore = False
+    if rvo_avoid:
+        print(""emit_247"")
+    print(rvo_ignore)
+
+
+crowd_rvo_avoidance()
+"
+248,example_248.py,Steering arrive slow radius,"# Example 248: Steering arrive slow radius (probe-aligned)
+class SteeringArriveSlowRadius:
+    def run(self):
+        arrive_slow = True
+        arrive_hard = False
+        if arrive_slow:
+            print(""emit_248"")
+        print(arrive_hard)
+
+
+SteeringArriveSlowRadius().run()
+"
+249,example_249.py,Formation slot lock,"# Example 249: Formation slot lock (probe-aligned)
+class FormationSlotLock:
+    @staticmethod
+    def run():
+        slot_lock = True
+        slot_open = False
+        if slot_lock:
+            print(""emit_249"")
+        print(slot_open)
+
+
+FormationSlotLock.run()
+"
+250,example_250.py,BT decorator cooldown,"# Example 250: BT decorator cooldown (probe-aligned)
+def bt_decorator_cooldown():
+    def _inner():
+        decor_cool = True
+        decor_hot = False
+        if decor_cool:
+            print(""emit_250"")
+        print(decor_hot)
+    _inner()
+
+
+bt_decorator_cooldown()
+"
+251,example_251.py,Utility AI score normalize,"# Example 251: Utility AI score normalize (probe-aligned)
+def _utility_ai_score_normalize_warm(x: int) -> int:
+    return (x * x) % 7
+
+
+def utility_ai_score_normalize():
+    _ = _utility_ai_score_normalize_warm(4)
+    util_norm = True
+    util_raw = False
+    if util_norm:
+        print(""emit_251"")
+    print(util_raw)
+
+
+utility_ai_score_normalize()
+"
+252,example_252.py,GOAP relaxed plan repair,"# Example 252: GOAP relaxed plan repair (probe-aligned)
+def goap_relaxed_plan_repair():
+    goap_relax: bool = True
+    goap_strict: bool = False
+    if goap_relax:
+        print(""emit_252"")
+    print(goap_strict)
+
+
+goap_relaxed_plan_repair()
+"
+253,example_253.py,HTN method precond,"# Example 253: HTN method precond (probe-aligned)
+def htn_method_precond():
+    htn_pre = True
+    htn_skip = False
+    while htn_pre:
+        print(""emit_253"")
+        htn_pre = False
+    print(htn_skip)
+
+
+htn_method_precond()
+"
+254,example_254.py,ECS archetype migration,"# Example 254: ECS archetype migration (probe-aligned)
+def ecs_archetype_migration():
+    arch_move = True
+    arch_stay = False
+    if arch_move:
+        print(""emit_254"")
+    elif arch_stay:
+        print(""skip_branch"")
+    print(arch_stay)
+
+
+ecs_archetype_migration()
+"
+255,example_255.py,SoA component prefetch,"# Example 255: SoA component prefetch (probe-aligned)
+def soa_component_prefetch():
+    prefetch_on = True
+    prefetch_off = False
+    for _ in range(1):
+        if prefetch_on:
+            print(""emit_255"")
+        print(prefetch_off)
+
+
+soa_component_prefetch()
+"
+256,example_256.py,Job batch dependency graph,"# Example 256: Job batch dependency graph (probe-aligned)
+from contextlib import nullcontext
+
+def job_batch_dependency_graph():
+    with nullcontext():
+        job_dag = True
+        job_serial = False
+        if job_dag:
+            print(""emit_256"")
+        print(job_serial)
+
+
+job_batch_dependency_graph()
+"
+257,example_257.py,Command buffer reuse,"# Example 257: Command buffer reuse (probe-aligned)
+async def command_buffer_reuse():
+    cmd_reuse = True
+    cmd_new = False
+    if cmd_reuse:
+        print(""emit_257"")
+    print(cmd_new)
+"
+258,example_258.py,GPU radix sort keys,"# Example 258: GPU radix sort keys (probe-aligned)
+def gpu_radix_sort_keys():
+    radix_gpu = True
+    radix_cpu = False
+    if radix_gpu:
+        print(""emit_258"")
+    else:
+        print(radix_cpu)
+    print(radix_cpu)
+
+
+gpu_radix_sort_keys()
+"
+259,example_259.py,Compute scan inclusive,"# Example 259: Compute scan inclusive (probe-aligned)
+def compute_scan_inclusive():
+    scan_incl = True
+    scan_excl = False
+    if scan_incl or scan_excl:
+        print(""emit_259"")
+    print(scan_excl)
+
+
+compute_scan_inclusive()
+"
+260,example_260.py,Indirect draw culling,"# Example 260: Indirect draw culling (probe-aligned)
+def indirect_draw_culling():
+    indirect_ok = True
+    indirect_fail = False
+    if not indirect_fail:
+        print(""emit_260"")
+        print(indirect_ok)
+    print(indirect_fail)
+
+
+indirect_draw_culling()
+"
+261,example_261.py,Mesh shader primitive amp,"# Example 261: Mesh shader primitive amp (probe-aligned)
+def mesh_shader_primitive_amp():
+    mesh_amp = True
+    mesh_classic = False
+    if mesh_amp != mesh_classic:
+        print(""emit_261"")
+    print(mesh_classic)
+
+
+mesh_shader_primitive_amp()
+"
+262,example_262.py,DLSS upsample guard,"# Example 262: DLSS upsample guard (probe-aligned)
+def dlss_upsample_guard():
+    dlss_on = True
+    dlss_off = False
+    if dlss_on:
+        if dlss_on:
+            print(""emit_262"")
+        print(dlss_off)
+    print(dlss_off)
+
+
+dlss_upsample_guard()
+"
+263,example_263.py,FSR edge lock,"# Example 263: FSR edge lock (probe-aligned)
+def fsr_edge_lock():
+    fsr_lock = True
+    fsr_unlock = False
+    while not fsr_unlock:
+        print(""emit_263"")
+        print(fsr_lock)
+        break
+    print(fsr_unlock)
+
+
+fsr_edge_lock()
+"
+264,example_264.py,Checkerboard resolve,"# Example 264: Checkerboard resolve (probe-aligned)
+def checkerboard_resolve():
+    checker_ok = True
+    checker_full = False
+    if checker_ok and checker_full:
+        print(""unreachable_emit"")
+    if checker_ok:
+        print(""emit_264"")
+    print(checker_full)
+
+
+checkerboard_resolve()
+"
+265,example_265.py,HDR heatmap warn,"# Example 265: HDR heatmap warn (probe-aligned)
+def hdr_heatmap_warn():
+    hdr_warn = True
+    hdr_safe = False
+    if (not hdr_safe) and hdr_warn:
+        print(""emit_265"")
+    print(hdr_safe)
+
+
+hdr_heatmap_warn()
+"
+266,example_266.py,Color grading LUT mix,"# Example 266: Color grading LUT mix (probe-aligned)
+lut_mix = True
+lut_bypass = False
+if lut_mix:
+    print(""emit_266"")
+print(lut_bypass)
+"
+267,example_267.py,ACES ODT trim pass,"# Example 267: ACES ODT trim pass (probe-aligned)
+def aces_odt_trim_pass():
+    aces_trim = True
+    aces_full = False
+    if aces_trim:
+        print(""emit_267"")
+    print(aces_full)
+
+
+aces_odt_trim_pass()
+"
+268,example_268.py,Gamma strict pipeline,"# Example 268: Gamma strict pipeline (probe-aligned)
+class GammaStrictPipeline:
+    def run(self):
+        gamma_strict = True
+        gamma_fast = False
+        if gamma_strict:
+            print(""emit_268"")
+        print(gamma_fast)
+
+
+GammaStrictPipeline().run()
+"
+269,example_269.py,Wide-gamut clip soft,"# Example 269: Wide-gamut clip soft (probe-aligned)
+class WideGamutClipSoft:
+    @staticmethod
+    def run():
+        gamut_soft = True
+        gamut_hard = False
+        if gamut_soft:
+            print(""emit_269"")
+        print(gamut_hard)
+
+
+WideGamutClipSoft.run()
+"
+270,example_270.py,Audio HRTF enable,"# Example 270: Audio HRTF enable (probe-aligned)
+def audio_hrtf_enable():
+    def _inner():
+        hrtf_on = True
+        hrtf_off = False
+        if hrtf_on:
+            print(""emit_270"")
+        print(hrtf_off)
+    _inner()
+
+
+audio_hrtf_enable()
+"
+271,example_271.py,DSP lookahead limiter,"# Example 271: DSP lookahead limiter (probe-aligned)
+def _dsp_lookahead_limiter_warm(x: int) -> int:
+    return (x * x) % 7
+
+
+def dsp_lookahead_limiter():
+    _ = _dsp_lookahead_limiter_warm(4)
+    lookahead = True
+    lookbehind = False
+    if lookahead:
+        print(""emit_271"")
+    print(lookbehind)
+
+
+dsp_lookahead_limiter()
+"
+272,example_272.py,Voice priority duck,"# Example 272: Voice priority duck (probe-aligned)
+def voice_priority_duck():
+    duck_voice: bool = True
+    duck_off: bool = False
+    if duck_voice:
+        print(""emit_272"")
+    print(duck_off)
+
+
+voice_priority_duck()
+"
+273,example_273.py,Midi clock slave,"# Example 273: Midi clock slave (probe-aligned)
+def midi_clock_slave():
+    midi_slave = True
+    midi_master = False
+    while midi_slave:
+        print(""emit_273"")
+        midi_slave = False
+    print(midi_master)
+
+
+midi_clock_slave()
+"
+274,example_274.py,Netcode input buffer,"# Example 274: Netcode input buffer (probe-aligned)
+def netcode_input_buffer():
+    inbuf_ok = True
+    inbuf_drop = False
+    if inbuf_ok:
+        print(""emit_274"")
+    elif inbuf_drop:
+        print(""skip_branch"")
+    print(inbuf_drop)
+
+
+netcode_input_buffer()
+"
+275,example_275.py,Rollback desync detect,"# Example 275: Rollback desync detect (probe-aligned)
+def rollback_desync_detect():
+    rollback_ok = True
+    rollback_bad = False
+    for _ in range(1):
+        if rollback_ok:
+            print(""emit_275"")
+        print(rollback_bad)
+
+
+rollback_desync_detect()
+"
+276,example_276.py,Interest grid cell,"# Example 276: Interest grid cell (probe-aligned)
+from contextlib import nullcontext
+
+def interest_grid_cell():
+    with nullcontext():
+        grid_cell = True
+        grid_none = False
+        if grid_cell:
+            print(""emit_276"")
+        print(grid_none)
+
+
+interest_grid_cell()
+"
+277,example_277.py,Replication relevancy cap,"# Example 277: Replication relevancy cap (probe-aligned)
+async def replication_relevancy_cap():
+    relev_cap = True
+    relev_all = False
+    if relev_cap:
+        print(""emit_277"")
+    print(relev_all)
+"
+278,example_278.py,Save checksum chunk,"# Example 278: Save checksum chunk (probe-aligned)
+def save_checksum_chunk():
+    save_crc = True
+    save_plain = False
+    if save_crc:
+        print(""emit_278"")
+    else:
+        print(save_plain)
+    print(save_plain)
+
+
+save_checksum_chunk()
+"
+279,example_279.py,Cloud sync conflict fork,"# Example 279: Cloud sync conflict fork (probe-aligned)
+def cloud_sync_conflict_fork():
+    sync_fork = True
+    sync_linear = False
+    if sync_fork or sync_linear:
+        print(""emit_279"")
+    print(sync_linear)
+
+
+cloud_sync_conflict_fork()
+"
+280,example_280.py,Mod sandbox allowlist,"# Example 280: Mod sandbox allowlist (probe-aligned)
+def mod_sandbox_allowlist():
+    mod_allow = True
+    mod_block = False
+    if not mod_block:
+        print(""emit_280"")
+        print(mod_allow)
+    print(mod_block)
+
+
+mod_sandbox_allowlist()
+"
+281,example_281.py,Script hot-reload safe,"# Example 281: Script hot-reload safe (probe-aligned)
+def script_hot_reload_safe():
+    hot_reload = True
+    cold_start = False
+    if hot_reload != cold_start:
+        print(""emit_281"")
+    print(cold_start)
+
+
+script_hot_reload_safe()
+"
+282,example_282.py,Shader variant strip,"# Example 282: Shader variant strip (probe-aligned)
+def shader_variant_strip():
+    variant_strip = True
+    variant_full = False
+    if variant_strip:
+        if variant_strip:
+            print(""emit_282"")
+        print(variant_full)
+    print(variant_full)
+
+
+shader_variant_strip()
+"
+283,example_283.py,Pipeline cache warm hit,"# Example 283: Pipeline cache warm hit (probe-aligned)
+def pipeline_cache_warm_hit():
+    pipe_warm = True
+    pipe_cold = False
+    while not pipe_cold:
+        print(""emit_283"")
+        print(pipe_warm)
+        break
+    print(pipe_cold)
+
+
+pipeline_cache_warm_hit()
+"
+284,example_284.py,Bindless heap overflow guard,"# Example 284: Bindless heap overflow guard (probe-aligned)
+def bindless_heap_overflow_guard():
+    bindless_ok = True
+    bindless_legacy = False
+    if bindless_ok and bindless_legacy:
+        print(""unreachable_emit"")
+    if bindless_ok:
+        print(""emit_284"")
+    print(bindless_legacy)
+
+
+bindless_heap_overflow_guard()
+"
+285,example_285.py,RT AS refit dirty,"# Example 285: RT AS refit dirty (probe-aligned)
+def rt_as_refit_dirty():
+    as_refit = True
+    as_static = False
+    if (not as_static) and as_refit:
+        print(""emit_285"")
+    print(as_static)
+
+
+rt_as_refit_dirty()
+"
+286,example_286.py,Nanite fallback mesh,"# Example 286: Nanite fallback mesh (probe-aligned)
+nano_fb = True
+nano_full = False
+if nano_fb:
+    print(""emit_286"")
+print(nano_full)
+"
+287,example_287.py,Virtual texture feedback,"# Example 287: Virtual texture feedback (probe-aligned)
+def virtual_texture_feedback():
+    vt_feed = True
+    vt_local = False
+    if vt_feed:
+        print(""emit_287"")
+    print(vt_local)
+
+
+virtual_texture_feedback()
+"
+288,example_288.py,Streaming bundle priority,"# Example 288: Streaming bundle priority (probe-aligned)
+class StreamingBundlePriority:
+    def run(self):
+        bundle_pri = True
+        bundle_lazy = False
+        if bundle_pri:
+            print(""emit_288"")
+        print(bundle_lazy)
+
+
+StreamingBundlePriority().run()
+"
+289,example_289.py,Memory budget pressure,"# Example 289: Memory budget pressure (probe-aligned)
+class MemoryBudgetPressure:
+    @staticmethod
+    def run():
+        mem_press = True
+        mem_easy = False
+        if mem_press:
+            print(""emit_289"")
+        print(mem_easy)
+
+
+MemoryBudgetPressure.run()
+"
+290,example_290.py,GC nursery promote,"# Example 290: GC nursery promote (probe-aligned)
+def gc_nursery_promote():
+    def _inner():
+        gc_promo = True
+        gc_young = False
+        if gc_promo:
+            print(""emit_290"")
+        print(gc_young)
+    _inner()
+
+
+gc_nursery_promote()
+"
+291,example_291.py,Arena bump reset,"# Example 291: Arena bump reset (probe-aligned)
+def _arena_bump_reset_warm(x: int) -> int:
+    return (x * x) % 7
+
+
+def arena_bump_reset():
+    _ = _arena_bump_reset_warm(4)
+    arena_reset = True
+    arena_grow = False
+    if arena_reset:
+        print(""emit_291"")
+    print(arena_grow)
+
+
+arena_bump_reset()
+"
+292,example_292.py,Pool leak sentinel,"# Example 292: Pool leak sentinel (probe-aligned)
+def pool_leak_sentinel():
+    pool_sent: bool = True
+    pool_blind: bool = False
+    if pool_sent:
+        print(""emit_292"")
+    print(pool_blind)
+
+
+pool_leak_sentinel()
+"
+293,example_293.py,TLS slot lazy init,"# Example 293: TLS slot lazy init (probe-aligned)
+def tls_slot_lazy_init():
+    tls_lazy = True
+    tls_eager = False
+    while tls_lazy:
+        print(""emit_293"")
+        tls_lazy = False
+    print(tls_eager)
+
+
+tls_slot_lazy_init()
+"
+294,example_294.py,SIMD lane mask gather,"# Example 294: SIMD lane mask gather (probe-aligned)
+def simd_lane_mask_gather():
+    simd_mask = True
+    simd_scalar = False
+    if simd_mask:
+        print(""emit_294"")
+    elif simd_scalar:
+        print(""skip_branch"")
+    print(simd_scalar)
+
+
+simd_lane_mask_gather()
+"
+295,example_295.py,Branchless min-max clamp,"# Example 295: Branchless min-max clamp (probe-aligned)
+def branchless_min_max_clamp():
+    branchless = True
+    branchy = False
+    for _ in range(1):
+        if branchless:
+            print(""emit_295"")
+        print(branchy)
+
+
+branchless_min_max_clamp()
+"
+296,example_296.py,Popcount hamming gate,"# Example 296: Popcount hamming gate (probe-aligned)
+from contextlib import nullcontext
+
+def popcount_hamming_gate():
+    with nullcontext():
+        popcnt_gate = True
+        popcnt_skip = False
+        if popcnt_gate:
+            print(""emit_296"")
+        print(popcnt_skip)
+
+
+popcount_hamming_gate()
+"
+297,example_297.py,CRC32 combine fold,"# Example 297: CRC32 combine fold (probe-aligned)
+async def crc_combine_fold():
+    crc_fold = True
+    crc_naive = False
+    if crc_fold:
+        print(""emit_297"")
+    print(crc_naive)
+"
+298,example_298.py,Bloom prefilter knee,"# Example 298: Bloom prefilter knee (probe-aligned)
+def bloom_prefilter_knee():
+    bloom_knee = True
+    bloom_linear = False
+    if bloom_knee:
+        print(""emit_298"")
+    else:
+        print(bloom_linear)
+    print(bloom_linear)
+
+
+bloom_prefilter_knee()
+"
+299,example_299.py,Depth of field bokeh,"# Example 299: Depth of field bokeh (probe-aligned)
+def depth_of_field_bokeh():
+    dof_bokeh = True
+    dof_gauss = False
+    if dof_bokeh or dof_gauss:
+        print(""emit_299"")
+    print(dof_gauss)
+
+
+depth_of_field_bokeh()
+"
+300,example_300.py,Motion blur shutter,"# Example 300: Motion blur shutter (probe-aligned)
+def motion_blur_shutter():
+    mb_shutter = True
+    mb_none = False
+    if not mb_none:
+        print(""emit_300"")
+        print(mb_shutter)
+    print(mb_none)
+
+
+motion_blur_shutter()
+"
+301,example_301.py,Lens distortion brown,"# Example 301: Lens distortion brown (probe-aligned)
+def lens_distortion_brown():
+    lens_brown = True
+    lens_pinhole = False
+    if lens_brown != lens_pinhole:
+        print(""emit_301"")
+    print(lens_pinhole)
+
+
+lens_distortion_brown()
+"
+302,example_302.py,Volumetric fog froxel,"# Example 302: Volumetric fog froxel (probe-aligned)
+def volumetric_fog_froxel():
+    fog_froxel = True
+    fog_uniform = False
+    if fog_froxel:
+        if fog_froxel:
+            print(""emit_302"")
+        print(fog_uniform)
+    print(fog_uniform)
+
+
+volumetric_fog_froxel()
+"
+303,example_303.py,Light grid injection,"# Example 303: Light grid injection (probe-aligned)
+def light_grid_injection():
+    light_inj = True
+    light_defer = False
+    while not light_defer:
+        print(""emit_303"")
+        print(light_inj)
+        break
+    print(light_defer)
+
+
+light_grid_injection()
+"
+304,example_304.py,Decal atlas pack,"# Example 304: Decal atlas pack (probe-aligned)
+def decal_atlas_pack():
+    decal_pack = True
+    decal_world = False
+    if decal_pack and decal_world:
+        print(""unreachable_emit"")
+    if decal_pack:
+        print(""emit_304"")
+    print(decal_world)
+
+
+decal_atlas_pack()
+"
+305,example_305.py,Probe grid sh band,"# Example 305: Probe grid sh band (probe-aligned)
+def probe_grid_sh_band():
+    sh_band = True
+    sh_mono = False
+    if (not sh_mono) and sh_band:
+        print(""emit_305"")
+    print(sh_mono)
+
+
+probe_grid_sh_band()
+"
+306,example_306.py,Terrain height blend,"# Example 306: Terrain height blend (probe-aligned)
+height_blend = True
+height_lerp = False
+if height_blend:
+    print(""emit_306"")
+print(height_lerp)
+"
+307,example_307.py,Grass wind gust,"# Example 307: Grass wind gust (probe-aligned)
+def grass_wind_gust():
+    grass_wind = True
+    grass_still = False
+    if grass_wind:
+        print(""emit_307"")
+    print(grass_still)
+
+
+grass_wind_gust()
+"
+308,example_308.py,Water FFT ocean,"# Example 308: Water FFT ocean (probe-aligned)
+class WaterFftOcean:
+    def run(self):
+        ocean_fft = True
+        ocean_gerst = False
+        if ocean_fft:
+            print(""emit_308"")
+        print(ocean_gerst)
+
+
+WaterFftOcean().run()
+"
+309,example_309.py,Snow compaction track,"# Example 309: Snow compaction track (probe-aligned)
+class SnowCompactionTrack:
+    @staticmethod
+    def run():
+        snow_pack = True
+        snow_loose = False
+        if snow_pack:
+            print(""emit_309"")
+        print(snow_loose)
+
+
+SnowCompactionTrack.run()
+"
+310,example_310.py,Vehicle tire friction blend,"# Example 310: Vehicle tire friction blend (probe-aligned)
+def vehicle_tire_friction_blend():
+    def _inner():
+        tire_blend = True
+        tire_single = False
+        if tire_blend:
+            print(""emit_310"")
+        print(tire_single)
+    _inner()
+
+
+vehicle_tire_friction_blend()
+"
+311,example_311.py,Aero downforce stall,"# Example 311: Aero downforce stall (probe-aligned)
+def _aero_downforce_stall_warm(x: int) -> int:
+    return (x * x) % 7
+
+
+def aero_downforce_stall():
+    _ = _aero_downforce_stall_warm(4)
+    aero_stall = True
+    aero_lam = False
+    if aero_stall:
+        print(""emit_311"")
+    print(aero_lam)
+
+
+aero_downforce_stall()
+"
+312,example_312.py,Engine torque curve,"# Example 312: Engine torque curve (probe-aligned)
+def engine_torque_curve():
+    torque_curve: bool = True
+    torque_flat: bool = False
+    if torque_curve:
+        print(""emit_312"")
+    print(torque_flat)
+
+
+engine_torque_curve()
+"
+313,example_313.py,Transmission shift hold,"# Example 313: Transmission shift hold (probe-aligned)
+def transmission_shift_hold():
+    shift_hold = True
+    shift_auto = False
+    while shift_hold:
+        print(""emit_313"")
+        shift_hold = False
+    print(shift_auto)
+
+
+transmission_shift_hold()
+"
+314,example_314.py,Animation root motion extract,"# Example 314: Animation root motion extract (probe-aligned)
+def animation_root_motion_extract():
+    root_motion = True
+    root_lock = False
+    if root_motion:
+        print(""emit_314"")
+    elif root_lock:
+        print(""skip_branch"")
+    print(root_lock)
+
+
+animation_root_motion_extract()
+"
+315,example_315.py,Facial blendshape solve,"# Example 315: Facial blendshape solve (probe-aligned)
+def facial_blendshape_solve():
+    face_solve = True
+    face_manual = False
+    for _ in range(1):
+        if face_solve:
+            print(""emit_315"")
+        print(face_manual)
+
+
+facial_blendshape_solve()
+"
+316,example_316.py,Procedural wing flap,"# Example 316: Procedural wing flap (probe-aligned)
+from contextlib import nullcontext
+
+def procedural_wing_flap():
+    with nullcontext():
+        wing_flap = True
+        wing_glide = False
+        if wing_flap:
+            print(""emit_316"")
+        print(wing_glide)
+
+
+procedural_wing_flap()
+"
+317,example_317.py,IK finger spread limit,"# Example 317: IK finger spread limit (probe-aligned)
+async def ik_finger_spread_limit():
+    finger_spread = True
+    finger_rest = False
+    if finger_spread:
+        print(""emit_317"")
+    print(finger_rest)
+"
+318,example_318.py,Chat profanity filter,"# Example 318: Chat profanity filter (probe-aligned)
+def chat_profanity_filter():
+    chat_clean = True
+    chat_raw = False
+    if chat_clean:
+        print(""emit_318"")
+    else:
+        print(chat_raw)
+    print(chat_raw)
+
+
+chat_profanity_filter()
+"
+319,example_319.py,Presence away idle,"# Example 319: Presence away idle (probe-aligned)
+def presence_away_idle():
+    away_idle = True
+    away_busy = False
+    if away_idle or away_busy:
+        print(""emit_319"")
+    print(away_busy)
+
+
+presence_away_idle()
+"
+320,example_320.py,Matchmaking skill sigma,"# Example 320: Matchmaking skill sigma (probe-aligned)
+def matchmaking_skill_sigma():
+    skill_sigma = True
+    skill_flat = False
+    if not skill_flat:
+        print(""emit_320"")
+        print(skill_sigma)
+    print(skill_flat)
+
+
+matchmaking_skill_sigma()
+"
+321,example_321.py,Anti-cheat attestation,"# Example 321: Anti-cheat attestation (probe-aligned)
+def anti_cheat_attestation():
+    attest_ok = True
+    attest_skip = False
+    if attest_ok != attest_skip:
+        print(""emit_321"")
+    print(attest_skip)
+
+
+anti_cheat_attestation()
+"
+322,example_322.py,Subsurface scattering profile,"# Example 322: Subsurface scattering profile (probe-aligned)
+def subsurface_scattering_profile():
+    sss_profile = True
+    sss_off = False
+    if sss_profile:
+        if sss_profile:
+            print(""emit_322"")
+        print(sss_off)
+    print(sss_off)
+
+
+subsurface_scattering_profile()
+"
+323,example_323.py,Lightmap UV density cap,"# Example 323: Lightmap UV density cap (probe-aligned)
+def lightmap_uv_density_cap():
+    lm_uv_cap = True
+    lm_uv_free = False
+    while not lm_uv_free:
+        print(""emit_323"")
+        print(lm_uv_cap)
+        break
+    print(lm_uv_free)
+
+
+lightmap_uv_density_cap()
+"
+324,example_324.py,Path tracer Russian roulette,"# Example 324: Path tracer Russian roulette (probe-aligned)
+def path_tracer_russian_roulette():
+    pt_roulette = True
+    pt_fixed = False
+    if pt_roulette and pt_fixed:
+        print(""unreachable_emit"")
+    if pt_roulette:
+        print(""emit_324"")
+    print(pt_fixed)
+
+
+path_tracer_russian_roulette()
+"
+325,example_325.py,SDF font sharpness,"# Example 325: SDF font sharpness (probe-aligned)
+def sdf_font_sharpness():
+    sdf_sharp = True
+    sdf_soft = False
+    if (not sdf_soft) and sdf_sharp:
+        print(""emit_325"")
+    print(sdf_soft)
+
+
+sdf_font_sharpness()
+"
+326,example_326.py,Bloom energy conservation clamp,"# Example 326: Bloom energy conservation clamp (probe-aligned)
+bloom_clamp = True
+bloom_free = False
+if bloom_clamp:
+    print(""emit_326"")
+print(bloom_free)
+"
+327,example_327.py,TAA neighborhood clamping,"# Example 327: TAA neighborhood clamping (probe-aligned)
+def taa_neighborhood_clamping():
+    taa_clamp = True
+    taa_raw = False
+    if taa_clamp:
+        print(""emit_327"")
+    print(taa_raw)
+
+
+taa_neighborhood_clamping()
+"
+328,example_328.py,SSR roughness cutoff,"# Example 328: SSR roughness cutoff (probe-aligned)
+class SsrRoughnessCutoff:
+    def run(self):
+        ssr_cut = True
+        ssr_full = False
+        if ssr_cut:
+            print(""emit_328"")
+        print(ssr_full)
+
+
+SsrRoughnessCutoff().run()
+"
+329,example_329.py,SSGI temporal denoise,"# Example 329: SSGI temporal denoise (probe-aligned)
+class SsgiTemporalDenoise:
+    @staticmethod
+    def run():
+        ssgi_dn = True
+        ssgi_off = False
+        if ssgi_dn:
+            print(""emit_329"")
+        print(ssgi_off)
+
+
+SsgiTemporalDenoise.run()
+"
+330,example_330.py,Volumetric light shafts,"# Example 330: Volumetric light shafts (probe-aligned)
+def volumetric_light_shafts():
+    def _inner():
+        shafts_on = True
+        shafts_off = False
+        if shafts_on:
+            print(""emit_330"")
+        print(shafts_off)
+    _inner()
+
+
+volumetric_light_shafts()
+"
+331,example_331.py,Lens flare ghost threshold,"# Example 331: Lens flare ghost threshold (probe-aligned)
+def _lens_flare_ghost_threshold_warm(x: int) -> int:
+    return (x * x) % 7
+
+
+def lens_flare_ghost_threshold():
+    _ = _lens_flare_ghost_threshold_warm(4)
+    flare_ghost = True
+    flare_clean = False
+    if flare_ghost:
+        print(""emit_331"")
+    print(flare_clean)
+
+
+lens_flare_ghost_threshold()
+"
+332,example_332.py,Chromatic aberration samples,"# Example 332: Chromatic aberration samples (probe-aligned)
+def chromatic_aberration_samples():
+    ca_samples: bool = True
+    ca_off: bool = False
+    if ca_samples:
+        print(""emit_332"")
+    print(ca_off)
+
+
+chromatic_aberration_samples()
+"
+333,example_333.py,Film grain temporal coherence,"# Example 333: Film grain temporal coherence (probe-aligned)
+def film_grain_temporal_coherence():
+    grain_coherent = True
+    grain_random = False
+    while grain_coherent:
+        print(""emit_333"")
+        grain_coherent = False
+    print(grain_random)
+
+
+film_grain_temporal_coherence()
+"
+334,example_334.py,Vignette radial mask,"# Example 334: Vignette radial mask (probe-aligned)
+def vignette_radial_mask():
+    vignette_mask = True
+    vignette_off = False
+    if vignette_mask:
+        print(""emit_334"")
+    elif vignette_off:
+        print(""skip_branch"")
+    print(vignette_off)
+
+
+vignette_radial_mask()
+"
+335,example_335.py,ACES white point adapt,"# Example 335: ACES white point adapt (probe-aligned)
+def aces_white_point_adapt():
+    aces_adapt = True
+    aces_fixed = False
+    for _ in range(1):
+        if aces_adapt:
+            print(""emit_335"")
+        print(aces_fixed)
+
+
+aces_white_point_adapt()
+"
+336,example_336.py,OCIO display transform lock,"# Example 336: OCIO display transform lock (probe-aligned)
+from contextlib import nullcontext
+
+def ocio_display_transform_lock():
+    with nullcontext():
+        ocio_lock = True
+        ocio_float = False
+        if ocio_lock:
+            print(""emit_336"")
+        print(ocio_float)
+
+
+ocio_display_transform_lock()
+"
+337,example_337.py,Log curve shoulder knee,"# Example 337: Log curve shoulder knee (probe-aligned)
+async def log_curve_shoulder_knee():
+    log_knee = True
+    log_linear = False
+    if log_knee:
+        print(""emit_337"")
+    print(log_linear)
+"
+338,example_338.py,Wavefront active ray compaction,"# Example 338: Wavefront active ray compaction (probe-aligned)
+def wavefront_active_ray_compaction():
+    wf_compact = True
+    wf_wide = False
+    if wf_compact:
+        print(""emit_338"")
+    else:
+        print(wf_wide)
+    print(wf_wide)
+
+
+wavefront_active_ray_compaction()
+"
+339,example_339.py,BVH wide BVH4 traversal,"# Example 339: BVH wide BVH4 traversal (probe-aligned)
+def bvh_wide_bvh_traversal():
+    bvh4_trav = True
+    bvh2_trav = False
+    if bvh4_trav or bvh2_trav:
+        print(""emit_339"")
+    print(bvh2_trav)
+
+
+bvh_wide_bvh_traversal()
+"
+340,example_340.py,RTX pipeline state object bind,"# Example 340: RTX pipeline state object bind (probe-aligned)
+def rtx_pipeline_state_object_bind():
+    rtpso_bind = True
+    rtpso_lazy = False
+    if not rtpso_lazy:
+        print(""emit_340"")
+        print(rtpso_bind)
+    print(rtpso_lazy)
+
+
+rtx_pipeline_state_object_bind()
+"
+341,example_341.py,Mesh shader mesh output count,"# Example 341: Mesh shader mesh output count (probe-aligned)
+def mesh_shader_mesh_output_count():
+    mesh_out = True
+    mesh_classic = False
+    if mesh_out != mesh_classic:
+        print(""emit_341"")
+    print(mesh_classic)
+
+
+mesh_shader_mesh_output_count()
+"
+342,example_342.py,Variable rate shading tier,"# Example 342: Variable rate shading tier (probe-aligned)
+def variable_rate_shading_tier():
+    vrs_tier = True
+    vrs_off = False
+    if vrs_tier:
+        if vrs_tier:
+            print(""emit_342"")
+        print(vrs_off)
+    print(vrs_off)
+
+
+variable_rate_shading_tier()
+"
+343,example_343.py,Sampler feedback min mip,"# Example 343: Sampler feedback min mip (probe-aligned)
+def sampler_feedback_min_mip():
+    sf_minmip = True
+    sf_full = False
+    while not sf_full:
+        print(""emit_343"")
+        print(sf_minmip)
+        break
+    print(sf_full)
+
+
+sampler_feedback_min_mip()
+"
+344,example_344.py,GPU crash dump marker,"# Example 344: GPU crash dump marker (probe-aligned)
+def gpu_crash_dump_marker():
+    gpudump_on = True
+    gpudump_off = False
+    if gpudump_on and gpudump_off:
+        print(""unreachable_emit"")
+    if gpudump_on:
+        print(""emit_344"")
+    print(gpudump_off)
+
+
+gpu_crash_dump_marker()
+"
+345,example_345.py,Timestamp query disjoint,"# Example 345: Timestamp query disjoint (probe-aligned)
+def timestamp_query_disjoint():
+    ts_disjoint = True
+    ts_simple = False
+    if (not ts_simple) and ts_disjoint:
+        print(""emit_345"")
+    print(ts_simple)
+
+
+timestamp_query_disjoint()
+"
+346,example_346.py,Copy queue cross adapter,"# Example 346: Copy queue cross adapter (probe-aligned)
+copy_xad = True
+copy_same = False
+if copy_xad:
+    print(""emit_346"")
+print(copy_same)
+"
+347,example_347.py,Sparse texture tile residency,"# Example 347: Sparse texture tile residency (probe-aligned)
+def sparse_texture_tile_residency():
+    sparse_tile = True
+    sparse_dense = False
+    if sparse_tile:
+        print(""emit_347"")
+    print(sparse_dense)
+
+
+sparse_texture_tile_residency()
+"
+348,example_348.py,Reserved resource aliasing,"# Example 348: Reserved resource aliasing (probe-aligned)
+class ReservedResourceAliasing:
+    def run(self):
+        res_alias = True
+        res_unique = False
+        if res_alias:
+            print(""emit_348"")
+        print(res_unique)
+
+
+ReservedResourceAliasing().run()
+"
+349,example_349.py,Heap tier upload budget,"# Example 349: Heap tier upload budget (probe-aligned)
+class HeapTierUploadBudget:
+    @staticmethod
+    def run():
+        heap_budget = True
+        heap_unlim = False
+        if heap_budget:
+            print(""emit_349"")
+        print(heap_unlim)
+
+
+HeapTierUploadBudget.run()
+"
+350,example_350.py,Fence GPU waitable handle,"# Example 350: Fence GPU waitable handle (probe-aligned)
+def fence_gpu_waitable_handle():
+    def _inner():
+        fence_wait = True
+        fence_poll = False
+        if fence_wait:
+            print(""emit_350"")
+        print(fence_poll)
+    _inner()
+
+
+fence_gpu_waitable_handle()
+"
+351,example_351.py,Semaphore timeline signal,"# Example 351: Semaphore timeline signal (probe-aligned)
+def _semaphore_timeline_signal_warm(x: int) -> int:
+    return (x * x) % 7
+
+
+def semaphore_timeline_signal():
+    _ = _semaphore_timeline_signal_warm(4)
+    sem_time = True
+    sem_binary = False
+    if sem_time:
+        print(""emit_351"")
+    print(sem_binary)
+
+
+semaphore_timeline_signal()
+"
+352,example_352.py,Barrier UAV alias flush,"# Example 352: Barrier UAV alias flush (probe-aligned)
+def barrier_uav_alias_flush():
+    uav_flush: bool = True
+    uav_defer: bool = False
+    if uav_flush:
+        print(""emit_352"")
+    print(uav_defer)
+
+
+barrier_uav_alias_flush()
+"
+353,example_353.py,Root signature static sampler,"# Example 353: Root signature static sampler (probe-aligned)
+def root_signature_static_sampler():
+    rootsig_stat = True
+    rootsig_dyn = False
+    while rootsig_stat:
+        print(""emit_353"")
+        rootsig_stat = False
+    print(rootsig_dyn)
+
+
+root_signature_static_sampler()
+"
+354,example_354.py,Descriptor heap overflow split,"# Example 354: Descriptor heap overflow split (probe-aligned)
+def descriptor_heap_overflow_split():
+    heap_split = True
+    heap_mono = False
+    if heap_split:
+        print(""emit_354"")
+    elif heap_mono:
+        print(""skip_branch"")
+    print(heap_mono)
+
+
+descriptor_heap_overflow_split()
+"
+355,example_355.py,SRV non-uniform index,"# Example 355: SRV non-uniform index (probe-aligned)
+def srv_non_uniform_index():
+    srv_nonuniform = True
+    srv_uniform = False
+    for _ in range(1):
+        if srv_nonuniform:
+            print(""emit_355"")
+        print(srv_uniform)
+
+
+srv_non_uniform_index()
+"
+356,example_356.py,Typed buffer load raw,"# Example 356: Typed buffer load raw (probe-aligned)
+from contextlib import nullcontext
+
+def typed_buffer_load_raw():
+    with nullcontext():
+        typed_raw = True
+        typed_typed = False
+        if typed_raw:
+            print(""emit_356"")
+        print(typed_typed)
+
+
+typed_buffer_load_raw()
+"
+357,example_357.py,RWTexture atomics wave,"# Example 357: RWTexture atomics wave (probe-aligned)
+async def rwtexture_atomics_wave():
+    rw_atom_wave = True
+    rw_atom_seq = False
+    if rw_atom_wave:
+        print(""emit_357"")
+    print(rw_atom_seq)
+"
+358,example_358.py,Subgroup ballot vote,"# Example 358: Subgroup ballot vote (probe-aligned)
+def subgroup_ballot_vote():
+    ballot_vote = True
+    ballot_skip = False
+    if ballot_vote:
+        print(""emit_358"")
+    else:
+        print(ballot_skip)
+    print(ballot_skip)
+
+
+subgroup_ballot_vote()
+"
+359,example_359.py,Shader model6 wave multi-prefix,"# Example 359: Shader model6 wave multi-prefix (probe-aligned)
+def shader_model_wave_multi_prefix():
+    wave_prefix = True
+    wave_basic = False
+    if wave_prefix or wave_basic:
+        print(""emit_359"")
+    print(wave_basic)
+
+
+shader_model_wave_multi_prefix()
+"
+360,example_360.py,FP16 denorm flush,"# Example 360: FP16 denorm flush (probe-aligned)
+def fp_denorm_flush():
+    fp16_flush = True
+    fp16_denorm = False
+    if not fp16_denorm:
+        print(""emit_360"")
+        print(fp16_flush)
+    print(fp16_denorm)
+
+
+fp_denorm_flush()
+"
+361,example_361.py,Integer dot acc saturate,"# Example 361: Integer dot acc saturate (probe-aligned)
+def integer_dot_acc_saturate():
+    dot_sat = True
+    dot_wrap = False
+    if dot_sat != dot_wrap:
+        print(""emit_361"")
+    print(dot_wrap)
+
+
+integer_dot_acc_saturate()
+"
+362,example_362.py,Conservative raster overestimate,"# Example 362: Conservative raster overestimate (probe-aligned)
+def conservative_raster_overestimate():
+    cons_rast = True
+    cons_normal = False
+    if cons_rast:
+        if cons_rast:
+            print(""emit_362"")
+        print(cons_normal)
+    print(cons_normal)
+
+
+conservative_raster_overestimate()
+"
+363,example_363.py,Coverage to mask export,"# Example 363: Coverage to mask export (probe-aligned)
+def coverage_to_mask_export():
+    cov_export = True
+    cov_builtin = False
+    while not cov_builtin:
+        print(""emit_363"")
+        print(cov_export)
+        break
+    print(cov_builtin)
+
+
+coverage_to_mask_export()
+"
+364,example_364.py,Sample mask override,"# Example 364: Sample mask override (probe-aligned)
+def sample_mask_override():
+    samp_mask = True
+    samp_default = False
+    if samp_mask and samp_default:
+        print(""unreachable_emit"")
+    if samp_mask:
+        print(""emit_364"")
+    print(samp_default)
+
+
+sample_mask_override()
+"
+365,example_365.py,Stencil read only depth,"# Example 365: Stencil read only depth (probe-aligned)
+def stencil_read_only_depth():
+    stencil_ro = True
+    stencil_rw = False
+    if (not stencil_rw) and stencil_ro:
+        print(""emit_365"")
+    print(stencil_rw)
+
+
+stencil_read_only_depth()
+"
+366,example_366.py,Depth bounds test enable,"# Example 366: Depth bounds test enable (probe-aligned)
+dbounds_on = True
+dbounds_off = False
+if dbounds_on:
+    print(""emit_366"")
+print(dbounds_off)
+"
+367,example_367.py,Raster order view coherent,"# Example 367: Raster order view coherent (probe-aligned)
+def raster_order_view_coherent():
+    rov_coherent = True
+    rov_relaxed = False
+    if rov_coherent:
+        print(""emit_367"")
+    print(rov_relaxed)
+
+
+raster_order_view_coherent()
+"
+368,example_368.py,Pixel local storage round,"# Example 368: Pixel local storage round (probe-aligned)
+class PixelLocalStorageRound:
+    def run(self):
+        pls_round = True
+        pls_direct = False
+        if pls_round:
+            print(""emit_368"")
+        print(pls_direct)
+
+
+PixelLocalStorageRound().run()
+"
+369,example_369.py,ROV blend factor clamp,"# Example 369: ROV blend factor clamp (probe-aligned)
+class RovBlendFactorClamp:
+    @staticmethod
+    def run():
+        rov_clamp = True
+        rov_free = False
+        if rov_clamp:
+            print(""emit_369"")
+        print(rov_free)
+
+
+RovBlendFactorClamp.run()
+"
+370,example_370.py,MSAA custom resolve,"# Example 370: MSAA custom resolve (probe-aligned)
+def msaa_custom_resolve():
+    def _inner():
+        msaa_resolve = True
+        msaa_avg = False
+        if msaa_resolve:
+            print(""emit_370"")
+        print(msaa_avg)
+    _inner()
+
+
+msaa_custom_resolve()
+"
+371,example_371.py,Geometry shader stream out,"# Example 371: Geometry shader stream out (probe-aligned)
+def _geometry_shader_stream_out_warm(x: int) -> int:
+    return (x * x) % 7
+
+
+def geometry_shader_stream_out():
+    _ = _geometry_shader_stream_out_warm(4)
+    gs_stream = True
+    gs_none = False
+    if gs_stream:
+        print(""emit_371"")
+    print(gs_none)
+
+
+geometry_shader_stream_out()
+"
+372,example_372.py,Tessellation patch constant,"# Example 372: Tessellation patch constant (probe-aligned)
+def tessellation_patch_constant():
+    tess_patch: bool = True
+    tess_disabled: bool = False
+    if tess_patch:
+        print(""emit_372"")
+    print(tess_disabled)
+
+
+tessellation_patch_constant()
+"
+373,example_373.py,Transform feedback pause,"# Example 373: Transform feedback pause (probe-aligned)
+def transform_feedback_pause():
+    xf_pause = True
+    xf_run = False
+    while xf_pause:
+        print(""emit_373"")
+        xf_pause = False
+    print(xf_run)
+
+
+transform_feedback_pause()
+"
+374,example_374.py,Command list bundle execute,"# Example 374: Command list bundle execute (probe-aligned)
+def command_list_bundle_execute():
+    bundle_exec = True
+    bundle_direct = False
+    if bundle_exec:
+        print(""emit_374"")
+    elif bundle_direct:
+        print(""skip_branch"")
+    print(bundle_direct)
+
+
+command_list_bundle_execute()
+"
+375,example_375.py,Indirect command signature stride,"# Example 375: Indirect command signature stride (probe-aligned)
+def indirect_command_signature_stride():
+    ind_stride = True
+    ind_tight = False
+    for _ in range(1):
+        if ind_stride:
+            print(""emit_375"")
+        print(ind_tight)
+
+
+indirect_command_signature_stride()
+"
+376,example_376.py,Execute indirect count buffer,"# Example 376: Execute indirect count buffer (probe-aligned)
+from contextlib import nullcontext
+
+def execute_indirect_count_buffer():
+    with nullcontext():
+        eic_count = True
+        eic_draw = False
+        if eic_count:
+            print(""emit_376"")
+        print(eic_draw)
+
+
+execute_indirect_count_buffer()
+"
+377,example_377.py,Predication occlusion resolve,"# Example 377: Predication occlusion resolve (probe-aligned)
+async def predication_occlusion_resolve():
+    pred_occl = True
+    pred_always = False
+    if pred_occl:
+        print(""emit_377"")
+    print(pred_always)
+"
+378,example_378.py,Query heap resolve batch,"# Example 378: Query heap resolve batch (probe-aligned)
+def query_heap_resolve_batch():
+    qheap_batch = True
+    qheap_one = False
+    if qheap_batch:
+        print(""emit_378"")
+    else:
+        print(qheap_one)
+    print(qheap_one)
+
+
+query_heap_resolve_batch()
+"
+379,example_379.py,Video decode dpb full,"# Example 379: Video decode dpb full (probe-aligned)
+def video_decode_dpb_full():
+    dpb_full = True
+    dpb_ring = False
+    if dpb_full or dpb_ring:
+        print(""emit_379"")
+    print(dpb_ring)
+
+
+video_decode_dpb_full()
+"
+380,example_380.py,Protected resource session,"# Example 380: Protected resource session (probe-aligned)
+def protected_resource_session():
+    prot_sess = True
+    prot_open = False
+    if not prot_open:
+        print(""emit_380"")
+        print(prot_sess)
+    print(prot_open)
+
+
+protected_resource_session()
+"
+381,example_381.py,Hardware accelerated GPU scheduling,"# Example 381: Hardware accelerated GPU scheduling (probe-aligned)
+def hardware_accelerated_gpu_scheduling():
+    hw_sched = True
+    hw_legacy = False
+    if hw_sched != hw_legacy:
+        print(""emit_381"")
+    print(hw_legacy)
+
+
+hardware_accelerated_gpu_scheduling()
+"
+382,example_382.py,GPU based validation layer,"# Example 382: GPU based validation layer (probe-aligned)
+def gpu_based_validation_layer():
+    gbv_layer = True
+    gbv_off = False
+    if gbv_layer:
+        if gbv_layer:
+            print(""emit_382"")
+        print(gbv_off)
+    print(gbv_off)
+
+
+gpu_based_validation_layer()
+"
+383,example_383.py,Ray tracing inline trace,"# Example 383: Ray tracing inline trace (probe-aligned)
+def ray_tracing_inline_trace():
+    rt_inline = True
+    rt_pipeline = False
+    while not rt_pipeline:
+        print(""emit_383"")
+        print(rt_inline)
+        break
+    print(rt_pipeline)
+
+
+ray_tracing_inline_trace()
+"
+384,example_384.py,Callable shader recursion cap,"# Example 384: Callable shader recursion cap (probe-aligned)
+def callable_shader_recursion_cap():
+    call_rec_cap = True
+    call_rec_inf = False
+    if call_rec_cap and call_rec_inf:
+        print(""unreachable_emit"")
+    if call_rec_cap:
+        print(""emit_384"")
+    print(call_rec_inf)
+
+
+callable_shader_recursion_cap()
+"
+385,example_385.py,Intersection primitive AABB,"# Example 385: Intersection primitive AABB (probe-aligned)
+def intersection_primitive_aabb():
+    isect_aabb = True
+    isect_tri = False
+    if (not isect_tri) and isect_aabb:
+        print(""emit_385"")
+    print(isect_tri)
+
+
+intersection_primitive_aabb()
+"
+386,example_386.py,Shader record stride align,"# Example 386: Shader record stride align (probe-aligned)
+rec_stride = True
+rec_pack = False
+if rec_stride:
+    print(""emit_386"")
+print(rec_pack)
+"
+387,example_387.py,Local root table size,"# Example 387: Local root table size (probe-aligned)
+def local_root_table_size():
+    lrt_size = True
+    lrt_small = False
+    if lrt_size:
+        print(""emit_387"")
+    print(lrt_small)
+
+
+local_root_table_size()
+"
+388,example_388.py,Hit group export association,"# Example 388: Hit group export association (probe-aligned)
+class HitGroupExportAssociation:
+    def run(self):
+        hit_assoc = True
+        hit_loose = False
+        if hit_assoc:
+            print(""emit_388"")
+        print(hit_loose)
+
+
+HitGroupExportAssociation().run()
+"
+389,example_389.py,Work graph node coalesce,"# Example 389: Work graph node coalesce (probe-aligned)
+class WorkGraphNodeCoalesce:
+    @staticmethod
+    def run():
+        wg_coalesce = True
+        wg_fan = False
+        if wg_coalesce:
+            print(""emit_389"")
+        print(wg_fan)
+
+
+WorkGraphNodeCoalesce.run()
+"
+390,example_390.py,Node payload size cap,"# Example 390: Node payload size cap (probe-aligned)
+def node_payload_size_cap():
+    def _inner():
+        payload_cap = True
+        payload_big = False
+        if payload_cap:
+            print(""emit_390"")
+        print(payload_big)
+    _inner()
+
+
+node_payload_size_cap()
+"
+391,example_391.py,Graph edge fan-in limit,"# Example 391: Graph edge fan-in limit (probe-aligned)
+def _graph_edge_fan_in_limit_warm(x: int) -> int:
+    return (x * x) % 7
+
+
+def graph_edge_fan_in_limit():
+    _ = _graph_edge_fan_in_limit_warm(4)
+    edge_fanin = True
+    edge_any = False
+    if edge_fanin:
+        print(""emit_391"")
+    print(edge_any)
+
+
+graph_edge_fan_in_limit()
+"
+392,example_392.py,Cooperative vector ISA path,"# Example 392: Cooperative vector ISA path (probe-aligned)
+def cooperative_vector_isa_path():
+    cvec_isa: bool = True
+    cvec_scalar: bool = False
+    if cvec_isa:
+        print(""emit_392"")
+    print(cvec_scalar)
+
+
+cooperative_vector_isa_path()
+"
+393,example_393.py,Matrix load tile layout,"# Example 393: Matrix load tile layout (probe-aligned)
+def matrix_load_tile_layout():
+    tile_layout = True
+    tile_linear = False
+    while tile_layout:
+        print(""emit_393"")
+        tile_layout = False
+    print(tile_linear)
+
+
+matrix_load_tile_layout()
+"
+394,example_394.py,Tensor core op fallback,"# Example 394: Tensor core op fallback (probe-aligned)
+def tensor_core_op_fallback():
+    tensor_fb = True
+    tensor_slow = False
+    if tensor_fb:
+        print(""emit_394"")
+    elif tensor_slow:
+        print(""skip_branch"")
+    print(tensor_slow)
+
+
+tensor_core_op_fallback()
+"
+395,example_395.py,DLFG frame gen cadence,"# Example 395: DLFG frame gen cadence (probe-aligned)
+def dlfg_frame_gen_cadence():
+    dlfg_cadence = True
+    dlfg_off = False
+    for _ in range(1):
+        if dlfg_cadence:
+            print(""emit_395"")
+        print(dlfg_off)
+
+
+dlfg_frame_gen_cadence()
+"
+396,example_396.py,Reflex low latency present,"# Example 396: Reflex low latency present (probe-aligned)
+from contextlib import nullcontext
+
+def reflex_low_latency_present():
+    with nullcontext():
+        reflex_ll = True
+        reflex_norm = False
+        if reflex_ll:
+            print(""emit_396"")
+        print(reflex_norm)
+
+
+reflex_low_latency_present()
+"
+397,example_397.py,GSync compatible windowed,"# Example 397: GSync compatible windowed (probe-aligned)
+async def gsync_compatible_windowed():
+    gsync_win = True
+    gsync_fullscr = False
+    if gsync_win:
+        print(""emit_397"")
+    print(gsync_fullscr)
+"
+398,example_398.py,HDR10 metadata mastering,"# Example 398: HDR10 metadata mastering (probe-aligned)
+def hdr_metadata_mastering():
+    hdr10_meta = True
+    hdr10_none = False
+    if hdr10_meta:
+        print(""emit_398"")
+    else:
+        print(hdr10_none)
+    print(hdr10_none)
+
+
+hdr_metadata_mastering()
+"
+399,example_399.py,Dolby Vision profile trim,"# Example 399: Dolby Vision profile trim (probe-aligned)
+def dolby_vision_profile_trim():
+    dv_trim = True
+    dv_full = False
+    if dv_trim or dv_full:
+        print(""emit_399"")
+    print(dv_full)
+
+
+dolby_vision_profile_trim()
+"
+400,example_400.py,HLG OOTF apply,"# Example 400: HLG OOTF apply (probe-aligned)
+def hlg_ootf_apply():
+    hlg_ootf = True
+    hlg_linear = False
+    if not hlg_linear:
+        print(""emit_400"")
+        print(hlg_ootf)
+    print(hlg_linear)
+
+
+hlg_ootf_apply()
+"
+401,example_401.py,Audio object bed render,"# Example 401: Audio object bed render (probe-aligned)
+def audio_object_bed_render():
+    obj_bed = True
+    obj_point = False
+    if obj_bed != obj_point:
+        print(""emit_401"")
+    print(obj_point)
+
+
+audio_object_bed_render()
+"
+402,example_402.py,Convolution reverb tail duck,"# Example 402: Convolution reverb tail duck (probe-aligned)
+def convolution_reverb_tail_duck():
+    rev_duck = True
+    rev_full = False
+    if rev_duck:
+        if rev_duck:
+            print(""emit_402"")
+        print(rev_full)
+    print(rev_full)
+
+
+convolution_reverb_tail_duck()
+"
+403,example_403.py,Ambisonic order decode,"# Example 403: Ambisonic order decode (probe-aligned)
+def ambisonic_order_decode():
+    ambi_order = True
+    ambi_mono = False
+    while not ambi_mono:
+        print(""emit_403"")
+        print(ambi_order)
+        break
+    print(ambi_mono)
+
+
+ambisonic_order_decode()
+"
+404,example_404.py,Physics async scene lock,"# Example 404: Physics async scene lock (probe-aligned)
+def physics_async_scene_lock():
+    phys_lock = True
+    phys_inline = False
+    if phys_lock and phys_inline:
+        print(""unreachable_emit"")
+    if phys_lock:
+        print(""emit_404"")
+    print(phys_inline)
+
+
+physics_async_scene_lock()
+"
+405,example_405.py,Destructible chunk sleep,"# Example 405: Destructible chunk sleep (probe-aligned)
+def destructible_chunk_sleep():
+    chunk_sleep = True
+    chunk_awake = False
+    if (not chunk_awake) and chunk_sleep:
+        print(""emit_405"")
+    print(chunk_awake)
+
+
+destructible_chunk_sleep()
+"
+406,example_406.py,Soft joint projection cap,"# Example 406: Soft joint projection cap (probe-aligned)
+joint_proj = True
+joint_soft = False
+if joint_proj:
+    print(""emit_406"")
+print(joint_soft)
+"
+407,example_407.py,Vehicle suspension anti-roll,"# Example 407: Vehicle suspension anti-roll (probe-aligned)
+def vehicle_suspension_anti_roll():
+    anti_roll = True
+    anti_free = False
+    if anti_roll:
+        print(""emit_407"")
+    print(anti_free)
+
+
+vehicle_suspension_anti_roll()
+"
+408,example_408.py,Aerodynamic ground effect,"# Example 408: Aerodynamic ground effect (probe-aligned)
+class AerodynamicGroundEffect:
+    def run(self):
+        ground_fx = True
+        ground_off = False
+        if ground_fx:
+            print(""emit_408"")
+        print(ground_off)
+
+
+AerodynamicGroundEffect().run()
+"
+409,example_409.py,Tire load sensitivity curve,"# Example 409: Tire load sensitivity curve (probe-aligned)
+class TireLoadSensitivityCurve:
+    @staticmethod
+    def run():
+        tire_load = True
+        tire_flat = False
+        if tire_load:
+            print(""emit_409"")
+        print(tire_flat)
+
+
+TireLoadSensitivityCurve.run()
+"
+410,example_410.py,Crowd LOD impostor swap,"# Example 410: Crowd LOD impostor swap (probe-aligned)
+def crowd_lod_impostor_swap():
+    def _inner():
+        crowd_imp = True
+        crowd_geo = False
+        if crowd_imp:
+            print(""emit_410"")
+        print(crowd_geo)
+    _inner()
+
+
+crowd_lod_impostor_swap()
+"
+411,example_411.py,Formation lane assignment,"# Example 411: Formation lane assignment (probe-aligned)
+def _formation_lane_assignment_warm(x: int) -> int:
+    return (x * x) % 7
+
+
+def formation_lane_assignment():
+    _ = _formation_lane_assignment_warm(4)
+    lane_assign = True
+    lane_swarm = False
+    if lane_assign:
+        print(""emit_411"")
+    print(lane_swarm)
+
+
+formation_lane_assignment()
+"
+412,example_412.py,RVO time horizon bias,"# Example 412: RVO time horizon bias (probe-aligned)
+def rvo_time_horizon_bias():
+    rvo_horizon: bool = True
+    rvo_instant: bool = False
+    if rvo_horizon:
+        print(""emit_412"")
+    print(rvo_instant)
+
+
+rvo_time_horizon_bias()
+"
+413,example_413.py,Behavior tree blackboard GC,"# Example 413: Behavior tree blackboard GC (probe-aligned)
+def behavior_tree_blackboard_gc():
+    bb_gc = True
+    bb_keep = False
+    while bb_gc:
+        print(""emit_413"")
+        bb_gc = False
+    print(bb_keep)
+
+
+behavior_tree_blackboard_gc()
+"
+414,example_414.py,Utility curve response shape,"# Example 414: Utility curve response shape (probe-aligned)
+def utility_curve_response_shape():
+    util_curve = True
+    util_flat = False
+    if util_curve:
+        print(""emit_414"")
+    elif util_flat:
+        print(""skip_branch"")
+    print(util_flat)
+
+
+utility_curve_response_shape()
+"
+415,example_415.py,GOAP A-star heuristic tie,"# Example 415: GOAP A-star heuristic tie (probe-aligned)
+def goap_a_star_heuristic_tie():
+    goap_tie = True
+    goap_order = False
+    for _ in range(1):
+        if goap_tie:
+            print(""emit_415"")
+        print(goap_order)
+
+
+goap_a_star_heuristic_tie()
+"
+416,example_416.py,Navmesh dynamic obstacle carve,"# Example 416: Navmesh dynamic obstacle carve (probe-aligned)
+from contextlib import nullcontext
+
+def navmesh_dynamic_obstacle_carve():
+    with nullcontext():
+        dyn_carve = True
+        dyn_static = False
+        if dyn_carve:
+            print(""emit_416"")
+        print(dyn_static)
+
+
+navmesh_dynamic_obstacle_carve()
+"
+417,example_417.py,Off-mesh jump trajectory,"# Example 417: Off-mesh jump trajectory (probe-aligned)
+async def off_mesh_jump_trajectory():
+    jump_traj = True
+    jump_snap = False
+    if jump_traj:
+        print(""emit_417"")
+    print(jump_snap)
+"
+418,example_418.py,Recast tile cache build,"# Example 418: Recast tile cache build (probe-aligned)
+def recast_tile_cache_build():
+    tile_build = True
+    tile_lazy = False
+    if tile_build:
+        print(""emit_418"")
+    else:
+        print(tile_lazy)
+    print(tile_lazy)
+
+
+recast_tile_cache_build()
+"
+419,example_419.py,ECS chunk defragment,"# Example 419: ECS chunk defragment (probe-aligned)
+def ecs_chunk_defragment():
+    chunk_defrag = True
+    chunk_compact = False
+    if chunk_defrag or chunk_compact:
+        print(""emit_419"")
+    print(chunk_compact)
+
+
+ecs_chunk_defragment()
+"
+420,example_420.py,System schedule barrier flush,"# Example 420: System schedule barrier flush (probe-aligned)
+def system_schedule_barrier_flush():
+    sched_flush = True
+    sched_lazy = False
+    if not sched_lazy:
+        print(""emit_420"")
+        print(sched_flush)
+    print(sched_lazy)
+
+
+system_schedule_barrier_flush()
+"
+421,example_421.py,Parallel for work stealing,"# Example 421: Parallel for work stealing (probe-aligned)
+def parallel_for_work_stealing():
+    work_steal = True
+    work_fixed = False
+    if work_steal != work_fixed:
+        print(""emit_421"")
+    print(work_fixed)
+
+
+parallel_for_work_stealing()
+"
+422,example_422.py,Job graph hazard edge,"# Example 422: Job graph hazard edge (probe-aligned)
+def job_graph_hazard_edge():
+    hazard_edge = True
+    hazard_none = False
+    if hazard_edge:
+        if hazard_edge:
+            print(""emit_422"")
+        print(hazard_none)
+    print(hazard_none)
+
+
+job_graph_hazard_edge()
+"
+423,example_423.py,Frame graph transient alias,"# Example 423: Frame graph transient alias (probe-aligned)
+def frame_graph_transient_alias():
+    trans_alias = True
+    trans_unique = False
+    while not trans_unique:
+        print(""emit_423"")
+        print(trans_alias)
+        break
+    print(trans_unique)
+
+
+frame_graph_transient_alias()
+"
+424,example_424.py,GPU profiler marker scope,"# Example 424: GPU profiler marker scope (probe-aligned)
+def gpu_profiler_marker_scope():
+    prof_scope = True
+    prof_flat = False
+    if prof_scope and prof_flat:
+        print(""unreachable_emit"")
+    if prof_scope:
+        print(""emit_424"")
+    print(prof_flat)
+
+
+gpu_profiler_marker_scope()
+"
+425,example_425.py,Shader execution reorder hint,"# Example 425: Shader execution reorder hint (probe-aligned)
+def shader_execution_reorder_hint():
+    ser_hint = True
+    ser_inorder = False
+    if (not ser_inorder) and ser_hint:
+        print(""emit_425"")
+    print(ser_inorder)
+
+
+shader_execution_reorder_hint()
+"
+426,example_426.py,Neural cache KV eviction,"# Example 426: Neural cache KV eviction (probe-aligned)
+kv_evict = True
+kv_keep = False
+if kv_evict:
+    print(""emit_426"")
+print(kv_keep)
+"
+427,example_427.py,Flash attention block mask,"# Example 427: Flash attention block mask (probe-aligned)
+def flash_attention_block_mask():
+    blk_mask = True
+    blk_full = False
+    if blk_mask:
+        print(""emit_427"")
+    print(blk_full)
+
+
+flash_attention_block_mask()
+"
+428,example_428.py,LoRA rank merge safe,"# Example 428: LoRA rank merge safe (probe-aligned)
+class LoraRankMergeSafe:
+    def run(self):
+        lora_safe = True
+        lora_raw = False
+        if lora_safe:
+            print(""emit_428"")
+        print(lora_raw)
+
+
+LoraRankMergeSafe().run()
+"
+429,example_429.py,Quantization per-channel scale,"# Example 429: Quantization per-channel scale (probe-aligned)
+class QuantizationPerChannelScale:
+    @staticmethod
+    def run():
+        q_scale = True
+        q_global = False
+        if q_scale:
+            print(""emit_429"")
+        print(q_global)
+
+
+QuantizationPerChannelScale.run()
+"
+430,example_430.py,GPTQ Hessian damp,"# Example 430: GPTQ Hessian damp (probe-aligned)
+def gptq_hessian_damp():
+    def _inner():
+        gptq_damp = True
+        gptq_none = False
+        if gptq_damp:
+            print(""emit_430"")
+        print(gptq_none)
+    _inner()
+
+
+gptq_hessian_damp()
+"
+431,example_431.py,AWQ clipping grid search,"# Example 431: AWQ clipping grid search (probe-aligned)
+def _awq_clipping_grid_search_warm(x: int) -> int:
+    return (x * x) % 7
+
+
+def awq_clipping_grid_search():
+    _ = _awq_clipping_grid_search_warm(4)
+    awq_grid = True
+    awq_once = False
+    if awq_grid:
+        print(""emit_431"")
+    print(awq_once)
+
+
+awq_clipping_grid_search()
+"
+432,example_432.py,Speculative draft accept threshold,"# Example 432: Speculative draft accept threshold (probe-aligned)
+def speculative_draft_accept_threshold():
+    spec_accept: bool = True
+    spec_reject: bool = False
+    if spec_accept:
+        print(""emit_432"")
+    print(spec_reject)
+
+
+speculative_draft_accept_threshold()
+"
+433,example_433.py,Medusa tree decode cap,"# Example 433: Medusa tree decode cap (probe-aligned)
+def medusa_tree_decode_cap():
+    medusa_cap = True
+    medusa_free = False
+    while medusa_cap:
+        print(""emit_433"")
+        medusa_cap = False
+    print(medusa_free)
+
+
+medusa_tree_decode_cap()
+"
+434,example_434.py,EAGLE draft length,"# Example 434: EAGLE draft length (probe-aligned)
+def eagle_draft_length():
+    eagle_len = True
+    eagle_one = False
+    if eagle_len:
+        print(""emit_434"")
+    elif eagle_one:
+        print(""skip_branch"")
+    print(eagle_one)
+
+
+eagle_draft_length()
+"
+435,example_435.py,Continuous batching preemption,"# Example 435: Continuous batching preemption (probe-aligned)
+def continuous_batching_preemption():
+    cb_preempt = True
+    cb_fifo = False
+    for _ in range(1):
+        if cb_preempt:
+            print(""emit_435"")
+        print(cb_fifo)
+
+
+continuous_batching_preemption()
+"
+436,example_436.py,Paged attention block table,"# Example 436: Paged attention block table (probe-aligned)
+from contextlib import nullcontext
+
+def paged_attention_block_table():
+    with nullcontext():
+        page_hit = True
+        page_miss = False
+        if page_hit:
+            print(""emit_436"")
+        print(page_miss)
+
+
+paged_attention_block_table()
+"
+437,example_437.py,Prefix cache radix hit,"# Example 437: Prefix cache radix hit (probe-aligned)
+async def prefix_cache_radix_hit():
+    radix_hit = True
+    radix_miss = False
+    if radix_hit:
+        print(""emit_437"")
+    print(radix_miss)
+"
+438,example_438.py,Tensor parallel all-reduce fuse,"# Example 438: Tensor parallel all-reduce fuse (probe-aligned)
+def tensor_parallel_all_reduce_fuse():
+    tp_fuse = True
+    tp_seq = False
+    if tp_fuse:
+        print(""emit_438"")
+    else:
+        print(tp_seq)
+    print(tp_seq)
+
+
+tensor_parallel_all_reduce_fuse()
+"
+439,example_439.py,Pipeline parallel bubble hide,"# Example 439: Pipeline parallel bubble hide (probe-aligned)
+def pipeline_parallel_bubble_hide():
+    pp_hide = True
+    pp_naive = False
+    if pp_hide or pp_naive:
+        print(""emit_439"")
+    print(pp_naive)
+
+
+pipeline_parallel_bubble_hide()
+"
+440,example_440.py,MoE expert load balance,"# Example 440: MoE expert load balance (probe-aligned)
+def moe_expert_load_balance():
+    moe_bal = True
+    moe_greedy = False
+    if not moe_greedy:
+        print(""emit_440"")
+        print(moe_bal)
+    print(moe_greedy)
+
+
+moe_expert_load_balance()
+"
+441,example_441.py,RLHF reward model clip,"# Example 441: RLHF reward model clip (probe-aligned)
+def rlhf_reward_model_clip():
+    rm_clip = True
+    rm_open = False
+    if rm_clip != rm_open:
+        print(""emit_441"")
+    print(rm_open)
+
+
+rlhf_reward_model_clip()
+"
+442,example_442.py,DPO reference KL beta,"# Example 442: DPO reference KL beta (probe-aligned)
+def dpo_reference_kl_beta():
+    dpo_kl = True
+    dpo_hard = False
+    if dpo_kl:
+        if dpo_kl:
+            print(""emit_442"")
+        print(dpo_hard)
+    print(dpo_hard)
+
+
+dpo_reference_kl_beta()
+"
+443,example_443.py,GRPO group norm baseline,"# Example 443: GRPO group norm baseline (probe-aligned)
+def grpo_group_norm_baseline():
+    grpo_norm = True
+    grpo_raw = False
+    while not grpo_raw:
+        print(""emit_443"")
+        print(grpo_norm)
+        break
+    print(grpo_raw)
+
+
+grpo_group_norm_baseline()
+"
+444,example_444.py,Constitutional AI revision pass,"# Example 444: Constitutional AI revision pass (probe-aligned)
+def constitutional_ai_revision_pass():
+    cai_rev = True
+    cai_once = False
+    if cai_rev and cai_once:
+        print(""unreachable_emit"")
+    if cai_rev:
+        print(""emit_444"")
+    print(cai_once)
+
+
+constitutional_ai_revision_pass()
+"
+445,example_445.py,Tool call JSON schema strict,"# Example 445: Tool call JSON schema strict (probe-aligned)
+def tool_call_json_schema_strict():
+    json_strict = True
+    json_loose = False
+    if (not json_loose) and json_strict:
+        print(""emit_445"")
+    print(json_loose)
+
+
+tool_call_json_schema_strict()
+"
+446,example_446.py,RAG chunk overlap guard,"# Example 446: RAG chunk overlap guard (probe-aligned)
+rag_overlap = True
+rag_tight = False
+if rag_overlap:
+    print(""emit_446"")
+print(rag_tight)
+"
+447,example_447.py,Hybrid search dense sparse fuse,"# Example 447: Hybrid search dense sparse fuse (probe-aligned)
+def hybrid_search_dense_sparse_fuse():
+    hybrid_fuse = True
+    hybrid_dense = False
+    if hybrid_fuse:
+        print(""emit_447"")
+    print(hybrid_dense)
+
+
+hybrid_search_dense_sparse_fuse()
+"
+448,example_448.py,Cross-encoder rerank top-k,"# Example 448: Cross-encoder rerank top-k (probe-aligned)
+class CrossEncoderRerankTop:
+    def run(self):
+        rerank_topk = True
+        rerank_all = False
+        if rerank_topk:
+            print(""emit_448"")
+        print(rerank_all)
+
+
+CrossEncoderRerankTop().run()
+"
+449,example_449.py,Embedding cosine min margin,"# Example 449: Embedding cosine min margin (probe-aligned)
+class EmbeddingCosineMinMargin:
+    @staticmethod
+    def run():
+        emb_margin = True
+        emb_flat = False
+        if emb_margin:
+            print(""emit_449"")
+        print(emb_flat)
+
+
+EmbeddingCosineMinMargin.run()
+"
+450,example_450.py,Long context yarn rope scale,"# Example 450: Long context yarn rope scale (probe-aligned)
+def long_context_yarn_rope_scale():
+    def _inner():
+        yarn_scale = True
+        yarn_base = False
+        if yarn_scale:
+            print(""emit_450"")
+        print(yarn_base)
+    _inner()
+
+
+long_context_yarn_rope_scale()
+"
+451,example_451.py,NTK aware interpolation,"# Example 451: NTK aware interpolation (probe-aligned)
+def _ntk_aware_interpolation_warm(x: int) -> int:
+    return (x * x) % 7
+
+
+def ntk_aware_interpolation():
+    _ = _ntk_aware_interpolation_warm(4)
+    ntk_interp = True
+    ntk_fixed = False
+    if ntk_interp:
+        print(""emit_451"")
+    print(ntk_fixed)
+
+
+ntk_aware_interpolation()
+"
+452,example_452.py,Sliding window attention sink,"# Example 452: Sliding window attention sink (probe-aligned)
+def sliding_window_attention_sink():
+    sink_tok: bool = True
+    sink_off: bool = False
+    if sink_tok:
+        print(""emit_452"")
+    print(sink_off)
+
+
+sliding_window_attention_sink()
+"
+453,example_453.py,Mamba SSM discretization delta,"# Example 453: Mamba SSM discretization delta (probe-aligned)
+def mamba_ssm_discretization_delta():
+    mamba_delta = True
+    mamba_const = False
+    while mamba_delta:
+        print(""emit_453"")
+        mamba_delta = False
+    print(mamba_const)
+
+
+mamba_ssm_discretization_delta()
+"
+454,example_454.py,RWKV time mix decay,"# Example 454: RWKV time mix decay (probe-aligned)
+def rwkv_time_mix_decay():
+    rwkv_decay = True
+    rwkv_flat = False
+    if rwkv_decay:
+        print(""emit_454"")
+    elif rwkv_flat:
+        print(""skip_branch"")
+    print(rwkv_flat)
+
+
+rwkv_time_mix_decay()
+"
+455,example_455.py,Hyena long conv LTI,"# Example 455: Hyena long conv LTI (probe-aligned)
+def hyena_long_conv_lti():
+    hyena_lti = True
+    hyena_fir = False
+    for _ in range(1):
+        if hyena_lti:
+            print(""emit_455"")
+        print(hyena_fir)
+
+
+hyena_long_conv_lti()
+"
+456,example_456.py,Diffusion CFG rescale,"# Example 456: Diffusion CFG rescale (probe-aligned)
+from contextlib import nullcontext
+
+def diffusion_cfg_rescale():
+    with nullcontext():
+        cfg_rescale = True
+        cfg_plain = False
+        if cfg_rescale:
+            print(""emit_456"")
+        print(cfg_plain)
+
+
+diffusion_cfg_rescale()
+"
+457,example_457.py,Consistency model distillation,"# Example 457: Consistency model distillation (probe-aligned)
+async def consistency_model_distillation():
+    cm_distill = True
+    cm_direct = False
+    if cm_distill:
+        print(""emit_457"")
+    print(cm_direct)
+"
+458,example_458.py,Flow matching ODE solver,"# Example 458: Flow matching ODE solver (probe-aligned)
+def flow_matching_ode_solver():
+    fm_ode = True
+    fm_single = False
+    if fm_ode:
+        print(""emit_458"")
+    else:
+        print(fm_single)
+    print(fm_single)
+
+
+flow_matching_ode_solver()
+"
+459,example_459.py,VAE KL free bits,"# Example 459: VAE KL free bits (probe-aligned)
+def vae_kl_free_bits():
+    vae_bits = True
+    vae_free = False
+    if vae_bits or vae_free:
+        print(""emit_459"")
+    print(vae_free)
+
+
+vae_kl_free_bits()
+"
+460,example_460.py,GAN spectral norm lipschitz,"# Example 460: GAN spectral norm lipschitz (probe-aligned)
+def gan_spectral_norm_lipschitz():
+    gan_sn = True
+    gan_plain = False
+    if not gan_plain:
+        print(""emit_460"")
+        print(gan_sn)
+    print(gan_plain)
+
+
+gan_spectral_norm_lipschitz()
+"
+461,example_461.py,Score SDE variance explode,"# Example 461: Score SDE variance explode (probe-aligned)
+def score_sde_variance_explode():
+    sde_explode = True
+    sde_ve = False
+    if sde_explode != sde_ve:
+        print(""emit_461"")
+    print(sde_ve)
+
+
+score_sde_variance_explode()
+"
+462,example_462.py,CLIP contrastive temperature,"# Example 462: CLIP contrastive temperature (probe-aligned)
+def clip_contrastive_temperature():
+    clip_temp = True
+    clip_fixed = False
+    if clip_temp:
+        if clip_temp:
+            print(""emit_462"")
+        print(clip_fixed)
+    print(clip_fixed)
+
+
+clip_contrastive_temperature()
+"
+463,example_463.py,SigLIP pairwise sigmoid,"# Example 463: SigLIP pairwise sigmoid (probe-aligned)
+def siglip_pairwise_sigmoid():
+    siglip_pair = True
+    siglip_batch = False
+    while not siglip_batch:
+        print(""emit_463"")
+        print(siglip_pair)
+        break
+    print(siglip_batch)
+
+
+siglip_pairwise_sigmoid()
+"
+464,example_464.py,ALIGN noisy image dropout,"# Example 464: ALIGN noisy image dropout (probe-aligned)
+def align_noisy_image_dropout():
+    align_drop = True
+    align_full = False
+    if align_drop and align_full:
+        print(""unreachable_emit"")
+    if align_drop:
+        print(""emit_464"")
+    print(align_full)
+
+
+align_noisy_image_dropout()
+"
+465,example_465.py,ViT patch dropout stochastic depth,"# Example 465: ViT patch dropout stochastic depth (probe-aligned)
+def vit_patch_dropout_stochastic_depth():
+    vit_drop = True
+    vit_stable = False
+    if (not vit_stable) and vit_drop:
+        print(""emit_465"")
+    print(vit_stable)
+
+
+vit_patch_dropout_stochastic_depth()
+"
+466,example_466.py,Swin shifted window cyclic,"# Example 466: Swin shifted window cyclic (probe-aligned)
+swin_shift = True
+swin_none = False
+if swin_shift:
+    print(""emit_466"")
+print(swin_none)
+"
+467,example_467.py,ConvNeXt layer scale gamma,"# Example 467: ConvNeXt layer scale gamma (probe-aligned)
+def convnext_layer_scale_gamma():
+    cnx_gamma = True
+    cnx_unit = False
+    if cnx_gamma:
+        print(""emit_467"")
+    print(cnx_unit)
+
+
+convnext_layer_scale_gamma()
+"
+468,example_468.py,SAM prompt mask multimask,"# Example 468: SAM prompt mask multimask (probe-aligned)
+class SamPromptMaskMultimask:
+    def run(self):
+        sam_multi = True
+        sam_single = False
+        if sam_multi:
+            print(""emit_468"")
+        print(sam_single)
+
+
+SamPromptMaskMultimask().run()
+"
+469,example_469.py,DINO teacher center EMA,"# Example 469: DINO teacher center EMA (probe-aligned)
+class DinoTeacherCenterEma:
+    @staticmethod
+    def run():
+        dino_ema = True
+        dino_stop = False
+        if dino_ema:
+            print(""emit_469"")
+        print(dino_stop)
+
+
+DinoTeacherCenterEma.run()
+"
+470,example_470.py,MAE high mask ratio,"# Example 470: MAE high mask ratio (probe-aligned)
+def mae_high_mask_ratio():
+    def _inner():
+        mae_mask = True
+        mae_low = False
+        if mae_mask:
+            print(""emit_470"")
+        print(mae_low)
+    _inner()
+
+
+mae_high_mask_ratio()
+"
+471,example_471.py,NeRF hash grid collision,"# Example 471: NeRF hash grid collision (probe-aligned)
+def _nerf_hash_grid_collision_warm(x: int) -> int:
+    return (x * x) % 7
+
+
+def nerf_hash_grid_collision():
+    _ = _nerf_hash_grid_collision_warm(4)
+    nerf_hash = True
+    nerf_dense = False
+    if nerf_hash:
+        print(""emit_471"")
+    print(nerf_dense)
+
+
+nerf_hash_grid_collision()
+"
+472,example_472.py,Gaussian splat opacity prune,"# Example 472: Gaussian splat opacity prune (probe-aligned)
+def gaussian_splat_opacity_prune():
+    splat_prune: bool = True
+    splat_all: bool = False
+    if splat_prune:
+        print(""emit_472"")
+    print(splat_all)
+
+
+gaussian_splat_opacity_prune()
+"
+473,example_473.py,3DGS spherical harmonics band,"# Example 473: 3DGS spherical harmonics band (probe-aligned)
+def dgs_spherical_harmonics_band():
+    sh_band = True
+    sh_dc = False
+    while sh_band:
+        print(""emit_473"")
+        sh_band = False
+    print(sh_dc)
+
+
+dgs_spherical_harmonics_band()
+"
+474,example_474.py,SDF sphere tracing step limit,"# Example 474: SDF sphere tracing step limit (probe-aligned)
+def sdf_sphere_tracing_step_limit():
+    sdf_steps = True
+    sdf_inf = False
+    if sdf_steps:
+        print(""emit_474"")
+    elif sdf_inf:
+        print(""skip_branch"")
+    print(sdf_inf)
+
+
+sdf_sphere_tracing_step_limit()
+"
+475,example_475.py,Marching cubes manifold seal,"# Example 475: Marching cubes manifold seal (probe-aligned)
+def marching_cubes_manifold_seal():
+    mc_seal = True
+    mc_holes = False
+    for _ in range(1):
+        if mc_seal:
+            print(""emit_475"")
+        print(mc_holes)
+
+
+marching_cubes_manifold_seal()
+"
+476,example_476.py,Dual contouring QEF solve,"# Example 476: Dual contouring QEF solve (probe-aligned)
+from contextlib import nullcontext
+
+def dual_contouring_qef_solve():
+    with nullcontext():
+        dc_qef = True
+        dc_mid = False
+        if dc_qef:
+            print(""emit_476"")
+        print(dc_mid)
+
+
+dual_contouring_qef_solve()
+"
+477,example_477.py,Fluid PIC flip ratio,"# Example 477: Fluid PIC flip ratio (probe-aligned)
+async def fluid_pic_flip_ratio():
+    flip_ratio = True
+    flip_pic = False
+    if flip_ratio:
+        print(""emit_477"")
+    print(flip_pic)
+"
+478,example_478.py,MPM APIC affine fix,"# Example 478: MPM APIC affine fix (probe-aligned)
+def mpm_apic_affine_fix():
+    apic_fix = True
+    apic_blend = False
+    if apic_fix:
+        print(""emit_478"")
+    else:
+        print(apic_blend)
+    print(apic_blend)
+
+
+mpm_apic_affine_fix()
+"
+479,example_479.py,XPBD compliance warm start,"# Example 479: XPBD compliance warm start (probe-aligned)
+def xpbd_compliance_warm_start():
+    xpbd_warm = True
+    xpbd_cold = False
+    if xpbd_warm or xpbd_cold:
+        print(""emit_479"")
+    print(xpbd_cold)
+
+
+xpbd_compliance_warm_start()
+"
+480,example_480.py,Cloth self-collision thickness,"# Example 480: Cloth self-collision thickness (probe-aligned)
+def cloth_self_collision_thickness():
+    cloth_thick = True
+    cloth_paper = False
+    if not cloth_paper:
+        print(""emit_480"")
+        print(cloth_thick)
+    print(cloth_paper)
+
+
+cloth_self_collision_thickness()
+"
+481,example_481.py,FEM tet inversion guard,"# Example 481: FEM tet inversion guard (probe-aligned)
+def fem_tet_inversion_guard():
+    tet_inv = True
+    tet_ok = False
+    if tet_inv != tet_ok:
+        print(""emit_481"")
+    print(tet_ok)
+
+
+fem_tet_inversion_guard()
+"
+482,example_482.py,IPC barrier stiffness ramp,"# Example 482: IPC barrier stiffness ramp (probe-aligned)
+def ipc_barrier_stiffness_ramp():
+    ipc_ramp = True
+    ipc_hard = False
+    if ipc_ramp:
+        if ipc_ramp:
+            print(""emit_482"")
+        print(ipc_hard)
+    print(ipc_hard)
+
+
+ipc_barrier_stiffness_ramp()
+"
+483,example_483.py,IK CCD angle epsilon,"# Example 483: IK CCD angle epsilon (probe-aligned)
+def ik_ccd_angle_epsilon():
+    ccd_eps = True
+    ccd_coarse = False
+    while not ccd_coarse:
+        print(""emit_483"")
+        print(ccd_eps)
+        break
+    print(ccd_coarse)
+
+
+ik_ccd_angle_epsilon()
+"
+484,example_484.py,FABRIK pole vector flip,"# Example 484: FABRIK pole vector flip (probe-aligned)
+def fabrik_pole_vector_flip():
+    fabrik_flip = True
+    fabrik_lock = False
+    if fabrik_flip and fabrik_lock:
+        print(""unreachable_emit"")
+    if fabrik_flip:
+        print(""emit_484"")
+    print(fabrik_lock)
+
+
+fabrik_pole_vector_flip()
+"
+485,example_485.py,CCD continuous collision substeps,"# Example 485: CCD continuous collision substeps (probe-aligned)
+def ccd_continuous_collision_substeps():
+    ccd_sub = True
+    ccd_once = False
+    if (not ccd_once) and ccd_sub:
+        print(""emit_485"")
+    print(ccd_once)
+
+
+ccd_continuous_collision_substeps()
+"
+486,example_486.py,Vehicle ackermann steer blend,"# Example 486: Vehicle ackermann steer blend (probe-aligned)
+ack_blend = True
+ack_parallel = False
+if ack_blend:
+    print(""emit_486"")
+print(ack_parallel)
+"
+487,example_487.py,Engine rev limiter soft cut,"# Example 487: Engine rev limiter soft cut (probe-aligned)
+def engine_rev_limiter_soft_cut():
+    rev_soft = True
+    rev_hard = False
+    if rev_soft:
+        print(""emit_487"")
+    print(rev_hard)
+
+
+engine_rev_limiter_soft_cut()
+"
+488,example_488.py,Transmission shift hysteresis,"# Example 488: Transmission shift hysteresis (probe-aligned)
+class TransmissionShiftHysteresis:
+    def run(self):
+        shift_hyst = True
+        shift_fast = False
+        if shift_hyst:
+            print(""emit_488"")
+        print(shift_fast)
+
+
+TransmissionShiftHysteresis().run()
+"
+489,example_489.py,Crowd ORCA line obstacle,"# Example 489: Crowd ORCA line obstacle (probe-aligned)
+class CrowdOrcaLineObstacle:
+    @staticmethod
+    def run():
+        orca_obs = True
+        orca_free = False
+        if orca_obs:
+            print(""emit_489"")
+        print(orca_free)
+
+
+CrowdOrcaLineObstacle.run()
+"
+490,example_490.py,RVO reciprocal responsibility,"# Example 490: RVO reciprocal responsibility (probe-aligned)
+def rvo_reciprocal_responsibility():
+    def _inner():
+        rvo_recip = True
+        rvo_plain = False
+        if rvo_recip:
+            print(""emit_490"")
+        print(rvo_plain)
+    _inner()
+
+
+rvo_reciprocal_responsibility()
+"
+491,example_491.py,Flocking alignment cohesion,"# Example 491: Flocking alignment cohesion (probe-aligned)
+def _flocking_alignment_cohesion_warm(x: int) -> int:
+    return (x * x) % 7
+
+
+def flocking_alignment_cohesion():
+    _ = _flocking_alignment_cohesion_warm(4)
+    flock_align = True
+    flock_solo = False
+    if flock_align:
+        print(""emit_491"")
+    print(flock_solo)
+
+
+flocking_alignment_cohesion()
+"
+492,example_492.py,BT parallel selector race,"# Example 492: BT parallel selector race (probe-aligned)
+def bt_parallel_selector_race():
+    bt_race: bool = True
+    bt_seq: bool = False
+    if bt_race:
+        print(""emit_492"")
+    print(bt_seq)
+
+
+bt_parallel_selector_race()
+"
+493,example_493.py,Utility piecewise linear curve,"# Example 493: Utility piecewise linear curve (probe-aligned)
+def utility_piecewise_linear_curve():
+    util_piece = True
+    util_const = False
+    while util_piece:
+        print(""emit_493"")
+        util_piece = False
+    print(util_const)
+
+
+utility_piecewise_linear_curve()
+"
+494,example_494.py,GOAP relaxed plan depth cap,"# Example 494: GOAP relaxed plan depth cap (probe-aligned)
+def goap_relaxed_plan_depth_cap():
+    goap_depth = True
+    goap_wide = False
+    if goap_depth:
+        print(""emit_494"")
+    elif goap_wide:
+        print(""skip_branch"")
+    print(goap_wide)
+
+
+goap_relaxed_plan_depth_cap()
+"
+495,example_495.py,Navmesh link jump apex,"# Example 495: Navmesh link jump apex (probe-aligned)
+def navmesh_link_jump_apex():
+    link_apex = True
+    link_flat = False
+    for _ in range(1):
+        if link_apex:
+            print(""emit_495"")
+        print(link_flat)
+
+
+navmesh_link_jump_apex()
+"
+496,example_496.py,Recast contour simplify epsilon,"# Example 496: Recast contour simplify epsilon (probe-aligned)
+from contextlib import nullcontext
+
+def recast_contour_simplify_epsilon():
+    with nullcontext():
+        simplify_eps = True
+        simplify_none = False
+        if simplify_eps:
+            print(""emit_496"")
+        print(simplify_none)
+
+
+recast_contour_simplify_epsilon()
+"
+497,example_497.py,Detour straight path funnel,"# Example 497: Detour straight path funnel (probe-aligned)
+async def detour_straight_path_funnel():
+    funnel_str = True
+    funnel_loose = False
+    if funnel_str:
+        print(""emit_497"")
+    print(funnel_loose)
+"
+498,example_498.py,ECS query archetype stable sort,"# Example 498: ECS query archetype stable sort (probe-aligned)
+def ecs_query_archetype_stable_sort():
+    arch_sort = True
+    arch_scan = False
+    if arch_sort:
+        print(""emit_498"")
+    else:
+        print(arch_scan)
+    print(arch_scan)
+
+
+ecs_query_archetype_stable_sort()
+"
+499,example_499.py,Job system fiber stack overflow guard,"# Example 499: Job system fiber stack overflow guard (probe-aligned)
+def job_system_fiber_stack_overflow_guard():
+    fiber_guard = True
+    fiber_naive = False
+    if fiber_guard or fiber_naive:
+        print(""emit_499"")
+    print(fiber_naive)
+
+
+job_system_fiber_stack_overflow_guard()
+"
+500,example_500.py,Tokenizer byte fallback BPE merge,"# Example 500: Tokenizer byte fallback BPE merge (probe-aligned)
+def tokenizer_byte_fallback_bpe_merge():
+    byte_fb = True
+    byte_utf = False
+    if not byte_utf:
+        print(""emit_500"")
+        print(byte_fb)
+    print(byte_utf)
+
+
+tokenizer_byte_fallback_bpe_merge()
+"
