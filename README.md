@@ -1,4 +1,4 @@
-# Probing Code LLMs — Variable Role Detection
+# Probing Code LLMs - Variable Role Detection
 
 Investigates whether large language models encode syntactic variable roles (e.g. index/key variables) in their hidden states, using the [XLCoST](https://github.com/reddy-lab-code-research/XLCoST) dataset across 7 programming languages.
 
