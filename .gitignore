@@ -1,0 +1,19 @@
+# Synthetic snippets live in synthetic_boolean_dataset.csv; omit generated .py tree
+sample/
+
+# Bytecode (if anything under sample/ is ever run)
+__pycache__/
+*.py[cod]
+
+.venv/
+
+.env
+.DS_Store
+
+outputs/
+
+# CodeSearchNet exports (HF `datasets`); regenerate with scripts/codesearchnet_python.py
+data/codesearchnet_python/
+
+AGENDA/
+datasets/
