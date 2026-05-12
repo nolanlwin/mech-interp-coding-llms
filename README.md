@@ -18,9 +18,10 @@ Optional: set **`HF_TOKEN`** when using the Hugging Face Hub so downloads are fa
 
 | Path | Purpose |
 |------|--------|
-| `scripts/` | Pipelines below (download, AST, labels, cleaning) |
+| `scripts/` | Pipelines (data, labels, dataset v0) plus **Qwen inference** utilities |
 | `data/codesearchnet_python/` | Canonical `python_{train,validation,test}.jsonl` (gitignored when large) |
-| `outputs/` | AST parses, raw labels, cleaned labels, `.stats.json` (gitignored) |
+| `outputs/` | AST parses, labels, dataset v0 shards, manifests (gitignored) |
+| `docs/` | Dataset documentation (`dataset_v0.md`) |
 
 ## Scripts (in order)
 
@@ -30,10 +31,15 @@ Optional: set **`HF_TOKEN`** when using the Hugging Face Hub so downloads are fa
 | `csn_function_ast.py` | Optional: parse each snippet to AST-shaped JSONL for analysis. |
 | `boolean_flag_roles.py` | Heuristic **boolean_flag** labels; writes one JSON line per variable (and parse-error lines). |
 | `clean_boolean_labels.py` | Join labels to the **same** canonical file, dedupe, filter noise, write cleaned JSONL + stats. |
+| `dataset_v0.py` | **`split-repo`:** repository-level train/validation/test assignment. **`freeze`:** frozen split JSONL, `freeze_manifest.json`, and `docs/dataset_v0.md`. |
+| `qwen_inference.py` | **`verify`:** load **Qwen2.5-1.5B**, forward text (default **`fixtures/minimal_forward.py`**, or **`--code-file` / `-` for stdin**) with hidden states and attentions; writes `outputs/qwen_inference/forward_verify.json`. |
+| `token_alignment.py` | Map UTF-8 **`[start, end)`** spans to token indices via **`offset_mapping`** (same tokenizer settings as Qwen forward). **`verify`** checks `fixtures/token_alignment_cases.json`. **`align`** can default spans to **`stem_align_spans.json`** beside the code file; **`align-bundle`** reads one JSON body. |
+| `variable_occurrences.py` | One JSONL row per **boolean-flag Name site** (`occurrence_type`, `source_span`, optional **`token_positions`** with **`--model-id`**). **`verify`** uses `fixtures/boolean_occurrence_sample.py`. **`extract`** accepts canonical JSONL or **`--code-file`**. |
+| `activation_pipeline.py` | One forward per canonical row; **`.npz`** per occurrence (`first` / `last` / **`mean`** pooling, shape **`[num_layers+1, hidden_size]`**) plus **`manifest.jsonl`** (`activation_path`, `token_len`, `function_len_chars`, `occurrence_frequency`, …). **`verify`** runs one fixture row in a temp dir. |
 
 ## End-to-end pipeline (train example)
 
-1. **Canonical snippets** (same split for steps 2–4):
+1. **Canonical snippets** (same split for steps 2–5):
 
    ```bash
    uv run python scripts/codesearchnet_python.py download --split train
@@ -62,6 +68,29 @@ Optional: set **`HF_TOKEN`** when using the Hugging Face Hub so downloads are fa
    ```
 
    Use `--max-label-rows` / `--max-canonical-rows` only for quick experiments (truncated canonical makes many rows `missing_canonical` unless you built labels from that same prefix).
+
+4. **Repository split** — each GitHub `repo` string is assigned to exactly one of **train** (80%), **validation** (10%), or **test** (10%) by default, using a seeded shuffle (not a per-row random split):
+
+   ```bash
+   uv run python scripts/dataset_v0.py split-repo \
+     --labels outputs/labeled/boolean_flags_clean.jsonl \
+     --output-dir outputs/dataset_v0 \
+     --seed 42
+   ```
+
+   Writes `repo_split.jsonl` (`{"repo","split"}` per line) and `split_manifest.json`. Fractions are configurable (`--train-fraction`, `--val-fraction`, `--test-fraction`; must sum to 1).
+
+5. **Freeze Dataset v0** — requires **`repo_split.jsonl` from step 4** (same `--output-dir` as `split-repo`). Rejoin cleaned labels to canonical `code`, attach sorted **`occurrences`**, and emit one JSONL per split plus reproducibility metadata:
+
+   ```bash
+   uv run python scripts/dataset_v0.py freeze \
+     --labels outputs/labeled/boolean_flags_clean.jsonl \
+     --canonical data/codesearchnet_python/python_train.jsonl \
+     --repo-split outputs/dataset_v0/repo_split.jsonl \
+     --output-dir outputs/dataset_v0
+   ```
+
+   Outputs `boolean_flags_v0_train.jsonl`, `boolean_flags_v0_validation.jsonl`, `boolean_flags_v0_test.jsonl`, and `freeze_manifest.json` (SHA-256 of inputs, outputs, and pipeline scripts; `git_revision` when available). Regenerates **`docs/dataset_v0.md`** with role rules, cleaning exclusions, split policy, and known limitations.
 
 ## What the cleaner removes
 
@@ -92,4 +121,56 @@ uv run python scripts/csn_function_ast.py parse \
 
 ## Dependencies
 
-Listed in `pyproject.toml` (`datasets`, `transformers`, `pandas`, `numpy`, `scikit-learn`, `tqdm`, `tree-sitter`, …). Parsing uses the standard library **`ast`** module unless you extend the project with Tree-sitter grammars.
+Listed in `pyproject.toml` (`datasets`, `transformers`, **`torch`**, `pandas`, `numpy`, `scikit-learn`, `tqdm`, `tree-sitter`, …). Parsing uses the standard library **`ast`** module unless you extend the project with Tree-sitter grammars.
+
+## Qwen 2.5 inference (activation prep)
+
+Load **`Qwen/Qwen2.5-1.5B`** with Transformers, run one causal forward with `output_hidden_states=True` and `output_attentions=True`, and save a JSON summary (input token ids, `convert_ids_to_tokens` pieces, per-layer **hidden** and **attention** shapes, optional **char offset** mapping from the fast tokenizer, and a check that `len(hidden_states) == num_hidden_layers + 1`).
+
+```bash
+uv run python scripts/qwen_inference.py verify
+# same as:
+uv run python scripts/qwen_inference.py verify --code-file fixtures/minimal_forward.py
+# or pipe source:
+echo 'x = 1' | uv run python scripts/qwen_inference.py verify --code-file -
+```
+
+Default **`--code-file`** is a tiny neutral **`fixtures/minimal_forward.py`**. Override with any UTF-8 path, or **`--code-file -`** to read stdin. Optional: `--device cuda|mps|cpu`, `--dtype bf16|fp16|fp32` (defaults favor GPU bf16 when supported; CPU uses fp32). First run downloads model weights from the Hub.
+
+### Token alignment
+
+Spans are **half-open** character indices in the same string you pass to the tokenizer (as in `ast`’s `end_col_offset`). **`token_alignment.py verify`** runs overlap + coverage checks on **`fixtures/token_alignment_cases.json`** (snake_case, camelCase, repeats, `def` params, attribute base span).
+
+```bash
+uv run python scripts/token_alignment.py verify
+# default spans: fixtures/minimal_forward_align_spans.json (same dir/stem as code)
+uv run python scripts/token_alignment.py align fixtures/minimal_forward.py -o outputs/align.json
+uv run python scripts/token_alignment.py align fixtures/minimal_forward.py --spans fixtures/minimal_forward_align_spans.json -o outputs/align.json
+# stdin for spans only (code from file):
+echo '[{"variable":"f","source_span":[4,5]}]' | uv run python scripts/token_alignment.py align fixtures/minimal_forward.py --spans -
+```
+
+Use **`align-bundle`** with one JSON body `{"code":"...","occurrences":[...]}` if you need a single stdin pipe.
+
+### Variable occurrences
+
+Per-occurrence boolean-flag records (definition / assignment / conditional / loop / return, plus **`indexing_use`** when the name’s parent is a **`Subscript`**). **`--model-id`** fills **`token_positions`**; **`--no-tokens`** skips the Hub tokenizer.
+
+```bash
+uv run python scripts/variable_occurrences.py verify
+uv run python scripts/variable_occurrences.py extract --code-file fixtures/boolean_occurrence_sample.py -o - --no-tokens
+uv run python scripts/variable_occurrences.py extract --input data/codesearchnet_python/python_train.jsonl --output outputs/occurrences/boolean_flag_occurrences.jsonl --max-rows 100 --model-id Qwen/Qwen2.5-1.5B
+```
+
+### Activations
+
+**`activation_pipeline.py extract`** reads canonical JSONL (`repo`, `path`, `code`), recomputes boolean occurrences with the Qwen tokenizer, runs **one** causal forward per input line (hidden states only), and writes **`--tensor-dir`** / `row_XXXXXXXX_occ_YYY.npz` plus **`--manifest`** JSONL. Use **`--max-rows 1000`** for a small validation slice. Each **`.npz`** holds float32 **`first`**, **`last`**, and **`mean`** activations of shape **`[num_layers+1, hidden_size]`** (full residual stack; slice a layer downstream). Manifest rows include **`activation_path`**, **`token_len`**, **`function_len_chars`**, **`occurrence_frequency`**, and **`layer`: null** (full tensor on disk).
+
+```bash
+uv run python scripts/activation_pipeline.py verify
+uv run python scripts/activation_pipeline.py extract --input data/codesearchnet_python/python_train.jsonl \
+  --manifest outputs/activations_v0/manifest.jsonl --tensor-dir outputs/activations_v0/npz \
+  --max-rows 1000 --model-id Qwen/Qwen2.5-1.5B
+```
+
+`qwen_inference.py` exposes **`load_causal_lm_tokenizer`** and **`forward_hidden_cached`** for reuse (hidden-only forwards omit eager attention by default).
