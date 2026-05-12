@@ -1,0 +1,406 @@
+"""
+Days 14–15: extract residual hidden states per boolean-flag occurrence and write
+a manifest JSONL (``activation_path``, metadata) plus compressed NumPy ``.npz``
+files (``first``, ``last``, ``mean`` pooling; shape ``[num_layers+1, hidden_size]``).
+
+Uses one model load for the whole ``extract`` run; each canonical row gets one
+forward pass. Storage is ``numpy.savez_compressed`` (no raw pickle blobs).
+"""
+
+from __future__ import annotations
+
+import argparse
+import ast
+import json
+import sys
+import tempfile
+from collections import Counter
+from pathlib import Path
+from typing import Any
+
+import numpy as np
+import torch
+from tqdm import tqdm
+
+_SCRIPTS_DIR = Path(__file__).resolve().parent
+if str(_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS_DIR))
+
+from qwen_inference import (  # noqa: E402
+    forward_hidden_cached,
+    load_causal_lm_tokenizer,
+    resolve_device,
+    resolve_dtype,
+)
+from variable_occurrences import occurrence_rows_from_code  # noqa: E402
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_MODEL_ID = "Qwen/Qwen2.5-1.5B"
+DEFAULT_MANIFEST = PROJECT_ROOT / "outputs" / "activations_v0" / "manifest.jsonl"
+DEFAULT_TENSOR_DIR = PROJECT_ROOT / "outputs" / "activations_v0" / "npz"
+
+
+def _function_source_len(code: str, function_name: str) -> int | None:
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return None
+    for n in tree.body:
+        if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef)) and n.name == function_name:
+            seg = ast.get_source_segment(code, n)
+            return len(seg) if seg else None
+    return None
+
+
+def _rel_to_manifest(manifest_file: Path, npz_file: Path) -> str:
+    root = manifest_file.resolve().parent
+    try:
+        return str(npz_file.resolve().relative_to(root))
+    except ValueError:
+        return npz_file.name
+
+
+def _hidden_stack_numpy(hs: tuple[torch.Tensor, ...]) -> np.ndarray:
+    """``(num_layers+1, seq, hidden)`` float32 CPU."""
+    arrs = [hs[i][0].detach().float().cpu().numpy() for i in range(len(hs))]
+    return np.stack(arrs, axis=0).astype(np.float32, copy=False)
+
+
+def _pool_tokens(
+    stack: np.ndarray,
+    token_indices: list[int],
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """
+    ``stack`` is ``[L+1, seq, H]``. Returns ``first``, ``last``, ``mean`` each ``[L+1, H]``.
+    """
+    if not token_indices:
+        h = stack.shape[2]
+        z = np.zeros((stack.shape[0], h), dtype=np.float32)
+        return z, z, z
+    idxs = sorted(set(int(i) for i in token_indices if i >= 0))
+    if not idxs or idxs[-1] >= stack.shape[1]:
+        raise IndexError("token index out of range for hidden sequence")
+    sl = stack[:, idxs, :]
+    first = sl[:, 0, :].copy()
+    last = sl[:, -1, :].copy()
+    mean = sl.mean(axis=1).astype(np.float32, copy=False)
+    return first, last, mean
+
+
+def _occurrence_frequencies(rows: list[dict[str, Any]]) -> dict[str, int]:
+    return dict(Counter(str(r["variable"]) for r in rows if r.get("variable")))
+
+
+def cmd_extract(args: argparse.Namespace) -> int:
+    in_path = Path(args.input)
+    if not in_path.is_file():
+        print(f"no such file: {in_path}", file=sys.stderr)
+        return 1
+
+    manifest_path = Path(args.manifest)
+    tensor_dir = Path(args.tensor_dir)
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    tensor_dir.mkdir(parents=True, exist_ok=True)
+
+    device = resolve_device(args.device)
+    dtype = resolve_dtype(device, args.dtype)
+    model, tok = load_causal_lm_tokenizer(
+        args.model_id, device, dtype, eager_attn=False
+    )
+
+    n_in = 0
+    n_written = 0
+    n_skip = 0
+    n_err = 0
+    max_rows = args.max_rows
+
+    try:
+        with in_path.open(encoding="utf-8") as fin, manifest_path.open(
+            "w", encoding="utf-8"
+        ) as fout:
+            pbar = tqdm(desc="activations", unit="row", total=max_rows)
+            for line in fin:
+                line = line.strip()
+                if not line:
+                    continue
+                n_in += 1
+                pbar.update(1)
+                row = json.loads(line)
+                code = row.get("code") or ""
+                repo = row.get("repo")
+                path = row.get("path")
+                source_row = row.get("source_row", n_in)
+
+                occ, err = occurrence_rows_from_code(
+                    code,
+                    repo=repo,
+                    path=path,
+                    source_row=int(source_row) if source_row is not None else n_in,
+                    tokenizer=tok,
+                    max_length=args.max_length,
+                )
+                if err is not None:
+                    n_err += 1
+                    fout.write(
+                        json.dumps(
+                            {
+                                "parse_error": err,
+                                "source_row": source_row,
+                                "repo": repo,
+                                "path": path,
+                                "activation_path": None,
+                            },
+                            ensure_ascii=False,
+                        )
+                        + "\n"
+                    )
+                    if max_rows is not None and n_in >= max_rows:
+                        break
+                    continue
+
+                if not occ:
+                    fout.write(
+                        json.dumps(
+                            {
+                                "source_row": source_row,
+                                "repo": repo,
+                                "path": path,
+                                "occurrence_count": 0,
+                                "activation_path": None,
+                                "note": "no boolean_flag occurrences",
+                            },
+                            ensure_ascii=False,
+                        )
+                        + "\n"
+                    )
+                    if max_rows is not None and n_in >= max_rows:
+                        break
+                    continue
+
+                hs, meta = forward_hidden_cached(
+                    model, tok, code, max_length=args.max_length, output_attentions=False
+                )
+                stack = _hidden_stack_numpy(hs)
+                del hs
+                if device.type == "cuda":
+                    torch.cuda.empty_cache()
+
+                seq_len = int(meta["seq_len"])
+                n_layers = int(meta["num_hidden_layers"])
+                hidden_size = int(meta["hidden_size"])
+                token_len = seq_len
+                func_len = _function_source_len(code, str(occ[0].get("function", "")))
+                freq = _occurrence_frequencies(occ)
+
+                for j, rec in enumerate(occ):
+                    idxs = rec.get("token_positions")
+                    if not idxs:
+                        n_skip += 1
+                        fout.write(
+                            json.dumps(
+                                {
+                                    **{k: rec.get(k) for k in (
+                                        "repo", "path", "source_row", "variable",
+                                        "role", "occurrence_type", "line", "function",
+                                        "detection_pattern",
+                                    )},
+                                    "token_positions": idxs,
+                                    "activation_path": None,
+                                    "skip_reason": "missing_token_positions",
+                                    "model_id": args.model_id,
+                                    "token_len": token_len,
+                                    "function_len_chars": func_len,
+                                    "occurrence_frequency": freq.get(str(rec.get("variable")), 0),
+                                },
+                                ensure_ascii=False,
+                            )
+                            + "\n"
+                        )
+                        continue
+                    idxs = [int(i) for i in idxs if 0 <= int(i) < seq_len]
+                    if not idxs:
+                        n_skip += 1
+                        fout.write(
+                            json.dumps(
+                                {
+                                    **{k: rec.get(k) for k in (
+                                        "repo", "path", "source_row", "variable",
+                                        "role", "occurrence_type", "line", "function",
+                                    )},
+                                    "token_positions": rec.get("token_positions"),
+                                    "activation_path": None,
+                                    "skip_reason": "token_index_out_of_range",
+                                    "model_id": args.model_id,
+                                    "seq_len": seq_len,
+                                },
+                                ensure_ascii=False,
+                            )
+                            + "\n"
+                        )
+                        continue
+
+                    try:
+                        first, last, mean = _pool_tokens(stack, idxs)
+                    except IndexError:
+                        n_skip += 1
+                        fout.write(
+                            json.dumps(
+                                {
+                                    "variable": rec.get("variable"),
+                                    "source_row": rec.get("source_row"),
+                                    "activation_path": None,
+                                    "skip_reason": "pool_index_error",
+                                },
+                                ensure_ascii=False,
+                            )
+                            + "\n"
+                        )
+                        continue
+
+                    fname = f"row_{int(rec.get('source_row', source_row)):08d}_occ_{j:03d}.npz"
+                    npz_path = tensor_dir / fname
+                    np.savez_compressed(
+                        npz_path,
+                        first=first,
+                        last=last,
+                        mean=mean,
+                        token_positions=np.asarray(idxs, dtype=np.int32),
+                    )
+                    rel = _rel_to_manifest(manifest_path, npz_path)
+                    out_rec: dict[str, Any] = {
+                        "repo": rec.get("repo"),
+                        "path": rec.get("path"),
+                        "source_row": rec.get("source_row"),
+                        "function": rec.get("function"),
+                        "variable": rec.get("variable"),
+                        "role": rec.get("role"),
+                        "occurrence_type": rec.get("occurrence_type"),
+                        "line": rec.get("line"),
+                        "token_positions": idxs,
+                        "layer": None,
+                        "activation_path": rel,
+                        "activation_format": "npz_compressed",
+                        "pooling": ["first", "last", "mean"],
+                        "tensor_shape": [n_layers + 1, hidden_size],
+                        "model_id": args.model_id,
+                        "token_len": token_len,
+                        "function_len_chars": func_len,
+                        "occurrence_frequency": freq.get(str(rec.get("variable")), 0),
+                    }
+                    fout.write(json.dumps(out_rec, ensure_ascii=False) + "\n")
+                    n_written += 1
+
+                del stack
+                if max_rows is not None and n_in >= max_rows:
+                    break
+            pbar.close()
+    finally:
+        del model
+        if device.type == "cuda":
+            torch.cuda.empty_cache()
+
+    print(
+        f"read_rows={n_in} activations_npz={n_written} skipped_occurrences={n_skip} "
+        f"parse_errors={n_err} -> {manifest_path}"
+    )
+    return 0
+
+
+def cmd_verify(args: argparse.Namespace) -> int:
+    sample = (PROJECT_ROOT / "fixtures" / "boolean_occurrence_sample.py").read_text(
+        encoding="utf-8"
+    )
+    with tempfile.TemporaryDirectory() as td:
+        td_path = Path(td)
+        one = td_path / "one.jsonl"
+        one.write_text(
+            json.dumps({"code": sample, "repo": "fixture", "path": "boolean_occurrence_sample.py"})
+            + "\n",
+            encoding="utf-8",
+        )
+        manifest = td_path / "manifest.jsonl"
+        tens = td_path / "npz"
+        ns = argparse.Namespace(
+            input=str(one),
+            manifest=str(manifest),
+            tensor_dir=str(tens),
+            model_id=args.model_id,
+            device=args.device,
+            dtype=args.dtype,
+            max_length=args.max_length,
+            max_rows=1,
+        )
+        rc = cmd_extract(ns)
+        if rc != 0:
+            return rc
+        lines = [ln for ln in manifest.read_text(encoding="utf-8").splitlines() if ln.strip()]
+        saved: list[dict[str, Any]] = []
+        for ln in lines:
+            d = json.loads(ln)
+            if d.get("activation_path"):
+                saved.append(d)
+        if not saved:
+            print("verify: no activation_path in manifest", file=sys.stderr)
+            return 1
+        p = saved[0]["activation_path"]
+        npz_path = manifest.parent / p
+        if not npz_path.is_file():
+            print(f"verify: missing npz {npz_path}", file=sys.stderr)
+            return 1
+        with np.load(npz_path) as data:
+            for k in ("first", "last", "mean"):
+                if k not in data:
+                    print(f"verify: npz missing {k}", file=sys.stderr)
+                    return 1
+                a = data[k]
+                if a.ndim != 2:
+                    print(f"verify: bad ndim for {k}: {a.shape}", file=sys.stderr)
+                    return 1
+            shape = tuple(int(x) for x in data["first"].shape)
+        print(
+            f"activation_pipeline verify: ok ({len(saved)} npz rows; tensor {shape})"
+        )
+    return 0
+
+
+def _build_parser() -> argparse.ArgumentParser:
+    p = argparse.ArgumentParser(description="Days 14–15: hidden activations + manifest JSONL.")
+    sub = p.add_subparsers(dest="cmd", required=True)
+
+    ex = sub.add_parser(
+        "extract",
+        help="Read canonical JSONL; forward Qwen once per row; save .npz + manifest lines.",
+    )
+    ex.add_argument("--input", type=str, required=True, help="Canonical JSONL (repo, path, code).")
+    ex.add_argument("--manifest", type=str, default=str(DEFAULT_MANIFEST))
+    ex.add_argument("--tensor-dir", type=str, default=str(DEFAULT_TENSOR_DIR))
+    ex.add_argument("--model-id", type=str, default=DEFAULT_MODEL_ID)
+    ex.add_argument("--device", type=str, default=None)
+    ex.add_argument("--dtype", choices=("bf16", "fp16", "fp32"), default="bf16")
+    ex.add_argument("--max-length", type=int, default=2048)
+    ex.add_argument(
+        "--max-rows",
+        type=int,
+        default=None,
+        help="Stop after this many input lines (e.g. 1000 for a validation subset).",
+    )
+    ex.set_defaults(func=cmd_extract)
+
+    v = sub.add_parser("verify", help="Run extract on one fixture row into a temp dir.")
+    v.add_argument("--model-id", type=str, default=DEFAULT_MODEL_ID)
+    v.add_argument("--device", type=str, default=None)
+    v.add_argument("--dtype", choices=("bf16", "fp16", "fp32"), default="bf16")
+    v.add_argument("--max-length", type=int, default=2048)
+    v.set_defaults(func=cmd_verify)
+
+    return p
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = _build_parser()
+    args = parser.parse_args(argv)
+    return int(args.func(args))
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1:]))
