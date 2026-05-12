@@ -9,7 +9,6 @@ Requires PyTorch and Hugging Face Transformers; first run downloads weights.
 from __future__ import annotations
 
 import argparse
-import importlib.util
 import json
 import sys
 from dataclasses import asdict, dataclass
@@ -23,10 +22,6 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MODEL_ID = "Qwen/Qwen2.5-1.5B"
 DEFAULT_OUT_DIR = PROJECT_ROOT / "outputs" / "qwen_inference"
 DEFAULT_CODE_FILE = PROJECT_ROOT / "fixtures" / "minimal_forward.py"
-
-
-def _accelerate_installed() -> bool:
-    return importlib.util.find_spec("accelerate") is not None
 
 
 def resolve_device(explicit: str | None) -> torch.device:
@@ -66,15 +61,14 @@ def load_causal_lm_tokenizer(
     }
     if eager_attn:
         load_kw["attn_implementation"] = "eager"
-    use_device_map = device.type == "cuda" and _accelerate_installed()
-    if use_device_map:
+    if device.type == "cuda":
         load_kw["device_map"] = "auto"
     try:
         model = AutoModelForCausalLM.from_pretrained(model_id, **load_kw)
     except TypeError:
         load_kw.pop("attn_implementation", None)
         model = AutoModelForCausalLM.from_pretrained(model_id, **load_kw)
-    if not use_device_map:
+    if device.type != "cuda":
         model = model.to(device)
     return model, tok
 
@@ -186,8 +180,7 @@ def forward_code(
         # SDPA / flash path does not materialize attention weights; Day 11 expects them.
         "attn_implementation": "eager",
     }
-    use_device_map = device.type == "cuda" and _accelerate_installed()
-    if use_device_map:
+    if device.type == "cuda":
         load_kw["device_map"] = "auto"
     try:
         model = AutoModelForCausalLM.from_pretrained(model_id, **load_kw)
@@ -197,7 +190,7 @@ def forward_code(
             "from_pretrained rejected attn_implementation; loaded without (attentions may be empty with sdpa)."
         )
         model = AutoModelForCausalLM.from_pretrained(model_id, **load_kw)
-    if not use_device_map:
+    if device.type != "cuda":
         model = model.to(device)
 
     in_dev = _model_input_device(model)
