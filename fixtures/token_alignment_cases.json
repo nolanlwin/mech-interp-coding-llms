@@ -1,0 +1,62 @@
+[
+  {
+    "id": "simple_x",
+    "code": "x = 1\n",
+    "variable": "x",
+    "source_span": [0, 1]
+  },
+  {
+    "id": "snake_user_id",
+    "code": "user_id = 0\n",
+    "variable": "user_id",
+    "source_span": [0, 7]
+  },
+  {
+    "id": "camel_my_var",
+    "code": "myVar = 2\n",
+    "variable": "myVar",
+    "source_span": [0, 5]
+  },
+  {
+    "id": "second_x_same_name",
+    "code": "x = 1\ny = x\n",
+    "variable": "x",
+    "source_span": [10, 11]
+  },
+  {
+    "id": "inside_call",
+    "code": "print(ok)\n",
+    "variable": "ok",
+    "source_span": [6, 8]
+  },
+  {
+    "id": "leading_underscore",
+    "code": "_tmp = 3\n",
+    "variable": "_tmp",
+    "source_span": [0, 4]
+  },
+  {
+    "id": "double_underscore",
+    "code": "__x__ = 1\n",
+    "variable": "__x__",
+    "source_span": [0, 5]
+  },
+  {
+    "id": "def_param",
+    "code": "def f(alpha_beta):\n    return alpha_beta\n",
+    "variable": "alpha_beta",
+    "source_span": [6, 16]
+  },
+  {
+    "id": "def_param_load",
+    "code": "def f(alpha_beta):\n    return alpha_beta\n",
+    "variable": "alpha_beta",
+    "source_span": [30, 40]
+  },
+  {
+    "id": "attr_not_variable_name",
+    "code": "obj.flag = True\n",
+    "variable": "flag",
+    "source_span": [4, 8]
+  }
+]
