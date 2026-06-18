@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import ast
 import json
+import re
 import sys
 import tempfile
 from collections import Counter
@@ -108,9 +109,28 @@ def _iter_manifest_records(manifest_path: Path):
         yield json.loads(line)
 
 
-def _load_completed_source_rows(manifest_path: Path) -> set[int]:
-    """Input rows fully written (including no-occurrence / parse-error rows)."""
+_NPZ_ROW_RE = re.compile(r"^row_(\d+)_occ_\d+\.npz$")
+
+
+def _source_rows_from_npz_dir(tensor_dir: Path) -> set[int]:
+    if not tensor_dir.is_dir():
+        return set()
+    rows: set[int] = set()
+    for p in tensor_dir.glob("row_*_occ_*.npz"):
+        m = _NPZ_ROW_RE.match(p.name)
+        if m:
+            rows.add(int(m.group(1)))
+    return rows
+
+
+def completed_source_rows(
+    manifest_path: Path,
+    tensor_dir: Path | None = None,
+) -> set[int]:
+    """Rows considered done for resume (new markers + legacy manifest/npz)."""
     done: set[int] = set()
+    legacy_npz_lines: set[int] = set()
+
     for rec in _iter_manifest_records(manifest_path):
         sr = rec.get("source_row")
         if sr is None:
@@ -120,11 +140,28 @@ def _load_completed_source_rows(manifest_path: Path) -> set[int]:
             done.add(row)
         elif rec.get("parse_error") or rec.get("occurrence_count") == 0:
             done.add(row)
+        elif rec.get("activation_path"):
+            # Pre-row_status manifests: any saved activation implies the row was processed.
+            legacy_npz_lines.add(row)
+
+    done |= legacy_npz_lines
+    if tensor_dir is not None:
+        done |= _source_rows_from_npz_dir(tensor_dir)
     return done
 
 
-def _max_completed_source_row(manifest_path: Path) -> int:
-    return max(_load_completed_source_rows(manifest_path), default=0)
+def _load_completed_source_rows(
+    manifest_path: Path,
+    tensor_dir: Path | None = None,
+) -> set[int]:
+    return completed_source_rows(manifest_path, tensor_dir)
+
+
+def _max_completed_source_row(
+    manifest_path: Path,
+    tensor_dir: Path | None = None,
+) -> int:
+    return max(completed_source_rows(manifest_path, tensor_dir), default=0)
 
 
 def _manifest_write(fout, rec: dict[str, Any]) -> None:
@@ -182,10 +219,20 @@ def cmd_extract(args: argparse.Namespace) -> int:
     max_rows = args.max_rows
     start_row = max(0, int(args.start_row))
     if args.resume and start_row == 0 and manifest_path.is_file():
-        start_row = _max_completed_source_row(manifest_path)
+        start_row = _max_completed_source_row(manifest_path, tensor_dir)
     completed_rows = (
-        _load_completed_source_rows(manifest_path) if args.skip_processed else set()
+        _load_completed_source_rows(manifest_path, tensor_dir)
+        if args.skip_processed
+        else set()
     )
+    if args.skip_processed and completed_rows:
+        n_done = len(completed_rows)
+        max_done = max(completed_rows)
+        print(
+            f"resume: {n_done} completed source rows recognized "
+            f"(max source_row={max_done})",
+            flush=True,
+        )
     manifest_mode = "a" if args.append_manifest and manifest_path.is_file() else "w"
     if start_row:
         print(f"resume: skipping first {start_row} input lines", flush=True)
