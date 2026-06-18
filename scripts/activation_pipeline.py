@@ -13,6 +13,7 @@ import argparse
 import ast
 import json
 import re
+import signal
 import sys
 import tempfile
 from collections import Counter
@@ -239,6 +240,25 @@ def cmd_extract(args: argparse.Namespace) -> int:
     if max_rows is not None:
         print(f"extract: up to {max_rows} new input rows this run", flush=True)
 
+    stop_path = Path(args.stop_file) if getattr(args, "stop_file", None) else None
+    if stop_path is not None:
+        print(f"stop file: {stop_path} (create this file to exit early)", flush=True)
+
+    stop_requested = False
+
+    def _on_stop_signal(_signum, _frame) -> None:
+        nonlocal stop_requested
+        stop_requested = True
+        print("\nstop signal received — finishing current row then exiting", flush=True)
+
+    signal.signal(signal.SIGINT, _on_stop_signal)
+    signal.signal(signal.SIGTERM, _on_stop_signal)
+
+    def _should_stop() -> bool:
+        if stop_requested:
+            return True
+        return stop_path is not None and stop_path.is_file()
+
     try:
         with in_path.open(encoding="utf-8") as fin, manifest_path.open(
             manifest_mode, encoding="utf-8"
@@ -266,6 +286,9 @@ def cmd_extract(args: argparse.Namespace) -> int:
                 if args.skip_processed and int(source_row) in completed_rows:
                     n_skip_processed += 1
                     continue
+                if _should_stop():
+                    print("stopped before row (stop file or signal)", flush=True)
+                    break
                 pbar.update(1)
 
                 occ, err = occurrence_rows_from_code(
@@ -326,6 +349,10 @@ def cmd_extract(args: argparse.Namespace) -> int:
                     if max_rows is not None and n_new_rows >= max_rows:
                         break
                     continue
+
+                if _should_stop():
+                    print("stopped before forward pass (stop file or signal)", flush=True)
+                    break
 
                 hs, meta = forward_hidden_cached(
                     model, tok, code, max_length=args.max_length, output_attentions=False
@@ -578,6 +605,12 @@ def _build_parser() -> argparse.ArgumentParser:
         "--resume",
         action="store_true",
         help="Resume: append manifest, skip completed rows, jump --start-row to last complete row.",
+    )
+    ex.add_argument(
+        "--stop-file",
+        type=str,
+        default=None,
+        help="If this path exists, exit cleanly after the current input row.",
     )
     ex.add_argument(
         "--language",
