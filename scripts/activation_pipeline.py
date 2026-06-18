@@ -98,22 +98,65 @@ def _occurrence_frequencies(rows: list[dict[str, Any]]) -> dict[str, int]:
     return dict(Counter(str(r["variable"]) for r in rows if r.get("variable")))
 
 
-def _load_processed_source_rows(manifest_path: Path) -> set[int]:
-    """``source_row`` values that already have at least one saved ``.npz``."""
+def _iter_manifest_records(manifest_path: Path):
     if not manifest_path.is_file():
-        return set()
-    done: set[int] = set()
+        return
     for line in manifest_path.read_text(encoding="utf-8").splitlines():
         line = line.strip()
         if not line:
             continue
-        rec = json.loads(line)
-        if rec.get("activation_path") and rec.get("source_row") is not None:
-            done.add(int(rec["source_row"]))
+        yield json.loads(line)
+
+
+def _load_completed_source_rows(manifest_path: Path) -> set[int]:
+    """Input rows fully written (including no-occurrence / parse-error rows)."""
+    done: set[int] = set()
+    for rec in _iter_manifest_records(manifest_path):
+        sr = rec.get("source_row")
+        if sr is None:
+            continue
+        row = int(sr)
+        if rec.get("row_status") == "complete":
+            done.add(row)
+        elif rec.get("parse_error") or rec.get("occurrence_count") == 0:
+            done.add(row)
     return done
 
 
+def _max_completed_source_row(manifest_path: Path) -> int:
+    return max(_load_completed_source_rows(manifest_path), default=0)
+
+
+def _manifest_write(fout, rec: dict[str, Any]) -> None:
+    fout.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    fout.flush()
+
+
+def _mark_row_complete(
+    fout,
+    *,
+    source_row: int,
+    repo: str | None,
+    path: str | None,
+    activation_count: int,
+) -> None:
+    _manifest_write(
+        fout,
+        {
+            "source_row": source_row,
+            "repo": repo,
+            "path": path,
+            "row_status": "complete",
+            "activation_count": activation_count,
+        },
+    )
+
+
 def cmd_extract(args: argparse.Namespace) -> int:
+    if getattr(args, "resume", False):
+        args.skip_processed = True
+        args.append_manifest = True
+
     in_path = Path(args.input)
     if not in_path.is_file():
         print(f"no such file: {in_path}", file=sys.stderr)
@@ -135,12 +178,17 @@ def cmd_extract(args: argparse.Namespace) -> int:
     n_skip = 0
     n_err = 0
     n_skip_processed = 0
+    n_new_rows = 0
     max_rows = args.max_rows
     start_row = max(0, int(args.start_row))
-    processed_rows = (
-        _load_processed_source_rows(manifest_path) if args.skip_processed else set()
+    if args.resume and start_row == 0 and manifest_path.is_file():
+        start_row = _max_completed_source_row(manifest_path)
+    completed_rows = (
+        _load_completed_source_rows(manifest_path) if args.skip_processed else set()
     )
     manifest_mode = "a" if args.append_manifest and manifest_path.is_file() else "w"
+    if start_row:
+        print(f"resume: skipping first {start_row} input lines")
 
     try:
         with in_path.open(encoding="utf-8") as fin, manifest_path.open(
@@ -159,11 +207,8 @@ def cmd_extract(args: argparse.Namespace) -> int:
                 repo = row.get("repo")
                 path = row.get("path")
                 source_row = row.get("source_row", n_in)
-                if args.skip_processed and int(source_row) in processed_rows:
+                if args.skip_processed and int(source_row) in completed_rows:
                     n_skip_processed += 1
-                    pbar.update(1)
-                    if max_rows is not None and (n_in - start_row) >= max_rows:
-                        break
                     continue
                 pbar.update(1)
 
@@ -178,39 +223,49 @@ def cmd_extract(args: argparse.Namespace) -> int:
                 )
                 if err is not None:
                     n_err += 1
-                    fout.write(
-                        json.dumps(
-                            {
-                                "parse_error": err,
-                                "source_row": source_row,
-                                "repo": repo,
-                                "path": path,
-                                "activation_path": None,
-                            },
-                            ensure_ascii=False,
-                        )
-                        + "\n"
+                    _manifest_write(
+                        fout,
+                        {
+                            "parse_error": err,
+                            "source_row": source_row,
+                            "repo": repo,
+                            "path": path,
+                            "activation_path": None,
+                        },
                     )
-                    if max_rows is not None and (n_in - start_row) >= max_rows:
+                    _mark_row_complete(
+                        fout,
+                        source_row=int(source_row),
+                        repo=repo,
+                        path=path,
+                        activation_count=0,
+                    )
+                    n_new_rows += 1
+                    if max_rows is not None and n_new_rows >= max_rows:
                         break
                     continue
 
                 if not occ:
-                    fout.write(
-                        json.dumps(
-                            {
-                                "source_row": source_row,
-                                "repo": repo,
-                                "path": path,
-                                "occurrence_count": 0,
-                                "activation_path": None,
-                                "note": "no boolean_flag occurrences",
-                            },
-                            ensure_ascii=False,
-                        )
-                        + "\n"
+                    _manifest_write(
+                        fout,
+                        {
+                            "source_row": source_row,
+                            "repo": repo,
+                            "path": path,
+                            "occurrence_count": 0,
+                            "activation_path": None,
+                            "note": "no boolean_flag occurrences",
+                        },
                     )
-                    if max_rows is not None and (n_in - start_row) >= max_rows:
+                    _mark_row_complete(
+                        fout,
+                        source_row=int(source_row),
+                        repo=repo,
+                        path=path,
+                        activation_count=0,
+                    )
+                    n_new_rows += 1
+                    if max_rows is not None and n_new_rows >= max_rows:
                         break
                     continue
 
@@ -230,51 +285,46 @@ def cmd_extract(args: argparse.Namespace) -> int:
                     code, str(occ[0].get("function", "")), language=args.language
                 )
                 freq = _occurrence_frequencies(occ)
+                row_npz = 0
 
                 for j, rec in enumerate(occ):
                     idxs = rec.get("token_positions")
                     if not idxs:
                         n_skip += 1
-                        fout.write(
-                            json.dumps(
-                                {
-                                    **{k: rec.get(k) for k in (
-                                        "repo", "path", "source_row", "variable",
-                                        "role", "occurrence_type", "line", "function",
-                                        "detection_pattern",
-                                    )},
-                                    "token_positions": idxs,
-                                    "activation_path": None,
-                                    "skip_reason": "missing_token_positions",
-                                    "model_id": args.model_id,
-                                    "token_len": token_len,
-                                    "function_len_chars": func_len,
-                                    "occurrence_frequency": freq.get(str(rec.get("variable")), 0),
-                                },
-                                ensure_ascii=False,
-                            )
-                            + "\n"
+                        _manifest_write(
+                            fout,
+                            {
+                                **{k: rec.get(k) for k in (
+                                    "repo", "path", "source_row", "variable",
+                                    "role", "occurrence_type", "line", "function",
+                                    "detection_pattern",
+                                )},
+                                "token_positions": idxs,
+                                "activation_path": None,
+                                "skip_reason": "missing_token_positions",
+                                "model_id": args.model_id,
+                                "token_len": token_len,
+                                "function_len_chars": func_len,
+                                "occurrence_frequency": freq.get(str(rec.get("variable")), 0),
+                            },
                         )
                         continue
                     idxs = [int(i) for i in idxs if 0 <= int(i) < seq_len]
                     if not idxs:
                         n_skip += 1
-                        fout.write(
-                            json.dumps(
-                                {
-                                    **{k: rec.get(k) for k in (
-                                        "repo", "path", "source_row", "variable",
-                                        "role", "occurrence_type", "line", "function",
-                                    )},
-                                    "token_positions": rec.get("token_positions"),
-                                    "activation_path": None,
-                                    "skip_reason": "token_index_out_of_range",
-                                    "model_id": args.model_id,
-                                    "seq_len": seq_len,
-                                },
-                                ensure_ascii=False,
-                            )
-                            + "\n"
+                        _manifest_write(
+                            fout,
+                            {
+                                **{k: rec.get(k) for k in (
+                                    "repo", "path", "source_row", "variable",
+                                    "role", "occurrence_type", "line", "function",
+                                )},
+                                "token_positions": rec.get("token_positions"),
+                                "activation_path": None,
+                                "skip_reason": "token_index_out_of_range",
+                                "model_id": args.model_id,
+                                "seq_len": seq_len,
+                            },
                         )
                         continue
 
@@ -282,17 +332,14 @@ def cmd_extract(args: argparse.Namespace) -> int:
                         first, last, mean = _pool_tokens(stack, idxs)
                     except IndexError:
                         n_skip += 1
-                        fout.write(
-                            json.dumps(
-                                {
-                                    "variable": rec.get("variable"),
-                                    "source_row": rec.get("source_row"),
-                                    "activation_path": None,
-                                    "skip_reason": "pool_index_error",
-                                },
-                                ensure_ascii=False,
-                            )
-                            + "\n"
+                        _manifest_write(
+                            fout,
+                            {
+                                "variable": rec.get("variable"),
+                                "source_row": rec.get("source_row"),
+                                "activation_path": None,
+                                "skip_reason": "pool_index_error",
+                            },
                         )
                         continue
 
@@ -326,11 +373,20 @@ def cmd_extract(args: argparse.Namespace) -> int:
                         "function_len_chars": func_len,
                         "occurrence_frequency": freq.get(str(rec.get("variable")), 0),
                     }
-                    fout.write(json.dumps(out_rec, ensure_ascii=False) + "\n")
+                    _manifest_write(fout, out_rec)
                     n_written += 1
+                    row_npz += 1
 
+                _mark_row_complete(
+                    fout,
+                    source_row=int(source_row),
+                    repo=repo,
+                    path=path,
+                    activation_count=row_npz,
+                )
                 del stack
-                if max_rows is not None and (n_in - start_row) >= max_rows:
+                n_new_rows += 1
+                if max_rows is not None and n_new_rows >= max_rows:
                     break
             pbar.close()
     finally:
@@ -339,8 +395,9 @@ def cmd_extract(args: argparse.Namespace) -> int:
             torch.cuda.empty_cache()
 
     print(
-        f"read_rows={n_in} activations_npz={n_written} skipped_occurrences={n_skip} "
-        f"skipped_processed={n_skip_processed} parse_errors={n_err} -> {manifest_path}"
+        f"read_rows={n_in} new_rows={n_new_rows} activations_npz={n_written} "
+        f"skipped_occurrences={n_skip} skipped_completed={n_skip_processed} "
+        f"parse_errors={n_err} -> {manifest_path}"
     )
     return 0
 
@@ -379,6 +436,7 @@ def cmd_verify(args: argparse.Namespace) -> int:
             start_row=0,
             append_manifest=False,
             skip_processed=False,
+            resume=False,
             language=args.language,
         )
         rc = cmd_extract(ns)
@@ -434,7 +492,7 @@ def _build_parser() -> argparse.ArgumentParser:
         "--max-rows",
         type=int,
         default=None,
-        help="Stop after this many input lines after --start-row (e.g. 5000 on Colab).",
+        help="Stop after this many newly processed input rows (not counting skipped resume rows).",
     )
     ex.add_argument(
         "--start-row",
@@ -450,7 +508,12 @@ def _build_parser() -> argparse.ArgumentParser:
     ex.add_argument(
         "--skip-processed",
         action="store_true",
-        help="Skip input rows whose source_row already has a saved .npz in the manifest.",
+        help="Skip input rows already marked complete in the manifest.",
+    )
+    ex.add_argument(
+        "--resume",
+        action="store_true",
+        help="Resume: append manifest, skip completed rows, jump --start-row to last complete row.",
     )
     ex.add_argument(
         "--language",
