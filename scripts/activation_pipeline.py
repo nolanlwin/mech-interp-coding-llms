@@ -188,13 +188,22 @@ def cmd_extract(args: argparse.Namespace) -> int:
     )
     manifest_mode = "a" if args.append_manifest and manifest_path.is_file() else "w"
     if start_row:
-        print(f"resume: skipping first {start_row} input lines")
+        print(f"resume: skipping first {start_row} input lines", flush=True)
+    if max_rows is not None:
+        print(f"extract: up to {max_rows} new input rows this run", flush=True)
 
     try:
         with in_path.open(encoding="utf-8") as fin, manifest_path.open(
             manifest_mode, encoding="utf-8"
         ) as fout:
-            pbar = tqdm(desc="activations", unit="row", total=max_rows)
+            pbar = tqdm(
+                desc="activations",
+                unit="row",
+                total=max_rows,
+                file=sys.stderr,
+                dynamic_ncols=True,
+                mininterval=0.5,
+            )
             for line in fin:
                 line = line.strip()
                 if not line:
@@ -241,6 +250,7 @@ def cmd_extract(args: argparse.Namespace) -> int:
                         activation_count=0,
                     )
                     n_new_rows += 1
+                    pbar.set_postfix(src=int(source_row), npz=n_written, err=n_err, refresh=False)
                     if max_rows is not None and n_new_rows >= max_rows:
                         break
                     continue
@@ -265,6 +275,7 @@ def cmd_extract(args: argparse.Namespace) -> int:
                         activation_count=0,
                     )
                     n_new_rows += 1
+                    pbar.set_postfix(src=int(source_row), npz=n_written, err=n_err, refresh=False)
                     if max_rows is not None and n_new_rows >= max_rows:
                         break
                     continue
@@ -386,6 +397,12 @@ def cmd_extract(args: argparse.Namespace) -> int:
                 )
                 del stack
                 n_new_rows += 1
+                pbar.set_postfix(
+                    src=int(source_row),
+                    npz=n_written,
+                    err=n_err,
+                    refresh=False,
+                )
                 if max_rows is not None and n_new_rows >= max_rows:
                     break
             pbar.close()
