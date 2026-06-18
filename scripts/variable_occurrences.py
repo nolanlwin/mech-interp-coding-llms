@@ -32,11 +32,13 @@ from boolean_flag_roles import (  # noqa: E402
     names_in_boolean_test,
 )
 from csn_function_ast import build_parent_map, iter_top_level_functions, parse_module  # noqa: E402
+from java_variable_occurrences import occurrence_rows_from_java_code  # noqa: E402
 import token_alignment as _tokalign  # noqa: E402
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = PROJECT_ROOT / "outputs" / "occurrences" / "boolean_flag_occurrences.jsonl"
 DEFAULT_MODEL_ID = "Qwen/Qwen2.5-1.5B"
+SUPPORTED_LANGUAGES = ("python", "java")
 
 _NAME_IN_BOOL_PATTERNS = frozenset(
     {
@@ -175,12 +177,24 @@ def _token_positions_for_span(
 def occurrence_rows_from_code(
     code: str,
     *,
+    language: str = "python",
     repo: str | None = None,
     path: str | None = None,
     source_row: int | None = None,
     tokenizer=None,
     max_length: int = 2048,
 ) -> tuple[list[dict[str, Any]], str | None]:
+    if language == "java":
+        return occurrence_rows_from_java_code(
+            code,
+            repo=repo,
+            path=path,
+            source_row=source_row,
+            tokenizer=tokenizer,
+            max_length=max_length,
+        )
+    if language != "python":
+        return [], f"unsupported language: {language!r} (choose {SUPPORTED_LANGUAGES})"
     notes: list[str] = []
     try:
         tree = parse_module(code)
@@ -267,6 +281,7 @@ def cmd_extract(args: argparse.Namespace) -> int:
             return 1
         rows, err = occurrence_rows_from_code(
             code,
+            language=args.language,
             tokenizer=tok,
             max_length=args.max_length,
         )
@@ -311,6 +326,7 @@ def cmd_extract(args: argparse.Namespace) -> int:
             path = row.get("path")
             records, err = occurrence_rows_from_code(
                 code,
+                language=args.language,
                 repo=repo,
                 path=path,
                 source_row=n_in,
@@ -345,28 +361,33 @@ def cmd_extract(args: argparse.Namespace) -> int:
 
 
 def cmd_verify(args: argparse.Namespace) -> int:
-    sample = PROJECT_ROOT / "fixtures" / "boolean_occurrence_sample.py"
+    if args.language == "java":
+        sample = PROJECT_ROOT / "fixtures" / "boolean_occurrence_sample.java"
+        need = {"assignment", "conditional_use", "return_use", "loop_use"}
+        min_rows = 6
+    else:
+        sample = PROJECT_ROOT / "fixtures" / "boolean_occurrence_sample.py"
+        need = {"definition", "assignment", "conditional_use", "return_use", "loop_use"}
+        min_rows = 6
     code = sample.read_text(encoding="utf-8")
-    rows, err = occurrence_rows_from_code(code, tokenizer=None, max_length=2048)
+    rows, err = occurrence_rows_from_code(
+        code, language=args.language, tokenizer=None, max_length=2048
+    )
     if err:
         print(err, file=sys.stderr)
         return 1
     types_found = {r["occurrence_type"] for r in rows}
-    need = {
-        "definition",
-        "assignment",
-        "conditional_use",
-        "return_use",
-        "loop_use",
-    }
     missing = need - types_found
     if missing:
         print(f"verify missing occurrence_types: {missing} (have {types_found})", file=sys.stderr)
         return 1
-    if len(rows) < 6:
-        print(f"verify expected at least 6 rows, got {len(rows)}", file=sys.stderr)
+    if len(rows) < min_rows:
+        print(f"verify expected at least {min_rows} rows, got {len(rows)}", file=sys.stderr)
         return 1
-    print(f"variable_occurrences verify: ok ({len(rows)} rows, types {sorted(types_found)})")
+    print(
+        f"variable_occurrences verify ({args.language}): ok "
+        f"({len(rows)} rows, types {sorted(types_found)})"
+    )
     return 0
 
 
@@ -382,7 +403,7 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     src = ex.add_mutually_exclusive_group(required=True)
     src.add_argument("--input", type=str, help="Canonical JSONL path.")
-    src.add_argument("--code-file", type=str, help="Single UTF-8 Python file.")
+    src.add_argument("--code-file", type=str, help="Single UTF-8 source file.")
     ex.add_argument(
         "--output",
         "-o",
@@ -403,9 +424,21 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Do not load a tokenizer; token_positions will be null.",
     )
     ex.add_argument("--max-length", type=int, default=2048)
+    ex.add_argument(
+        "--language",
+        choices=SUPPORTED_LANGUAGES,
+        default="python",
+        help="Source language for AST/heuristics (default: python).",
+    )
     ex.set_defaults(func=cmd_extract)
 
-    v = sub.add_parser("verify", help="Run checks on fixtures/boolean_occurrence_sample.py.")
+    v = sub.add_parser("verify", help="Run checks on language fixtures.")
+    v.add_argument(
+        "--language",
+        choices=SUPPORTED_LANGUAGES,
+        default="python",
+        help="Fixture language to verify (default: python).",
+    )
     v.set_defaults(func=cmd_verify)
 
     return p

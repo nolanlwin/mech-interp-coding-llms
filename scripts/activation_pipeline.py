@@ -32,7 +32,8 @@ from qwen_inference import (  # noqa: E402
     resolve_device,
     resolve_dtype,
 )
-from variable_occurrences import occurrence_rows_from_code  # noqa: E402
+from variable_occurrences import occurrence_rows_from_code, SUPPORTED_LANGUAGES  # noqa: E402
+from java_csn_parse import iter_top_level_methods, parse_java  # noqa: E402
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MODEL_ID = "Qwen/Qwen2.5-1.5B"
@@ -40,7 +41,13 @@ DEFAULT_MANIFEST = PROJECT_ROOT / "outputs" / "activations_v0" / "manifest.jsonl
 DEFAULT_TENSOR_DIR = PROJECT_ROOT / "outputs" / "activations_v0" / "npz"
 
 
-def _function_source_len(code: str, function_name: str) -> int | None:
+def _function_source_len(code: str, function_name: str, *, language: str = "python") -> int | None:
+    if language == "java":
+        tree = parse_java(code)
+        for method in iter_top_level_methods(tree.root_node):
+            if method.name == function_name:
+                return method.end_byte - method.start_byte
+        return None
     try:
         tree = ast.parse(code)
     except SyntaxError:
@@ -91,6 +98,21 @@ def _occurrence_frequencies(rows: list[dict[str, Any]]) -> dict[str, int]:
     return dict(Counter(str(r["variable"]) for r in rows if r.get("variable")))
 
 
+def _load_processed_source_rows(manifest_path: Path) -> set[int]:
+    """``source_row`` values that already have at least one saved ``.npz``."""
+    if not manifest_path.is_file():
+        return set()
+    done: set[int] = set()
+    for line in manifest_path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        rec = json.loads(line)
+        if rec.get("activation_path") and rec.get("source_row") is not None:
+            done.add(int(rec["source_row"]))
+    return done
+
+
 def cmd_extract(args: argparse.Namespace) -> int:
     in_path = Path(args.input)
     if not in_path.is_file():
@@ -112,11 +134,17 @@ def cmd_extract(args: argparse.Namespace) -> int:
     n_written = 0
     n_skip = 0
     n_err = 0
+    n_skip_processed = 0
     max_rows = args.max_rows
+    start_row = max(0, int(args.start_row))
+    processed_rows = (
+        _load_processed_source_rows(manifest_path) if args.skip_processed else set()
+    )
+    manifest_mode = "a" if args.append_manifest and manifest_path.is_file() else "w"
 
     try:
         with in_path.open(encoding="utf-8") as fin, manifest_path.open(
-            "w", encoding="utf-8"
+            manifest_mode, encoding="utf-8"
         ) as fout:
             pbar = tqdm(desc="activations", unit="row", total=max_rows)
             for line in fin:
@@ -124,15 +152,24 @@ def cmd_extract(args: argparse.Namespace) -> int:
                 if not line:
                     continue
                 n_in += 1
-                pbar.update(1)
+                if n_in <= start_row:
+                    continue
                 row = json.loads(line)
                 code = row.get("code") or ""
                 repo = row.get("repo")
                 path = row.get("path")
                 source_row = row.get("source_row", n_in)
+                if args.skip_processed and int(source_row) in processed_rows:
+                    n_skip_processed += 1
+                    pbar.update(1)
+                    if max_rows is not None and (n_in - start_row) >= max_rows:
+                        break
+                    continue
+                pbar.update(1)
 
                 occ, err = occurrence_rows_from_code(
                     code,
+                    language=args.language,
                     repo=repo,
                     path=path,
                     source_row=int(source_row) if source_row is not None else n_in,
@@ -154,7 +191,7 @@ def cmd_extract(args: argparse.Namespace) -> int:
                         )
                         + "\n"
                     )
-                    if max_rows is not None and n_in >= max_rows:
+                    if max_rows is not None and (n_in - start_row) >= max_rows:
                         break
                     continue
 
@@ -173,7 +210,7 @@ def cmd_extract(args: argparse.Namespace) -> int:
                         )
                         + "\n"
                     )
-                    if max_rows is not None and n_in >= max_rows:
+                    if max_rows is not None and (n_in - start_row) >= max_rows:
                         break
                     continue
 
@@ -189,7 +226,9 @@ def cmd_extract(args: argparse.Namespace) -> int:
                 n_layers = int(meta["num_hidden_layers"])
                 hidden_size = int(meta["hidden_size"])
                 token_len = seq_len
-                func_len = _function_source_len(code, str(occ[0].get("function", "")))
+                func_len = _function_source_len(
+                    code, str(occ[0].get("function", "")), language=args.language
+                )
                 freq = _occurrence_frequencies(occ)
 
                 for j, rec in enumerate(occ):
@@ -291,7 +330,7 @@ def cmd_extract(args: argparse.Namespace) -> int:
                     n_written += 1
 
                 del stack
-                if max_rows is not None and n_in >= max_rows:
+                if max_rows is not None and (n_in - start_row) >= max_rows:
                     break
             pbar.close()
     finally:
@@ -301,20 +340,28 @@ def cmd_extract(args: argparse.Namespace) -> int:
 
     print(
         f"read_rows={n_in} activations_npz={n_written} skipped_occurrences={n_skip} "
-        f"parse_errors={n_err} -> {manifest_path}"
+        f"skipped_processed={n_skip_processed} parse_errors={n_err} -> {manifest_path}"
     )
     return 0
 
 
 def cmd_verify(args: argparse.Namespace) -> int:
-    sample = (PROJECT_ROOT / "fixtures" / "boolean_occurrence_sample.py").read_text(
-        encoding="utf-8"
-    )
+    if args.language == "java":
+        sample_path = PROJECT_ROOT / "fixtures" / "boolean_occurrence_sample.java"
+    else:
+        sample_path = PROJECT_ROOT / "fixtures" / "boolean_occurrence_sample.py"
+    sample = sample_path.read_text(encoding="utf-8")
     with tempfile.TemporaryDirectory() as td:
         td_path = Path(td)
         one = td_path / "one.jsonl"
         one.write_text(
-            json.dumps({"code": sample, "repo": "fixture", "path": "boolean_occurrence_sample.py"})
+            json.dumps(
+                {
+                    "code": sample,
+                    "repo": "fixture",
+                    "path": sample_path.name,
+                }
+            )
             + "\n",
             encoding="utf-8",
         )
@@ -329,6 +376,10 @@ def cmd_verify(args: argparse.Namespace) -> int:
             dtype=args.dtype,
             max_length=args.max_length,
             max_rows=1,
+            start_row=0,
+            append_manifest=False,
+            skip_processed=False,
+            language=args.language,
         )
         rc = cmd_extract(ns)
         if rc != 0:
@@ -358,7 +409,8 @@ def cmd_verify(args: argparse.Namespace) -> int:
                     return 1
             shape = tuple(int(x) for x in data["first"].shape)
         print(
-            f"activation_pipeline verify: ok ({len(saved)} npz rows; tensor {shape})"
+            f"activation_pipeline verify ({args.language}): ok "
+            f"({len(saved)} npz rows; tensor {shape})"
         )
     return 0
 
@@ -382,7 +434,29 @@ def _build_parser() -> argparse.ArgumentParser:
         "--max-rows",
         type=int,
         default=None,
-        help="Stop after this many input lines (e.g. 1000 for a validation subset).",
+        help="Stop after this many input lines after --start-row (e.g. 5000 on Colab).",
+    )
+    ex.add_argument(
+        "--start-row",
+        type=int,
+        default=0,
+        help="Skip the first N non-empty input lines (0-based count before filtering).",
+    )
+    ex.add_argument(
+        "--append-manifest",
+        action="store_true",
+        help="Append to an existing manifest instead of overwriting.",
+    )
+    ex.add_argument(
+        "--skip-processed",
+        action="store_true",
+        help="Skip input rows whose source_row already has a saved .npz in the manifest.",
+    )
+    ex.add_argument(
+        "--language",
+        choices=SUPPORTED_LANGUAGES,
+        default="python",
+        help="Source language for occurrence extraction (default: python).",
     )
     ex.set_defaults(func=cmd_extract)
 
@@ -391,6 +465,12 @@ def _build_parser() -> argparse.ArgumentParser:
     v.add_argument("--device", type=str, default=None)
     v.add_argument("--dtype", choices=("bf16", "fp16", "fp32"), default="bf16")
     v.add_argument("--max-length", type=int, default=2048)
+    v.add_argument(
+        "--language",
+        choices=SUPPORTED_LANGUAGES,
+        default="python",
+        help="Fixture language to verify (default: python).",
+    )
     v.set_defaults(func=cmd_verify)
 
     return p

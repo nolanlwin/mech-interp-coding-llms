@@ -12,8 +12,8 @@ __pycache__/
 
 outputs/
 
-# CodeSearchNet exports (HF `datasets`); regenerate with scripts/codesearchnet_python.py
-data/codesearchnet_python/
+# CodeSearchNet exports (HF `datasets`); regenerate with scripts/codesearchnet.py
+data/codesearchnet_*/
 
 AGENDA/
 datasets/
