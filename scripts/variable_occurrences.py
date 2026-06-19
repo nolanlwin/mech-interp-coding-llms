@@ -32,13 +32,14 @@ from boolean_flag_roles import (  # noqa: E402
     names_in_boolean_test,
 )
 from csn_function_ast import build_parent_map, iter_top_level_functions, parse_module  # noqa: E402
+from go_variable_occurrences import occurrence_rows_from_go_code  # noqa: E402
 from java_variable_occurrences import occurrence_rows_from_java_code  # noqa: E402
 import token_alignment as _tokalign  # noqa: E402
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUT = PROJECT_ROOT / "outputs" / "occurrences" / "boolean_flag_occurrences.jsonl"
 DEFAULT_MODEL_ID = "Qwen/Qwen2.5-1.5B"
-SUPPORTED_LANGUAGES = ("python", "java")
+SUPPORTED_LANGUAGES = ("python", "java", "go")
 
 _NAME_IN_BOOL_PATTERNS = frozenset(
     {
@@ -186,6 +187,15 @@ def occurrence_rows_from_code(
 ) -> tuple[list[dict[str, Any]], str | None]:
     if language == "java":
         return occurrence_rows_from_java_code(
+            code,
+            repo=repo,
+            path=path,
+            source_row=source_row,
+            tokenizer=tokenizer,
+            max_length=max_length,
+        )
+    if language == "go":
+        return occurrence_rows_from_go_code(
             code,
             repo=repo,
             path=path,
@@ -363,6 +373,10 @@ def cmd_extract(args: argparse.Namespace) -> int:
 def cmd_verify(args: argparse.Namespace) -> int:
     if args.language == "java":
         sample = PROJECT_ROOT / "fixtures" / "boolean_occurrence_sample.java"
+        need = {"assignment", "conditional_use", "return_use", "loop_use"}
+        min_rows = 6
+    elif args.language == "go":
+        sample = PROJECT_ROOT / "fixtures" / "boolean_occurrence_sample.go"
         need = {"assignment", "conditional_use", "return_use", "loop_use"}
         min_rows = 6
     else:

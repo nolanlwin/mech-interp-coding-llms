@@ -35,6 +35,7 @@ from qwen_inference import (  # noqa: E402
     resolve_dtype,
 )
 from variable_occurrences import occurrence_rows_from_code, SUPPORTED_LANGUAGES  # noqa: E402
+from go_csn_parse import iter_top_level_functions as iter_top_level_go_functions, parse_go  # noqa: E402
 from java_csn_parse import iter_top_level_methods, parse_java  # noqa: E402
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -49,6 +50,12 @@ def _function_source_len(code: str, function_name: str, *, language: str = "pyth
         for method in iter_top_level_methods(tree.root_node):
             if method.name == function_name:
                 return method.end_byte - method.start_byte
+        return None
+    if language == "go":
+        tree = parse_go(code)
+        for fn in iter_top_level_go_functions(tree.root_node):
+            if fn.name == function_name:
+                return fn.end_byte - fn.start_byte
         return None
     try:
         tree = ast.parse(code)
@@ -496,6 +503,8 @@ def cmd_extract(args: argparse.Namespace) -> int:
 def cmd_verify(args: argparse.Namespace) -> int:
     if args.language == "java":
         sample_path = PROJECT_ROOT / "fixtures" / "boolean_occurrence_sample.java"
+    elif args.language == "go":
+        sample_path = PROJECT_ROOT / "fixtures" / "boolean_occurrence_sample.go"
     else:
         sample_path = PROJECT_ROOT / "fixtures" / "boolean_occurrence_sample.py"
     sample = sample_path.read_text(encoding="utf-8")
